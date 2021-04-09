@@ -8,3 +8,6 @@ we use mysqli to connect php to mysql.
 
 `$conn = mysqli_connect($servername,$username,$password,$database);`
 
+To run a query in mysql we run the following php code.
+
+`$result = $conn->query($sql);`
