@@ -51,3 +51,8 @@ For the above code, the html should look like:
 `$POST['Any name in HTML']` takes the value in the field specified by the name of that element in the HTML document.
 
 `of die("unable to connect");` will stop execution of the program when MySql and php are not connected;
+
+### Details about the website
+#### Admin
+#### House
+#### Staff
