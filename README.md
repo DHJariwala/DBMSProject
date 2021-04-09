@@ -11,3 +11,7 @@ we use mysqli to connect php to mysql.
 To run a query in mysql we run the following php code.
 
 `$result = $conn->query($sql);`
+
+To close php and MySql connection we write the code:
+
+`$conn->close();`
