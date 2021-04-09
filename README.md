@@ -44,3 +44,10 @@ For the above code, the html should look like:
   </body>
 </html>
 ```
+
+#### Explaination of some parts of the code
+`if(isset($POST['submit'])` ensures that the code inside the `if` statement is runned only when submit button is pressed.
+
+`$POST['Any name in HTML']` takes the value in the field specified by the name of that element in the HTML document.
+
+`of die("unable to connect");` will stop execution of the program when MySql and php are not connected;
