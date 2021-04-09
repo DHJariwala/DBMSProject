@@ -31,3 +31,14 @@ if(isset($_POST['submit'])){
 }
 ?>
 ```
+
+For the above code, the html should look like:
+
+```html
+<body>
+    <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method = "post">
+    Enter a number: <input type="text" name = "test_text">
+    <input type="submit" value = "submit" name = "submit">
+    </form>
+</body>
+```
