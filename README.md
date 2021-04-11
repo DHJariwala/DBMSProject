@@ -52,6 +52,13 @@ For the above code, the html should look like:
 
 `of die("unable to connect");` will stop execution of the program when MySql and php are not connected;
 
+`session_start();` is used to start a session. Session helps us to store values (on server) to be used in different webpages.
+
+`$_SESSION['username']` here, `$_SESSION` is an array (like dictionary in python) which stores values in index as string. Thus here 'username' is the index for the value `$_POST['username']`. Now in any webpage, so long the webpage is this server and has same domain, this array can be used anywhere.
+
+In admin.php, house.php, staff.php we first start the session by `session_start()` this means that this webpage must use session variables. The `if` statement ensures that the session variable is set by the `isset` function. If the variable is set then `$loginuser` must be set equal to `$_SESSION['usernam']`. Now we can use `$loginuser` in the whole webpage to get the username (This username was entered in mainPage.php). 
+Thus, `<?php echo $loginuser ?>` prints the name of the user who is currently using the website.  
+
 ### Details about the website
 #### Admin
 #### House
