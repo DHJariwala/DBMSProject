@@ -1,5 +1,6 @@
 <html>
 <?php
+session_start();
 if(isset($_POST['submitAdmin'])){
     $servername = "127.0.0.1";
     $password = "password";
@@ -11,9 +12,11 @@ if(isset($_POST['submitAdmin'])){
     if($result->num_rows > 0){
         $row = $result -> fetch_assoc();
         if($row['password'] == $_POST['password']){
+            $_SESSION['username'] = $_POST['username'];
             $conn->close();
+            //echo $_SESSION['username']; //-session variable is setting
             header("Location: admin.php");
-            exit;
+            exit();
         }
         else{
             echo "Enter correct password";
@@ -35,6 +38,7 @@ if(isset($_POST['submitHouse'])){
     if($result->num_rows > 0){
         $row = $result -> fetch_assoc();
         if($row['password'] == $_POST['password']){
+            $_SESSION['username'] = $_POST['username'];
             $conn->close();
             header("Location: house.php");
             exit;
@@ -59,6 +63,7 @@ if(isset($_POST['submitStaff'])){
     if($result->num_rows > 0){
         $row = $result -> fetch_assoc();
         if($row['password'] == $_POST['password']){
+            $_SESSION['username'] = $_POST['username'];
             $conn->close();
             header("Location: staff.php");
             exit;
