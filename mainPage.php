@@ -7,15 +7,15 @@ if(isset($_POST['submitAdmin'])){
     $username = "root";
     $database = "dbProj";
     $conn = mysqli_connect($servername,$username,$password,$database,'3306') or die("unable to connect");
-    $sql = "select * from Admin where username = '".$_POST['username']."';";
+    $sql = "select * from Admin where Admin_ID = '".$_POST['username']."';";
     $result = $conn -> query($sql);
     if($result->num_rows > 0){
         $row = $result -> fetch_assoc();
-        if($row['password'] == $_POST['password']){
+        if($row['Password'] == $_POST['password']){
             $_SESSION['username'] = $_POST['username'];
             $conn->close();
             //echo $_SESSION['username']; //-session variable is setting
-            header("Location: admin.php");
+            header("Location: Admin/admin.php");
             exit();
         }
         else{
@@ -33,14 +33,15 @@ if(isset($_POST['submitHouse'])){
     $username = "root";
     $database = "dbProj";
     $conn = mysqli_connect($servername,$username,$password,$database,'3306') or die("unable to connect");
-    $sql = "select * from House where username = '".$_POST['username']."';";
+    $sql = "select * from House where Owner_ID = '".$_POST['username']."';";
+    echo $sql;
     $result = $conn -> query($sql);
     if($result->num_rows > 0){
         $row = $result -> fetch_assoc();
-        if($row['password'] == $_POST['password']){
+        if($row['Password'] == $_POST['password']){
             $_SESSION['username'] = $_POST['username'];
             $conn->close();
-            header("Location: house.php");
+            header("Location: House/house.php");
             exit;
         }
         else{
@@ -58,14 +59,14 @@ if(isset($_POST['submitStaff'])){
     $username = "root";
     $database = "dbProj";
     $conn = mysqli_connect($servername,$username,$password,$database,'3306') or die("unable to connect");
-    $sql = "select * from Staff where username = '".$_POST['username']."';";
+    $sql = "select * from Staff where Person_ID = '".$_POST['username']."';";
     $result = $conn -> query($sql);
     if($result->num_rows > 0){
         $row = $result -> fetch_assoc();
-        if($row['password'] == $_POST['password']){
+        if($row['Password'] == $_POST['password']){
             $_SESSION['username'] = $_POST['username'];
             $conn->close();
-            header("Location: staff.php");
+            header("Location: Staff/staff.php");
             exit;
         }
         else{
