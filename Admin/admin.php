@@ -25,5 +25,26 @@ session_start();
         <li><a href="manageComplaint.php">Manage Complaint</a></li>
         <li><a href="maintenanceFee.php">Maintenance Fee</a></li>
     </ul>
+    <?php
+        $servername = "127.0.0.1";
+        $password = "password";
+        $username = "root";
+        $database = "dbProj";
+        $conn = mysqli_connect($servername,$username,$password,$database,'3306') or die("unable to connect");
+        $sql = "select N_TimeStamp,Subject,Description from Notice order by N_TimeStamp";
+        $result = $conn->query($sql);
+        echo "<table border='2px' cellpadding='10px'><tr><th>Timestamp</th><th>Subject</th><th>Description</th></tr>";
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+                echo "<tr><td>".$row['N_TimeStamp']."</td><td>".$row['Subject']."</td><td>".$row['Description']."</td></tr>";
+            //   echo "id: " . $row["id"]. " - Name: " . $row["firstname"]. " " . $row["lastname"]. "<br>";
+            }
+            echo "</table>";
+          } else {
+            echo "0 results";
+          }
+          $conn->close();
+
+    ?>
 </body>
 </html>
