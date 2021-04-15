@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../style.css">
     <title>Society Management</title>
 
+
 </head>
 <body>
 
@@ -21,22 +22,19 @@
         <div class="collapse navbar-collapse" id="navbarText">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-              <a class="nav-link" href="#">Home </a>
+              <a class="nav-link" href="manageHouse.html">Manage House</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Manage House</a>
+              <a class="nav-link" href="manageStaff.html">Manage Staff</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Manage Staff</a>
-            </li>
-            <li class="nav-item active">
               <a class="nav-link" href="listmanager.html">Manage Notice</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="manageComplaint.html">Manage Complaint</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Maintainance fee</a>
+            <li class="nav-item active">
+                <a class="nav-link" href="maintenanceFee.html">Maintenance fee</a>
             </li>
           </ul>
         </div>
@@ -44,7 +42,13 @@
 
       
       <!-- body/content -->
-      
+      <form class="marginall form" >
+        <div class="form-group">
+          <label for="InputEmail1">Enter Maintenance Fee Amount</label>
+          <input type="number" class="form-control" name="MaintenanceFee" id="InputEmail1" aria-describedby="emailHelp" placeholder="Enter Amount">
+        </div>
+        <button type="submit" class="btn btn-primary" name="FeeSubmit">Submit</button>
+      </form>
 
 </body>
 </html>
