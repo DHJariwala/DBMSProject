@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+{% set active_page = active_page|default('Manage House') -%}
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/style.css">
+    <title>{% block title %}{% endblock %}</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</head>
+<body>
+  <body>
+    <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">Society Management</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarText">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item dropdown {% if active_page == "Manage House" %}active{% endif %}">
+            <a class="nav-link dropdown-toggle" href="#" id="HouseDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Manage House
+            </a>
+            <div class="dropdown-menu" aria-labelledby="HouseDropdown">
+              <a class="dropdown-item" href="{{ url_for('list_house_owners') }}">List House Owner</a>
+              <a class="dropdown-item" href="{{ url_for('add_house_owner') }}">Add House Owner</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown {% if active_page == "Manage Staff" %}active{% endif %}">
+            <a class="nav-link dropdown-toggle" href="#" id="StaffDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Manage Staff
+            </a>
+            <div class="dropdown-menu" aria-labelledby="StaffDropdown">
+              <a class="dropdown-item" href="listStaff.html">List Member</a>
+              <a class="dropdown-item" href="addOrUpdateStaff.html">Add Staff</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown {% if active_page == "Manage Notice" %}active{% endif %}">
+            <a class="nav-link dropdown-toggle" href="#" id="NoticeDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Manage Notice
+            </a>
+            <div class="dropdown-menu" aria-labelledby="NoticeDropdown">
+              <a class="dropdown-item" href="listNotice.html">List Notice</a>
+              <a class="dropdown-item" href="addNotice.html">Add Notice</a>
+            </div>
+          </li>
+          <li class="nav-item {% if active_page == "Manage Complaint" %}active{% endif %}">
+            <a class="nav-link" href="manageComplaint.html">Manage Complaint</a>
+          </li>
+          <li class="nav-item {% if active_page == "Maintenance Fee" %}active{% endif %}">
+              <a class="nav-link" href="maintenanceFee.html">Maintenance Fee</a>
+          </li>
+        </ul>
+      </div>
+  </nav>
+
+  {% block body%}
+  {% endblock %}
+
+  </body>
+</html>

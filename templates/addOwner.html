@@ -1,0 +1,51 @@
+{% extends "AdminNavbar.html" %}
+{% set active_page = "Manage House" %}
+
+{% block title %} 
+Add House Owner
+{% endblock %}
+
+{% block body %}
+<body>
+  <form action="{{ url_for('add_house_owner') }}" class="marginall form" method="POST">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <h3>
+      Add House Owner 
+    </h3>
+    <div class="form-group">
+      <label for="InputHouseNo">House Number</label>
+      <input type="text" class="form-control" name="HouseNo" id="InputHouseNo" aria-describedby="emailHelp" placeholder="Enter House Number">
+    </div>
+    <div class="form-group">
+      <label for="InputName">Owner's Name</label>
+      <input type="text" class="form-control" name="OwnerName" id="InputName" aria-describedby="emailHelp" placeholder="Enter Name">
+    </div>
+    <div class="form-group">
+      <label for="InputAge">Owner's Age</label>
+      <input type="number" class="form-control" name="OwnerAge" id="InputAge" aria-describedby="emailHelp" placeholder="Enter Age">
+    </div>
+    <div class="form-group">
+      <label>Owner's Gender</label>
+      <br>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="OwnerGender" id="inlineRadio1" value="m" checked}>
+        <label class="form-check-label" for="inlineRadio1">Male</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="OwnerGender" id="inlineRadio2" value="f">
+        <label class="form-check-label" for="inlineRadio2">Female</label>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="InputPhone">Owner's Phone Number</label>
+      <input type="number" class="form-control" name="OwnerPhone" id="InputPhone" aria-describedby="emailHelp" placeholder="Enter Phone Number">
+    </div>
+    <div class="form-group">
+      <label for="InputPassword">Owner's Password</label>
+      <input type="password" class="form-control" name="OwnerPassword" id="InputPassword" placeholder="Password">
+    </div>
+    <button type="submit" class="btn btn-primary" name="HouseUpadte">Add</button>
+  </form>
+
+</body>
+{% endblock %}
