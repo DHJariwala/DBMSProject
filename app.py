@@ -1,4 +1,3 @@
-from cs50 import SQL
 from flask import Flask, flash, jsonify, redirect, render_template, request, session
 from flask_session import Session
 from tempfile import mkdtemp
@@ -229,6 +228,16 @@ def add_notice():
         conn.commit()
         cur.close()
         return redirect('/admin/nlist')
+
+@app.route('/admin/cmanage', methods=["GET"])
+# @admin_required
+def manage_complaint():
+    # conn = pool.acquire()
+    # cur = conn.cursor()
+    # res = cur.execute("select subject, description, N_TimeStamp, admin_id from complaint")
+    # notices = res.fetchall()
+    # cur.close()
+    return render_template("manageComplaint.html")
 
 if __name__ == '__main__':
     pool = start_pool()
