@@ -31,11 +31,11 @@ Update House Owner
       <label>Owner's Gender</label>
       <br>
       <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" name="OwnerGender" id="inlineRadio1" value="m" {% if owner[3] == 'm' %}checked{% endif %}>
+        <input class="form-check-input" type="radio" name="OwnerGender" id="inlineRadio1" value="Male" {% if owner[3] == 'Male' %}checked{% endif %}>
         <label class="form-check-label" for="inlineRadio1">Male</label>
       </div>
       <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" name="OwnerGender" id="inlineRadio2" value="f" {% if owner[3] == 'f' %}checked{% endif %}>
+        <input class="form-check-input" type="radio" name="OwnerGender" id="inlineRadio2" value="Female" {% if owner[3] == 'Female' %}checked{% endif %}>
         <label class="form-check-label" for="inlineRadio2">Female</label>
       </div>
     </div>

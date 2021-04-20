@@ -1,0 +1,56 @@
+{% extends "AdminNavbar.html" %}
+{% set active_page = "Manage Complaint" %}
+
+{% block title %} 
+Add Notice
+{% endblock %}
+
+{% block body %}
+  <div id="card-holder">
+
+    <!-- assigned -->
+    <div class="card marginall border-dark mb-3">
+      <div class="card-header">
+        <div style="margin:0;float:left">Complaint Subject</div>
+        <div style="margin:0;float:right;color:black">Staff Assigned, Name: ..</div>
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">Sub Subject</h5>
+        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+      </div>
+      <div class="card-footer text-muted">
+        Time Date
+      </div>
+    </div>
+
+    <!-- unassigned -->
+    <div class="card marginall border-dark mb-3">
+      <div class="card-header">
+        <div style="margin-top:0.2em;float:left">Complaint Subject</div>
+        <div style="margin:0;padding:0;float:right;color:black">
+          <form>
+            <select class="form-select" style="height:2.1em;width:15em; border-style: solid;border-width: 2px;border-radius:5px" name="StaffNameSelected" id="StaffNameSelected" aria-label="Default select">
+              <option selected>Assign Staff</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+            <input class="btn btn-secondary" style="margin-top:-0.35em;padding:0.2em;"  type="submit" value="Assign Staff">
+          </form>
+        </div>
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">Sub Subject</h5>
+        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+      </div>
+      <div class="card-footer text-muted">
+        Time Date
+      </div>
+    </div>
+
+
+
+  </div>
+{% endblock %}

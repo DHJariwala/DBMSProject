@@ -221,7 +221,7 @@ def add_notice():
         sub = request.form.get('NoticeSubject')
         des = request.form.get('NoticeDescription')
         # admin = session["admin_id"]
-        admin = 1
+        admin = 'Ratan'
         conn = pool.acquire()
         cur = conn.cursor()
         res = cur.execute("insert into notice (Subject, Description, Admin_ID) values (:a, :b, :c)", a=sub, b=des, c=admin)
@@ -232,11 +232,11 @@ def add_notice():
 @app.route('/admin/cmanage', methods=["GET"])
 # @admin_required
 def manage_complaint():
-    # conn = pool.acquire()
-    # cur = conn.cursor()
-    # res = cur.execute("select subject, description, N_TimeStamp, admin_id from complaint")
-    # notices = res.fetchall()
-    # cur.close()
+    conn = pool.acquire()
+    cur = conn.cursor()
+    res = cur.execute("select subject, description, N_TimeStamp, admin_id from complaint")
+    notices = res.fetchall()
+    cur.close()
     return render_template("manageComplaint.html")
 
 if __name__ == '__main__':
