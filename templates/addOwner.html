@@ -6,7 +6,6 @@ Add House Owner
 {% endblock %}
 
 {% block body %}
-<body>
   <form action="{{ url_for('add_house_owner') }}" class="marginall form" method="POST">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <h3>
@@ -46,6 +45,4 @@ Add House Owner
     </div>
     <button type="submit" class="btn btn-primary" name="HouseUpadte">Add</button>
   </form>
-
-</body>
 {% endblock %}
