@@ -1,0 +1,24 @@
+{% extends "LoginPageNavbar.html" %}
+{% set active_page = "Admin" %}
+
+{% block title %} 
+Admin Login
+{% endblock %}
+
+{% block body %}
+
+  <form action="{{ url_for('login_admin') }}" method="POST" class="marginall form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <div class="form-group">
+      <label for="InputID">ID</label>
+      <input type="text" class="form-control" name="AdminID" id="InputID" aria-describedby="emailHelp" placeholder="Enter ID">
+    </div>
+    <div class="form-group">
+      <label for="InputPassword">Password</label>
+      <input type="password" class="form-control" name="LoginPassword" id="InputPassword" placeholder="Enter Password">
+    </div>
+    <button type="submit" class="btn btn-primary"  name="LoginAdmin">Login</button>
+  </form> 
+
+{% endblock %}
+ 

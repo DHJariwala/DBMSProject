@@ -5,52 +5,46 @@
 Add Notice
 {% endblock %}
 
+
 {% block body %}
   <div id="card-holder">
-
-    <!-- assigned -->
-    <div class="card marginall border-dark mb-3">
-      <div class="card-header">
-        <div style="margin:0;float:left">Complaint Subject</div>
-        <div style="margin:0;float:right;color:black">Staff Assigned, Name: ..</div>
-      </div>
-      <div class="card-body">
-        <h5 class="card-title">Sub Subject</h5>
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
-      </div>
-      <div class="card-footer text-muted">
-        Time Date
-      </div>
-    </div>
-
-    <!-- unassigned -->
-    <div class="card marginall border-dark mb-3">
-      <div class="card-header">
-        <div style="margin-top:0.2em;float:left">Complaint Subject</div>
-        <div style="margin:0;padding:0;float:right;color:black">
-          <form>
-            <select class="form-select" style="height:2.1em;width:15em; border-style: solid;border-width: 2px;border-radius:5px" name="StaffNameSelected" id="StaffNameSelected" aria-label="Default select">
-              <option selected>Assign Staff</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
-            </select>
-            <input class="btn btn-secondary" style="margin-top:-0.35em;padding:0.2em;"  type="submit" value="Assign Staff">
-          </form>
+    {% for complaint, staff in complaints %}
+      {% if complaint[4] != 'Unassigned' %}
+        <div data-cid="{{ complaint[0] }}" class="card marginall border-dark mb-3">
+          <div class="card-header">
+            <div style="margin:0;float:left">{{ complaint[5] + ", " + complaint[6] }}</div>
+            <div data-sid="{{ staff[1] }}" style="margin:0;float:right;color:black">Assigned Staff: {{ staff[2] }}</div>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">{{ complaint[2] }}</h5>
+            <p class="card-text">{{ complaint[3] }}</p>
+          </div>
+          <div class="card-footer text-muted">
+            {{ complaint[1] }} <p align="left">{{ complaint[4] }}</p>
+          </div>
         </div>
-      </div>
-      <div class="card-body">
-        <h5 class="card-title">Sub Subject</h5>
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
-      </div>
-      <div class="card-footer text-muted">
-        Time Date
-      </div>
-    </div>
-
-
-
+      {% else %}
+        <div data-cid="{{ complaint[0] }}" class="card marginall border-dark mb-3">
+          <div class="card-header">
+            <div style="margin-top:0.2em;float:left">{{ complaint[5] + ", " + complaint[6] }}</div>
+            <div style="margin:0;padding:0;float:right;color:black">
+              <form action="{{ url_for('manage_complaint') }}" method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                {{ dropdown|safe }}
+                <input type="hidden" name="cid" value="{{ complaint[0] }}">
+                <input class="btn btn-secondary" style="margin-top:-0.35em;padding:0.2em;"  type="submit" value="Assign Staff">
+              </form>
+            </div>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">{{ complaint[2] }}</h5>
+            <p class="card-text">{{ complaint[3] }}</p>
+          </div>
+          <div class="card-footer text-muted">
+            {{ complaint[1] }} <p align="left">{{ complaint[4] }}</p>
+          </div>
+        </div> 
+      {% endif %}
+    {% endfor %}
   </div>
 {% endblock %}

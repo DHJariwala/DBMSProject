@@ -1,0 +1,18 @@
+{% extends "AdminNavbar.html" %}
+{% set active_page = "Maintenance Fee" %}
+
+{% block title %} 
+Add Notice
+{% endblock %}
+
+
+{% block body %}
+    <form action="{{ url_for('manage_maintenance') }}" method="POST" class="marginall form" >
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <div class="form-group">
+        <label for="InputEmail1">Enter Maintenance Fee Amount</label>
+        <input type="number" class="form-control" name="MaintenanceFee" id="InputEmail1" aria-describedby="emailHelp" placeholder="Enter Amount">
+      </div>
+      <button type="submit" class="btn btn-primary" name="FeeSubmit">Submit</button>
+    </form>
+{% endblock %}

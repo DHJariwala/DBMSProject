@@ -59,7 +59,7 @@ CREATE TABLE Maintenance_Fee(
     House_No varchar2(20),
     M_Date Date default current_timestamp not null,
     Fees int NOT NULL,
-    Fine int NOT NULL,
+    Fine int DEFAULT 0,
     Status varchar2(10) DEFAULT 'Due' check(Status in ('Paid','Due')),
     PRIMARY KEY(House_No, M_Date),
     FOREIGN KEY (House_No) REFERENCES House (House_No)

@@ -1,0 +1,25 @@
+{% extends "LoginPageNavbar.html" %}
+{% set active_page = "Owner" %}
+
+{% block title %} 
+House Owner Login
+{% endblock %}
+
+{% block body %}
+
+  <!-- body/content -->
+  <form action="{{ url_for('login_owner') }}" method="POST" class="marginall form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <div class="form-group">
+      <label for="InputID">House Number</label>
+      <input type="text" class="form-control" name="HouseNo" id="InputID" aria-describedby="emailHelp" placeholder="Enter House Number">
+    </div>
+    <div class="form-group">
+      <label for="InputPassword">Password</label>
+      <input type="password" class="form-control" name="LoginPassword" id="InputPassword" placeholder="Enter Password">
+    </div>
+    <button type="submit" class="btn btn-primary"  name="LoginHouse">Login</button>
+  </form> 
+
+{% endblock %}
+ 

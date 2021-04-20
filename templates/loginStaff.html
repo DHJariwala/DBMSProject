@@ -1,0 +1,24 @@
+{% extends "LoginPageNavbar.html" %}
+{% set active_page = "Staff" %}
+
+{% block title %} 
+Staff Login
+{% endblock %}
+
+{% block body %}
+
+  <form action="{{ url_for('login_staff') }}" method="POST" class="marginall form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <div class="form-group">
+      <label for="InputID">ID</label>
+      <input type="text" class="form-control" name="StaffID" id="InputID" aria-describedby="emailHelp" placeholder="Enter ID">
+    </div>
+    <div class="form-group">
+      <label for="InputPassword">Password</label>
+      <input type="password" class="form-control" name="LoginPassword" id="InputPassword" placeholder="Enter Password">
+    </div>
+    <button type="submit" class="btn btn-primary"  name="LoginStaff">Login</button>
+  </form> 
+
+{% endblock %}
+ 
