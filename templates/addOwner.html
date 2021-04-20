@@ -14,17 +14,17 @@ Add House Owner
     <div class="form-group">
       <label for="InputHouseNo">House Number</label>
       <input type="text" class="form-control" name="HouseNo" id="InputHouseNo" aria-describedby="emailHelp" placeholder="Enter House Number"
-        oninvalid="setCustomValidity('Enter House Number between length 2 to 10')" minlength="2" maxlength="10" required>
+        oninvalid="setCustomValidity('Enter House Number between length 2 to 10')" onchange="try{setCustomValidity('')}catch(e){}" minlength="2" maxlength="10" required>
     </div>
     <div class="form-group">
       <label for="InputName">Owner's Name</label>
       <input type="text" class="form-control" name="OwnerName" id="InputName" aria-describedby="emailHelp" placeholder="Enter Name"
-        oninvalid="setCustomValidity('Enter Name between length 2 to 50')" minlength="2" maxlength="50" required>
+        oninvalid="setCustomValidity('Enter Name between length 2 to 50')" onchange="try{setCustomValidity('')}catch(e){}" minlength="2" maxlength="50" required>
     </div>
     <div class="form-group">
       <label for="InputAge">Owner's Age</label>
       <input type="number" class="form-control" name="OwnerAge" id="InputAge" aria-describedby="emailHelp" placeholder="Enter Age"
-        oninvalid="setCustomValidity('Enter Age between length 1 to 3')" minlength="1" maxlength="3" required>
+        oninvalid="setCustomValidity('Enter Age between 18 to 150')" onchange="try{setCustomValidity('')}catch(e){}" min="18" maxlength="150" required>
     </div>
     <div class="form-group">
       <label>Owner's Gender</label>
@@ -41,12 +41,12 @@ Add House Owner
     <div class="form-group">
       <label for="InputPhone">Owner's Phone Number</label>
       <input type="number" class="form-control" name="OwnerPhone" id="InputPhone" aria-describedby="emailHelp" placeholder="Enter Phone Number"
-        oninvalid="setCustomValidity('Enter Phone Number of length 10')" minlength="10" maxlength="10" required>
+        oninvalid="setCustomValidity('Enter Phone Number of length 10')" onchange="try{setCustomValidity('')}catch(e){}"  min="1000000000" max="9999999999" required>
     </div>
     <div class="form-group">
       <label for="InputPassword">Owner's Password</label>
       <input type="password" class="form-control" name="OwnerPassword" id="InputPassword" placeholder="Password"
-        oninvalid="setCustomValidity('Enter Password between length 8 to 128')" minlength="8" maxlength="128" required>
+        oninvalid="setCustomValidity('Enter Password between length 8 to 128')" onchange="try{setCustomValidity('')}catch(e){}" minlength="8" maxlength="128" required>
     </div>
     <button type="submit" class="btn btn-primary" name="HouseUpadte">Add</button>
   </form>
