@@ -197,6 +197,39 @@ def remove_staff():
     cur.close()
     return redirect('/admin/slist')
 
+@app.route('/<role>/nlist', methods=["GET"])
+# @login_required
+def list_notice(role):
+    if role == 'admin':
+        nav = 'AdminNavbar.html'
+    elif role == 'staff':
+        nav = 'StaffNavbar.html'
+    else:
+        nav = 'HouseNavbar.html'
+    conn = pool.acquire()
+    cur = conn.cursor()
+    res = cur.execute("select subject, description, N_TimeStamp, admin_id from notice")
+    notices = res.fetchall()
+    cur.close()
+    return render_template("listNotice.html", notices=notices, nav=nav)
+
+@app.route('/admin/anotice', methods=["GET", "POST"])
+# @admin_required
+def add_notice():
+    if request.method == "GET":
+        return render_template("addNotice.html")
+    else:
+        sub = request.form.get('NoticeSubject')
+        des = request.form.get('NoticeDescription')
+        # admin = session["admin_id"]
+        admin = 1
+        conn = pool.acquire()
+        cur = conn.cursor()
+        res = cur.execute("insert into notice (Subject, Description, Admin_ID) values (:a, :b, :c)", a=sub, b=des, c=admin)
+        conn.commit()
+        cur.close()
+        return redirect('/admin/nlist')
+
 if __name__ == '__main__':
     pool = start_pool()
     app.run()

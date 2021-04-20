@@ -46,8 +46,8 @@
               Manage Notice
             </a>
             <div class="dropdown-menu" aria-labelledby="NoticeDropdown">
-              <a class="dropdown-item" href="listNotice.html">List Notice</a>
-              <a class="dropdown-item" href="addNotice.html">Add Notice</a>
+              <a class="dropdown-item" href="{{ url_for('list_notice', role='admin') }}">List Notice</a>
+              <a class="dropdown-item" href="{{ url_for('add_notice') }}">Add Notice</a>
             </div>
           </li>
           <li class="nav-item {% if active_page == "Manage Complaint" %}active{% endif %}">
