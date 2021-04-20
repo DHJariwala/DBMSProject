@@ -12,11 +12,13 @@ House Owner Login
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <div class="form-group">
       <label for="InputID">House Number</label>
-      <input type="text" class="form-control" name="HouseNo" id="InputID" aria-describedby="emailHelp" placeholder="Enter House Number">
+      <input type="text" class="form-control" name="HouseNo" id="InputID" aria-describedby="emailHelp" placeholder="Enter House Number"
+      oninvalid="setCustomValidity('Enter House Number between length 2 to 10')" onchange="try{setCustomValidity('')}catch(e){}" minlength="2" maxlength="10" required>
     </div>
     <div class="form-group">
       <label for="InputPassword">Password</label>
-      <input type="password" class="form-control" name="LoginPassword" id="InputPassword" placeholder="Enter Password">
+      <input type="password" class="form-control" name="LoginPassword" id="InputPassword" placeholder="Enter Password"
+        oninvalid="setCustomValidity('Enter Password between length 8 to 128')" onchange="try{setCustomValidity('')}catch(e){}" minlength="8" maxlength="128" required>
     </div>
     <button type="submit" class="btn btn-primary"  name="LoginHouse">Login</button>
   </form> 

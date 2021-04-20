@@ -11,7 +11,8 @@ Add Notice
       <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
       <div class="form-group">
         <label for="InputEmail1">Enter Maintenance Fee Amount</label>
-        <input type="number" class="form-control" name="MaintenanceFee" id="InputEmail1" aria-describedby="emailHelp" placeholder="Enter Amount">
+        <input type="number" class="form-control" name="MaintenanceFee" id="InputEmail1" aria-describedby="emailHelp" placeholder="Enter Amount"
+        oninvalid="setCustomValidity('Enter Amount between 100 to 1000000')" onchange="try{setCustomValidity('')}catch(e){}" min="100" max="1000000" required>
       </div>
       <button type="submit" class="btn btn-primary" name="FeeSubmit">Submit</button>
     </form>
