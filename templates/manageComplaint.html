@@ -20,7 +20,8 @@ Add Notice
             <p class="card-text">{{ complaint[3] }}</p>
           </div>
           <div class="card-footer text-muted">
-            {{ complaint[1] }} <p styple="float:left">{{ complaint[4] }}</p>
+            <div style="float:left">{{ complaint[1] }}</div>
+            <div style="float:right;color:black">{{ complaint[4] }}</div>
           </div>
         </div>
       {% else %}
@@ -41,7 +42,8 @@ Add Notice
             <p class="card-text">{{ complaint[3] }}</p>
           </div>
           <div class="card-footer text-muted">
-            {{ complaint[1] }} <p styple="float:left">{{ complaint[4] }}</p>
+            <div style="float:left">{{ complaint[1] }}</div>
+            <div style="float:right;color:black">{{ complaint[4] }}</div>
           </div>
         </div> 
       {% endif %}
