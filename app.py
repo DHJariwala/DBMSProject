@@ -71,7 +71,7 @@ def test():
 def list_house_owners():
     conn = pool.acquire()
     cur = conn.cursor()
-    res = cur.execute("select House_No, Name, Age, Gender, Phone_No from House join Person on House.Owner_ID = Person.Person_ID")
+    res = cur.execute("select House_No, Name, Age, Gender, Phone_No from House join Person on House.Owner_ID = Person.Person_ID order by House_No")
     owners = res.fetchall()
     cur.close()
     return render_template("listHouse.html", owners=owners)
@@ -123,6 +123,79 @@ def add_house_owner():
         conn.commit()
         cur.close()
         return redirect('/admin/listho')
+
+@app.route('/admin/slist', methods=["GET",])
+# @admin_required
+def list_staff():
+    conn = pool.acquire()
+    cur = conn.cursor()
+    res = cur.execute("select Staff_ID, Name, Age, Gender, Phone_No, Salary from Staff join Person on Staff_ID = Person_ID")
+    staffs = res.fetchall()
+    cur.close()
+    return render_template("listStaff.html", staffs=staffs)
+
+@app.route('/admin/ustaff', methods=["GET", "POST"])
+# @admin_required
+def update_staff():
+    if request.method == "GET":
+        sid = request.args.get('sid')
+        conn = pool.acquire()
+        cur = conn.cursor()
+        res = cur.execute("select Staff_ID, Name, Age, Gender, Phone_No, Salary from Staff join Person on Staff_ID = Person_ID where Staff_Id = :s", s=sid)
+        staff = res.fetchone()
+        cur.close()
+        return render_template("updateStaff.html", staff=staff)
+    else:
+        sid = request.form.get('StaffID')
+        name = request.form.get('StaffName')
+        age = request.form.get('StaffAge')
+        gender = request.form.get('StaffGender')
+        phone = request.form.get('StaffPhone')
+        password = generate_password_hash(request.form.get('StaffPassword'))
+        salary = request.form.get('StaffSalary')
+        conn = pool.acquire()
+        cur = conn.cursor()
+        res = cur.execute("update Staff set password = :p, salary = :sa where Staff_ID = :s", p=password, sa=salary, s=sid)
+        res = cur.execute("update Person set Name = :a, Age = :b, Gender = :c, Phone_no = :d where Person_ID = :e", a=name, b=age, c=gender, d=phone, e=sid)
+        conn.commit()
+        cur.close()
+        return redirect('/admin/slist')
+
+@app.route('/admin/astaff', methods=["GET", "POST"])
+# @admin_required
+def add_staff():
+    if request.method == "GET":
+        conn = pool.acquire()
+        cur = conn.cursor()
+        res = cur.execute("select Staff_id, name from Staff join Person on Staff_ID = Person_ID").fetchall()
+        return render_template("addrStaff.html", staffs=res)
+    else:
+        sid = request.form.get('StaffID')
+        name = request.form.get('StaffName')
+        age = request.form.get('StaffAge')
+        gender = request.form.get('StaffGender')
+        phone = request.form.get('StaffPhone')
+        password = generate_password_hash(request.form.get('StaffPassword'))
+        salary = request.form.get('StaffSalary')
+        conn = pool.acquire()
+        cur = conn.cursor()
+        res = cur.execute("insert into Person values (:e, :a, :b, :c, :d)", a=name, b=age, c=gender, d=phone, e=sid)
+        res = cur.execute("insert into Staff values (:s, :p, :sa)", p=password, sa=salary, s=sid)
+        conn.commit()
+        cur.close()
+        return redirect('/admin/slist')
+
+@app.route('/admin/rstaff', methods=["POST"])
+# @admin_required
+def remove_staff():
+    sid = request.form.get('selectedID')
+    conn = pool.acquire()
+    cur = conn.cursor()
+    res = cur.execute("delete from person where Person_ID = :p", p=sid)
+    res = cur.execute("delete from Staff where Staff_ID = :p", p=sid)
+    conn.commit()
+    cur.close()
+    return redirect('/admin/slist')
 
 if __name__ == '__main__':
     pool = start_pool()
