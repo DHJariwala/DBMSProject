@@ -388,6 +388,7 @@ def manage_maintenance():
         return redirect('/admin/listho')
 
 @app.route('/staff/search', methods=["GET", "POST"])
+@staff_required
 def search():
     if request.method == "GET":
         return render_template("searchResident.html", results=None)
@@ -397,8 +398,15 @@ def search():
         name = request.form.get('name')
         if not name:
             return apology("no name to be searched", 403)
-        res = cur.execute("select name, phone_no from person where name like :name and person_id not in (select staff_id from staff)", name="%"+name+"%").fetchall()
+        name = "%" + name + "%"
+        res = cur.execute("select house_no, name, phone_no from ((select person_id, name, phone_no from person where UPPER(name) like UPPER(:name)) join (select house_no, resident_id from resident) on person_id = resident_id)", name=name).fetchall()
         return render_template("searchResident.html", results=res)
+
+@app.route('/staff/complaints', methods=["GET", "POST"])
+def staff_complaint():
+    conn = pool.acquire()
+    cur = conn.cursor()
+    
 
 if __name__ == '__main__':
     pool = start_pool()
