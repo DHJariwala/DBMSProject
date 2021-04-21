@@ -1,3 +1,4 @@
+-- Route : admin/cmanage
 -- Complaint table + Owner name + Staff name
 create or replace view complaint_view as
 select t1.Complaint_ID,Status,C_TimeStamp,Description,House_No,Owner_name,Staff_ID,Staff_name from
@@ -13,3 +14,4 @@ from Complaint
 join Person
 on Complaint.Staff_ID = Person.Person_ID) t2
 on t1.Complaint_ID = t2.Complaint_ID;
+-- Route: /staff/search
