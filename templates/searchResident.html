@@ -1,0 +1,47 @@
+{% extends 'StaffNavbar.html' %}
+{% set active_page="Search" %}
+
+{% block title %}
+Search Residents
+{% endblock %}
+
+{% block body %}
+  <div style="margin: 2em 10% 2em 10%;">
+    {% if results %}
+    <h3 style="float:left;">
+      Residents
+    </h3>
+    {% endif %}
+    <form action="{{ url_for('search') }}" method="POST" class="form-inline my-2 my-lg-0" style="float:right;margin-right: 35%;">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <input name="name" class="form-control mr-sm-2" style="width: 20em;" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-dark bg-dark" type="submit">Search</button>
+    </form>
+  </div>
+  <br>
+  <br>
+    
+  {% if results %}
+  <div style="margin: 2em 30% 5em 30%">
+    <table class="table" style="text-align: center;">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">House_NO</th>
+        <th scope="col">Resident's Name</th>
+        <th scope="col">Resident's Phone_No</th>
+        <th scope="col"></th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for resident in results %}
+      <tr>
+        <th scope="row">1</th>
+        <td>{{ resident[0] }}</td>
+        <td>{{ resident[1] }}</td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endif %}
+{% endblock %}

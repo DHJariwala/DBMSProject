@@ -106,7 +106,7 @@ def login_staff():
             return apology("invalid username and/or password", 403)
         session["staff_id"] = res[0]
         session["logged"] = True
-        return "staff logged" # redirect('/staff/aguest')
+        return redirect('/staff/search')
 
 @app.route('/admin/login', methods=["GET", "POST"])
 def login_admin():
@@ -386,6 +386,19 @@ def manage_maintenance():
         conn.commit()
         cur.close()
         return redirect('/admin/listho')
+
+@app.route('/staff/search', methods=["GET", "POST"])
+def search():
+    if request.method == "GET":
+        return render_template("searchResident.html", results=None)
+    else:
+        conn = pool.acquire()
+        cur = conn.cursor()
+        name = request.form.get('name')
+        if not name:
+            return apology("no name to be searched", 403)
+        res = cur.execute("select name, phone_no from person where name like :name and person_id not in (select staff_id from staff)", name="%"+name+"%").fetchall()
+        return render_template("searchResident.html", results=res)
 
 if __name__ == '__main__':
     pool = start_pool()
