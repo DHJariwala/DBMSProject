@@ -4,7 +4,7 @@ for each row
 declare 
 x number;
 begin
-select count(to_number(Person_ID)) into x from Person;
+select max(to_number(Person_ID)) into x from Person;
 :new.Person_ID := x + 1;
 end;
 
@@ -14,7 +14,7 @@ for each row
 declare
 x number;
 begin
-select count(to_number(Guest_ID)) into x from Guest;
+select max(to_number(Guest_ID)) into x from Guest;
 :new.Guest_ID := x + 1;
 end;
 
@@ -24,6 +24,6 @@ for each row
 declare
 x number;
 begin
-select count(to_number(Complaint_ID)) into x from Complaint;
+select max(to_number(Complaint_ID)) into x from Complaint;
 :new.Complaint_ID := x + 1;
 end;
