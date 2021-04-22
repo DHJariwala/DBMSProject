@@ -56,6 +56,15 @@
           <li class="nav-item {% if active_page == "Maintenance Fee" %}active{% endif %}">
               <a class="nav-link" href="{{ url_for('manage_maintenance') }}">Maintenance Fee</a>
           </li>
+          <li class="nav-item dropdown right-stick {% if active_page == "More" %}active{% endif %}">
+            <a class="nav-link dropdown-toggle" href="#" id="MoreDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              More
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="MoreDropdown">
+              <a class="dropdown-item" href="{{ url_for('adminProfile', role='admin') }}">Profile</a>
+              <a class="dropdown-item" href="{{ url_for('logout') }}">Log Out</a>
+            </div>
+          </li>
         </ul>
       </div>
   </nav>
