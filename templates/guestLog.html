@@ -1,0 +1,33 @@
+{% extends "HouseNavbar.html" %}
+{% set active_page = "Guest" %}
+
+{% block title %} 
+Guest Log
+{% endblock %}
+
+{% block body %}
+
+<div>
+  <h3 class="marginall">
+    List of Guests visited your house
+  </h3>
+  <div style="margin: 0em 10% 5em 10%;">
+    <table class="table">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">Guest Details</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        {% for guest in guests %}
+        <th scope="row">{{ guest[0] }}</th>        
+        {% endfor %}
+      </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+{% endblock %}

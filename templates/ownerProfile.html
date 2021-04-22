@@ -1,38 +1,34 @@
-{% extends "OwnerNavbar.html" %}
-{% set active_page = "More" %}
+{% extends "HouseNavbar.html" %}
+{% set active_page = "Profile" %}
 
-{% block title %} 
+{% block title %}
 Profile
 {% endblock %}
 
 {% block body %}
 <div style="margin: 0em 5% 5em 5%">
-  <table class="table table-borderless" cellpadding=25>
-  <thead>
-    <h3 class="marginall" style="margin-left: -2em;">Profile</h3>
-  </thead>
-  <tbody >
-    <tr>
-      <td colspan="2">ID</td>
-      <td>Mark</td>
-    </tr>
-    <tr>
-      <td colspan="2">Name</td>
-      <td>Jacob</td>
-    </tr>
-    <tr>
-      <td colspan="2">Age</td>
-      <td >20</td>
-    </tr>
-    <tr>
-      <td colspan="2">Gender</td>
-      <td >Male</td>
-    </tr>
-    <tr>
-      <td colspan="2">Phone Number &nbsp;&nbsp;&nbsp;&nbsp;  </td>
-      <td >9876543210</td>
-    </tr>
-  </tbody>
-</table>
+    <table class="table table-borderless" cellpadding=25>
+        <thead>
+        <h3 class="marginall" style="margin-left: -2em;">Profile</h3>
+        </thead>
+        <tbody>
+        <tr>
+            <td colspan="2">Name</td>
+            <td>{{ details[1] }}</td>
+        </tr>
+        <tr>
+            <td colspan="2">Age</td>
+            <td>{{ details[2] }}</td>
+        </tr>
+        <tr>
+            <td colspan="2">Gender</td>
+            <td>{{ details[3] }}</td>
+        </tr>
+        <tr>
+            <td colspan="2">Phone Number &nbsp;&nbsp;&nbsp;&nbsp;</td>
+            <td>{{ details[4] }}</td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 {% endblock %}

@@ -7,29 +7,29 @@ List Guests
 
 {% block body %}
 <div>
-  <h3 class="marginall">
-    List of Guest Visited
-  </h3>
-  <div style="margin: 0em 10% 5em 10%;">
-    <table class="table">
-      <thead class="thead-dark">
-      <tr>
-        <th scope="col">House No</th>
-        <th scope="col">Details</th>
-        <th scope="col">Staff ID</th>
-      </tr>
-      </thead>
-      <tbody>
-        {% for guest in guests %}
-        <tr>
-          <th scope="row">{{ guest[0] }}</th>
-          <td>{{ guest[1] }}</td>
-          <td>{{ guest[2] }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+    <h3 class="marginall">
+        List of Guest Visited
+    </h3>
+    <div style="margin: 0em 10% 5em 10%;">
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">House No</th>
+                <th scope="col">Details</th>
+                <th scope="col">Staff ID</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for guest in guests %}
+            <tr>
+                <th scope="row">{{ guest[0] }}</th>
+                <td>{{ guest[1] }}</td>
+                <td>{{ guest[2] }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
 
-  </div>
+    </div>
 </div>
 {% endblock %}

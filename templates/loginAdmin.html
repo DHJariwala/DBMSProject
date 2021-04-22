@@ -1,26 +1,29 @@
 {% extends "LoginPageNavbar.html" %}
 {% set active_page = "Admin" %}
 
-{% block title %} 
+{% block title %}
 Admin Login
 {% endblock %}
 
 {% block body %}
 
-  <form action="{{ url_for('login_admin') }}" method="POST" class="marginall form">
+<form action="{{ url_for('login_admin') }}" method="POST" class="marginall form">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <div class="form-group">
-      <label for="InputID">ID</label>
-      <input type="text" class="form-control" name="AdminID" id="InputID" aria-describedby="emailHelp" placeholder="Enter ID"
-        oninvalid="setCustomValidity('Enter ID between length 2 to 50')" onchange="try{setCustomValidity('')}catch(e){}" minlength="2" maxlength="50" required>
+        <label for="InputID">ID</label>
+        <input type="text" class="form-control" name="AdminID" id="InputID" aria-describedby="emailHelp"
+               placeholder="Enter ID"
+               oninvalid="setCustomValidity('Enter ID between length 2 to 50')"
+               onchange="try{setCustomValidity('')}catch(e){}" minlength="2" maxlength="50" required>
     </div>
     <div class="form-group">
-      <label for="InputPassword">Password</label>
-      <input type="password" class="form-control" name="LoginPassword" id="InputPassword" placeholder="Enter Password"
-        oninvalid="setCustomValidity('Enter Password between length 8 to 128')" onchange="try{setCustomValidity('')}catch(e){}" minlength="8" maxlength="128" required>
+        <label for="InputPassword">Password</label>
+        <input type="password" class="form-control" name="LoginPassword" id="InputPassword" placeholder="Enter Password"
+               oninvalid="setCustomValidity('Enter Password between length 8 to 128')"
+               onchange="try{setCustomValidity('')}catch(e){}" minlength="8" maxlength="128" required>
     </div>
-    <button type="submit" class="btn btn-primary"  name="LoginAdmin">Login</button>
-  </form> 
+    <button type="submit" class="btn btn-primary" name="LoginAdmin">Login</button>
+</form>
 
 {% endblock %}
  

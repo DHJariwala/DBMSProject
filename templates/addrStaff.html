@@ -1,73 +1,84 @@
 {% extends "AdminNavbar.html" %}
 {% set active_page = "Manage Staff" %}
 
-{% block title %} 
+{% block title %}
 Add Staff
 {% endblock %}
 
 {% block body %}
-  <form action="{{ url_for('add_staff') }}" class="marginall form" method="POST">
+<form action="{{ url_for('add_staff') }}" class="marginall form" method="POST">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <h3>
-      Add New Staff
+        Add New Staff
     </h3>
     <div class="form-group">
-      <label for="InputStaffID">Staff ID</label>
-      <input type="text" class="form-control" name="StaffID" id="InputStaffID" aria-describedby="emailHelp">
+        <label for="InputStaffID">Staff ID</label>
+        <input type="text" class="form-control" name="StaffID" id="InputStaffID" aria-describedby="emailHelp">
     </div>
     <div class="form-group">
-      <label for="InputName">Name</label>
-      <input type="text" class="form-control" name="StaffName" id="InputName" aria-describedby="emailHelp" placeholder="Enter Name"
-        oninvalid="setCustomValidity('Enter Name between length 2 to 50')" onchange="try{setCustomValidity('')}catch(e){}" minlength="2" maxlength="50" required>
+        <label for="InputName">Name</label>
+        <input type="text" class="form-control" name="StaffName" id="InputName" aria-describedby="emailHelp"
+               placeholder="Enter Name"
+               oninvalid="setCustomValidity('Enter Name between length 2 to 50')"
+               onchange="try{setCustomValidity('')}catch(e){}" minlength="2" maxlength="50" required>
     </div>
     <div class="form-group">
-      <label for="InputAge">Age</label>
-      <input type="number" class="form-control" name="StaffAge" id="InputAge" aria-describedby="emailHelp" placeholder="Enter Age"
-        oninvalid="setCustomValidity('Enter Age between 18 to 150')" onchange="try{setCustomValidity('')}catch(e){}" min="18" maxlength="150" required>
+        <label for="InputAge">Age</label>
+        <input type="number" class="form-control" name="StaffAge" id="InputAge" aria-describedby="emailHelp"
+               placeholder="Enter Age"
+               oninvalid="setCustomValidity('Enter Age between 18 to 150')"
+               onchange="try{setCustomValidity('')}catch(e){}" min="18" maxlength="150" required>
     </div>
     <div class="form-group">
-      <label>Gender</label>
-      <br>
-      <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" name="StaffGender" id="inlineRadio1" value="Male" checked>
-        <label class="form-check-label" for="inlineRadio1">Male</label>
-      </div>
-      <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" name="StaffGender" id="inlineRadio2" value="Female">
-        <label class="form-check-label" for="inlineRadio2">Female</label>
-      </div>
+        <label>Gender</label>
+        <br>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="StaffGender" id="inlineRadio1" value="Male" checked>
+            <label class="form-check-label" for="inlineRadio1">Male</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="StaffGender" id="inlineRadio2" value="Female">
+            <label class="form-check-label" for="inlineRadio2">Female</label>
+        </div>
     </div>
     <div class="form-group">
-      <label for="InputPhone">Phone Number</label>
-      <input type="number" class="form-control" name="StaffPhone" id="InputPhone" aria-describedby="emailHelp" placeholder="Enter Phone Number"
-        oninvalid="setCustomValidity('Enter Phone Number of length 10')" onchange="try{setCustomValidity('')}catch(e){}"  min="1000000000" max="9999999999" required>
+        <label for="InputPhone">Phone Number</label>
+        <input type="number" class="form-control" name="StaffPhone" id="InputPhone" aria-describedby="emailHelp"
+               placeholder="Enter Phone Number"
+               oninvalid="setCustomValidity('Enter Phone Number of length 10')"
+               onchange="try{setCustomValidity('')}catch(e){}" min="1000000000" max="9999999999" required>
     </div>
     <div class="form-group">
-      <label for="InputPassword">Password</label>
-      <input type="password" class="form-control" name="StaffPassword" id="InputPassword" placeholder="Password"
-        oninvalid="setCustomValidity('Enter Password between length 8 to 128')" onchange="try{setCustomValidity('')}catch(e){}" minlength="8" maxlength="128" required>
+        <label for="InputPassword">Password</label>
+        <input type="password" class="form-control" name="StaffPassword" id="InputPassword" placeholder="Password"
+               oninvalid="setCustomValidity('Enter Password between length 8 to 128')"
+               onchange="try{setCustomValidity('')}catch(e){}" minlength="8" maxlength="128" required>
     </div>
     <div class="form-group">
-      <label for="InputSalary">Salary</label>
-      <input type="number" class="form-control" name="StaffSalary" id="InputSalary" aria-describedby="emailHelp" placeholder="Enter Salary"
-        oninvalid="setCustomValidity('Enter Salary between 10000 to 1000000')" onchange="try{setCustomValidity('')}catch(e){}" min="10000" max="1000000" required>
+        <label for="InputSalary">Salary</label>
+        <input type="number" class="form-control" name="StaffSalary" id="InputSalary" aria-describedby="emailHelp"
+               placeholder="Enter Salary"
+               oninvalid="setCustomValidity('Enter Salary between 10000 to 1000000')"
+               onchange="try{setCustomValidity('')}catch(e){}" min="10000" max="1000000" required>
     </div>
     <button type="submit" class="btn btn-primary" name="StaffAdd">Add</button>
-  </form>
+</form>
 
-  <form action="{{ url_for('remove_staff') }}" method="POST" class="marginall form">
+<form action="{{ url_for('remove_staff') }}" method="POST" class="marginall form">
     <h3>
-      Remove Staff
+        Remove Staff
     </h3>
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <div class="form-group">
-      <select class="form-select" style="height:2.1em;width:100%; border-style: solid;border-width: 1px;border-radius:5px" name="selectedID" id="StaffNameSelected" aria-label="Default select">
-        <option value=-1 selected>Select Staff</option>
-        {% for id, name in staffs %}
-        <option value="{{ id }}">{{ name }}</option>
-        {% endfor %}
-      </select>
+        <select class="form-select"
+                style="height:2.1em;width:100%; border-style: solid;border-width: 1px;border-radius:5px"
+                name="selectedID" id="StaffNameSelected" aria-label="Default select">
+            <option value=-1 selected>Select Staff</option>
+            {% for id, name in staffs %}
+            <option value="{{ id }}">{{ name }}</option>
+            {% endfor %}
+        </select>
     </div>
     <button type="submit" class="btn btn-primary" name="StaffRemove">Remove</button>
-  </form>
+</form>
 {% endblock %}

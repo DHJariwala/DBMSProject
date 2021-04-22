@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-{% set active_page = active_page|default('Manage House') -%}
-
 <html lang="en">
+
+{% set active_page = active_page|default('Manage Notice') -%}
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -20,9 +21,10 @@
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
 
+
 </head>
 <body>
-<body>
+
 <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="#">Society Management</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
@@ -31,55 +33,51 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item dropdown {% if active_page == " Manage House
-            " %}active{% endif %}">
+            <li class="nav-item {% if active_page == "Manage Notice" %}active{% endif %}">
+            <a class="nav-link" href="{{ url_for('list_notice', role='notice') }}">View Notice</a>
+            </li>
+            <li class="nav-item dropdown {% if active_page == "Members" %}active{% endif %}">
             <a class="nav-link dropdown-toggle" href="#" id="HouseDropdown" role="button" data-toggle="dropdown"
                aria-haspopup="true" aria-expanded="false">
-                Manage House
+                Manage House Members
             </a>
             <div class="dropdown-menu" aria-labelledby="HouseDropdown">
-                <a class="dropdown-item" href="{{ url_for('list_house_owners') }}">List House Owner</a>
-                <a class="dropdown-item" href="{{ url_for('add_house_owner') }}">Add House Owner</a>
+                <a class="dropdown-item" href="{{ url_for('list_members')}}">List House Members</a>
+                <a class="dropdown-item" href="{{ url_for('add_resident')}}">Change House Members</a>
             </div>
             </li>
-            <li class="nav-item dropdown {% if active_page == " Manage Staff
-            " %}active{% endif %}">
-            <a class="nav-link dropdown-toggle" href="#" id="StaffDropdown" role="button" data-toggle="dropdown"
+            <li class="nav-item dropdown {% if active_page == "Complaint" %}active{% endif %}">
+            <a class="nav-link dropdown-toggle" href="#" id="ComplaintDropdown" role="button" data-toggle="dropdown"
                aria-haspopup="true" aria-expanded="false">
-                Manage Staff
+                Manage Complaint
             </a>
-            <div class="dropdown-menu" aria-labelledby="StaffDropdown">
-                <a class="dropdown-item" href="{{ url_for('list_staff') }}">List Staff</a>
-                <a class="dropdown-item" href="{{ url_for('add_staff') }}">Add Staff</a>
+            <div class="dropdown-menu" aria-labelledby="ComplaintDropdown">
+                <a class="dropdown-item" href="{{ url_for('list_complaints')}}">List Complaints</a>
+                <a class="dropdown-item" href="{{ url_for('add_complaint')}}">Add Complain</a>
             </div>
             </li>
-            <li class="nav-item dropdown {% if active_page == " Manage Notice
-            " %}active{% endif %}">
-            <a class="nav-link dropdown-toggle" href="#" id="NoticeDropdown" role="button" data-toggle="dropdown"
+            <li class="nav-item {% if active_page == "Maintenance Fee" %}active{% endif %}">
+            <a class="nav-link" href="{{url_for('maintenance_fee')}}">Maintenance fee</a>
+            </li>
+            <li class="nav-item {% if active_page == "Guest" %}active{% endif %}">
+            <a class="nav-link" href="{{ url_for('guest_log') }}">Guest Log</a>
+            </li>
+            <li class="nav-item dropdown right-stick {% if active_page == "Profile" %}active{% endif %}">
+            <a class="nav-link dropdown-toggle" href="#" id="MoreDropdown" role="button" data-toggle="dropdown"
                aria-haspopup="true" aria-expanded="false">
-                Manage Notice
+                Other options
             </a>
-            <div class="dropdown-menu" aria-labelledby="NoticeDropdown">
-                <a class="dropdown-item" href="{{ url_for('list_notice', role='admin') }}">List Notice</a>
-                <a class="dropdown-item" href="{{ url_for('add_notice') }}">Add Notice</a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="MoreDropdown">
+                <a class="dropdown-item" href="{{ url_for('profile') }}">Profile</a>
+                <a class="dropdown-item" href="{{ url_for('logout') }}">Log Out</a>
             </div>
-            </li>
-            <li class="nav-item {% if active_page == " Manage Complaint
-            " %}active{% endif %}">
-            <a class="nav-link" href="{{ url_for('manage_complaint') }}">Manage Complaint</a>
-            </li>
-            <li class="nav-item {% if active_page == " Maintenance Fee
-            " %}active{% endif %}">
-            <a class="nav-link" href="{{ url_for('manage_maintenance') }}">Maintenance Fee</a>
             </li>
         </ul>
-        <a href="{{url_for('logout')}}">
-            <button type="button" class="btn btn-light btn-sm">Logout</button>
-        </a>
+
     </div>
 </nav>
 
-{% block body%}
+{% block body %}
 {% endblock %}
 
 </body>
