@@ -427,8 +427,27 @@ def staff_complaint():
                         ''').fetchall()
         cur.close()
         return render_template("Complaints.html", yc=yourcomplaints, unc=unassignedc)
-    # else:
-
+    else:
+        if 'resolve' in request.form:
+            cid = request.form.get('cid')
+            if not cid:
+                return apology("no complaint id found", 403)
+            conn = pool.acquire()
+            cur = conn.cursor()
+            res = cur.execute("update complaint set status = 'Resolved' where complaint_id = :cid", cid=cid)
+            conn.commit()
+            cur.close()
+            return redirect('/staff/complaints')
+        elif 'assign' in request.form:
+            cid = request.form.get('cid')
+            if not cid:
+                return apology("no complaint id found", 403)
+            conn = pool.acquire()
+            cur = conn.cursor()
+            res = cur.execute("update complaint set status = 'Pending', staff_id = :sid where complaint_id = :cid", sid=session["staff_id"], cid=cid)
+            conn.commit()
+            cur.close()
+            return redirect('/staff/complaints')
     
 
 if __name__ == '__main__':
