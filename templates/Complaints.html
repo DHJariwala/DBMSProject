@@ -15,8 +15,10 @@ Complaints
       <div class="card-header">
         <div style="margin:0;float:left">{{ complaint[5] + ", " + complaint[6] }}</div>
         <div style="margin:0;float:right;color:black">
-          <form>
-            <input class="btn btn-secondary" type="submit" value="Resolved">
+          <form action="{{url_for('staff_complaint')}}" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <input type="hidden" name="cid" value="{{ complaint[0] }}">
+            <input class="btn btn-secondary" name="resolve" type="submit" value="Resolved">
           </form>
         </div>
       </div>
@@ -32,24 +34,6 @@ Complaints
     </div>
     {% endfor %}
     <br />
-    <!-- unassigned
-    <div class="card marginall border-dark mb-3">
-      <div class="card-header">
-        <div style="margin-top:0.2em;float:left">Complaint Subject</div>
-        <div style="margin:0;padding:0;float:right;color:black">
-          <form>
-            <input class="btn btn-secondary" type="submit" value="Select Complain">
-          </form>
-        </div>
-      </div>
-      <div class="card-body">
-        <h5 class="card-title">Sub Subject</h5>
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-      </div>
-      <div class="card-footer text-muted">
-        Time Date
-      </div>
-    </div> -->
     <h3>
       Unassigned complaints
     </h3>
@@ -58,8 +42,10 @@ Complaints
       <div class="card-header">
         <div style="margin:0;float:left">{{ complaint[5] + ", " + complaint[6] }}</div>
         <div style="margin:0;float:right;color:black">
-          <form>
-            <input class="btn btn-secondary" type="submit" value="Select Complain">
+          <form action="{{url_for('staff_complaint')}}" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <input type="hidden" name="cid" value="{{ complaint[0] }}">
+            <input class="btn btn-secondary" name="assign" type="submit" value="Select Complaint">
           </form>
         </div>
       </div>
