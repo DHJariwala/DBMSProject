@@ -38,8 +38,8 @@
               <a class="dropdown-item" href="{{ url_for('add_guest') }}">Add Guest</a>
               <a class="dropdown-item" href="{{ url_for('list_guest') }}">List Guest</a>
             </div>
-          </li>
-          <li class="nav-item dropdown right-stick {% if active_page == "More" %}active{% endif %}">
+          </li>   
+          <!-- <li class="nav-item dropdown right-stick {% if active_page == "More" %}active{% endif %}">
             <a class="nav-link dropdown-toggle" href="#" id="MoreDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               More
             </a>
@@ -47,9 +47,11 @@
               <a class="dropdown-item" href="{{ url_for('staffProfile', role='staff') }}">Profile</a>
               <a class="dropdown-item" href="{{ url_for('logout') }}">Log Out</a>
             </div>
-          </li>
+          </li> -->
         </ul>
-
+        <a href="">
+          <button type="button" class="btn btn-light btn-sm">Logout</button>
+        </a>
       </div>
   </nav>
   
