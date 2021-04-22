@@ -155,7 +155,7 @@ def update_house_owner():
         cur = conn.cursor()
         res = cur.execute("select House_No, Name, Age, Gender, Phone_No from House join Person on House.Owner_ID = Person.Person_ID where House_No = :h", h=hno)
         owner = res.fetchone()
-        if owner.isempty():
+        if owner == ():
             return apology("house not found", 403)
         cur.close()
         return render_template("updateOwner.html", owner=owner)
@@ -221,7 +221,7 @@ def update_staff():
         cur = conn.cursor()
         res = cur.execute("select Staff_ID, Name, Age, Gender, Phone_No, Salary from Staff join Person on Staff_ID = Person_ID where Staff_Id = :s", s=sid)
         staff = res.fetchone()
-        if staff.isempty():
+        if staff == ():
             return apology("staff id not found", 403)
         cur.close()
         return render_template("updateStaff.html", staff=staff)
@@ -400,12 +400,35 @@ def search():
             return apology("no name to be searched", 403)
         name = "%" + name + "%"
         res = cur.execute("select house_no, name, phone_no from ((select person_id, name, phone_no from person where UPPER(name) like UPPER(:name)) join (select house_no, resident_id from resident) on person_id = resident_id)", name=name).fetchall()
+        cur.close()
         return render_template("searchResident.html", results=res)
 
 @app.route('/staff/complaints', methods=["GET", "POST"])
+@staff_required
 def staff_complaint():
-    conn = pool.acquire()
-    cur = conn.cursor()
+    if request.method == "GET":
+        conn = pool.acquire()
+        cur = conn.cursor()
+        yourcomplaints = cur.execute('''
+                            select Complaint_ID,Status,C_TimeStamp,Subject,Description,Complaint.House_No,Person.Name as Owner_name 
+                            from Complaint
+                            join House
+                            on Complaint.House_No = House.House_No and Complaint.Status = 'Pending' and Complaint.Staff_ID = :sid
+                            join Person 
+                            on House.Owner_ID = Person.Person_Id
+                        ''', sid=session["staff_id"]).fetchall()
+        unassignedc = cur.execute('''
+                            select Complaint_ID,Status,C_TimeStamp,Subject,Description,Complaint.House_No,Person.Name as Owner_name 
+                            from Complaint
+                            join House
+                            on Complaint.House_No = House.House_No and Complaint.Status = 'Unassigned'
+                            join Person 
+                            on House.Owner_ID = Person.Person_Id
+                        ''').fetchall()
+        cur.close()
+        return render_template("Complaints.html", yc=yourcomplaints, unc=unassignedc)
+    # else:
+
     
 
 if __name__ == '__main__':

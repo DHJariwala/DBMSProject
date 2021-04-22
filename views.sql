@@ -1,5 +1,6 @@
--- Route : admin/cmanage
+-- Route : /admin/cmanage and /staff/complaints
 -- Complaint table + Owner name + Staff name
+-- Reason: To give owner name and staff name along with complaint details
 create or replace view complaint_view as
 select t1.Complaint_ID,Status,C_TimeStamp,Description,House_No,Owner_name,Staff_ID,Staff_name from
 (select Complaint_ID,Status,C_TimeStamp,Description,Complaint.House_No,Person.Name as Owner_name 
@@ -14,4 +15,7 @@ from Complaint
 join Person
 on Complaint.Staff_ID = Person.Person_ID) t2
 on t1.Complaint_ID = t2.Complaint_ID;
+
 -- Route: /staff/search
+-- Residents info with house no
+-- Reason: Can be used for search without Joining resident with person always

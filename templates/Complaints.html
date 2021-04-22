@@ -1,0 +1,78 @@
+{% extends 'StaffNavbar.html' %}
+{% set active_page = 'Complaints' %}
+
+{% block title %}
+Complaints
+{% endblock %}
+
+{% block body %}
+  <div id="card-holder">
+    <h3>
+      Your pending complaints
+    </h3>
+    {% for complaint in yc %}
+    <div data-cid="{{ complaint[0] }}" class="card marginall border-dark mb-3">
+      <div class="card-header">
+        <div style="margin:0;float:left">{{ complaint[5] + ", " + complaint[6] }}</div>
+        <div style="margin:0;float:right;color:black">
+          <form>
+            <input class="btn btn-secondary" type="submit" value="Resolved">
+          </form>
+        </div>
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">{{ complaint[3] }}</h5>
+        <p class="card-text">{{ complaint[4] }}</p>
+        <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+      </div>
+      <div class="card-footer text-muted">
+        <div style="float:left">{{ complaint[2] }}</div>
+        <div style="float:right;color:black">{{ complaint[1] }}</div>
+      </div>
+    </div>
+    {% endfor %}
+    <br />
+    <!-- unassigned
+    <div class="card marginall border-dark mb-3">
+      <div class="card-header">
+        <div style="margin-top:0.2em;float:left">Complaint Subject</div>
+        <div style="margin:0;padding:0;float:right;color:black">
+          <form>
+            <input class="btn btn-secondary" type="submit" value="Select Complain">
+          </form>
+        </div>
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">Sub Subject</h5>
+        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+      </div>
+      <div class="card-footer text-muted">
+        Time Date
+      </div>
+    </div> -->
+    <h3>
+      Unassigned complaints
+    </h3>
+    {% for complaint in unc %}
+    <div data-cid="{{ complaint[0] }}" class="card marginall border-dark mb-3">
+      <div class="card-header">
+        <div style="margin:0;float:left">{{ complaint[5] + ", " + complaint[6] }}</div>
+        <div style="margin:0;float:right;color:black">
+          <form>
+            <input class="btn btn-secondary" type="submit" value="Select Complain">
+          </form>
+        </div>
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">{{ complaint[3] }}</h5>
+        <p class="card-text">{{ complaint[4] }}</p>
+        <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+      </div>
+      <div class="card-footer text-muted">
+        <div style="float:left">{{ complaint[2] }}</div>
+        <div style="float:right;color:black">{{ complaint[1] }}</div>
+      </div>
+    </div>
+    {% endfor %}
+    </div>
+{% endblock %}
