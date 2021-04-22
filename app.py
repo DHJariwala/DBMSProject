@@ -449,6 +449,34 @@ def staff_complaint():
             cur.close()
             return redirect('/staff/complaints')
     
+@app.route('/staff/aguest', methods=["GET", "POST"])
+@staff_required
+def add_guest():
+    if request.method == "GET":
+        conn = pool.acquire()
+        cur = conn.cursor()
+        houses = cur.execute("select house_no from house order by house_no").fetchall()
+        cur.close()
+        return render_template("addGuest.html", houses=houses)
+    else:
+        hno = request.form.get('hno')
+        dtl = request.form.get('InputDetail')
+        if not hno or not dtl:
+            return apology("provide house number and details", 403)
+        conn = pool.acquire()
+        cur = conn.cursor()
+        res = cur.execute("insert into guest values ('', :a, :b, :c)", a=dtl, b=session["staff_id"], c=hno)
+        conn.commit()
+        cur.close()
+        return redirect('/staff/lguest')
+        
+    
+@app.route('/staff/lguest')
+def list_guest():
+    conn = pool.acquire()
+    cur = conn.cursor()
+    guests = cur.execute("select house_no, details, staff_id from guest order by guest_id desc").fetchall()
+    return render_template("listGuest.html", guests=guests)
 
 if __name__ == '__main__':
     pool = start_pool()

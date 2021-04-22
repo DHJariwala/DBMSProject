@@ -7,7 +7,7 @@ Complaints
 
 {% block body %}
   <div id="card-holder">
-    <h3>
+    <h3 style="margin-left: 1em;margin-top: 1em;">
       Your pending complaints
     </h3>
     {% for complaint in yc %}
@@ -33,8 +33,8 @@ Complaints
       </div>
     </div>
     {% endfor %}
-    <br />
-    <h3>
+    <!-- <br /> -->
+    <h3 style="margin-left: 1em;margin-top: 1em;">
       Unassigned complaints
     </h3>
     {% for complaint in unc %}
