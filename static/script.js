@@ -21,5 +21,5 @@ function todayDate(){
   }
 
 document.addEventListener("DOMContentLoaded", function() {
-    document.getElementById("InputAge").setAttribute("value", todayDate());
+    document.getElementById("InputDOB").setAttribute("value", todayDate());
 });
