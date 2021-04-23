@@ -29,8 +29,8 @@ CREATE TABLE Resident(
     FOREIGN KEY (Resident_Id) REFERENCES Person (Person_ID) on delete cascade
 ); 
 CREATE TABLE Guest(
-    G_TimeStamp timestamp default current_timestamp not null ,
     Guest_ID varchar2(20) PRIMARY KEY,
+    G_TimeStamp timestamp default current_timestamp not null,
     Details varchar2(1000) NOT NULL,
     Staff_ID varchar2(10) NOT NULL,
     House_No varchar2(10) NOT NULL,
