@@ -53,11 +53,11 @@ insert into Resident values('15','301');
 insert into Resident values('16','302');
 insert into Resident values('17','302');
 
-insert into Guest values('1','Dev Jariwala','5','101');
-insert into Guest values('2','Sia Shah','18','201');
-insert into Guest values('3','Labdhi Shah','5','202');
-insert into Guest values('4','Raj Jikadra','5','301');
-insert into Guest values('5','Muktesharyan Uppala','19','102');
+insert into Guest values('1',to_date('2019-06-01','yyyy-mm-dd'),'Dev Jariwala','5','101');
+insert into Guest values('2',to_date('2019-06-01','yyyy-mm-dd'),'Sia Shah','18','201');
+insert into Guest values('3',to_date('2019-06-01','yyyy-mm-dd'),'Labdhi Shah','5','202');
+insert into Guest values('4',to_date('2019-06-01','yyyy-mm-dd'),'Raj Jikadra','5','301');
+insert into Guest values('5',to_date('2019-06-01','yyyy-mm-dd'),'Muktesharyan Uppala','19','102');
 
 insert into Notice values(to_date('2019-03-10 12:00','yyyy-mm-dd HH24:mi'),'Mukesh','Holi Party','On 20 March  we have oraganized Holi party and lunch so please come downstairs at 9:00 AM');
 insert into Notice values(to_date('2019-06-25 12:00','yyyy-mm-dd HH24:mi'),'Ratan','Building Meeting','On 30 June 10 PM we have oraganized a building meeting to discuss the increase in maintenance fees of our building');
