@@ -16,6 +16,7 @@ List Guests
             <tr>
                 <th scope="col">House No</th>
                 <th scope="col">Details</th>
+                <th scope="col">Visit Time</th>
                 <th scope="col">Staff ID</th>
             </tr>
             </thead>
@@ -24,6 +25,7 @@ List Guests
             <tr>
                 <th scope="row">{{ guest[0] }}</th>
                 <td>{{ guest[1] }}</td>
+                <td>{{ guest[3]|datetimeformat }}</td>
                 <td>{{ guest[2] }}</td>
             </tr>
             {% endfor %}

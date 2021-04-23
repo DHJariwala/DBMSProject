@@ -471,7 +471,7 @@ def add_guest():
             return apology("provide house number and details", 403)
         conn = pool.acquire()
         cur = conn.cursor()
-        res = cur.execute("insert into guest values ('', :a, :b, :c)", a=dtl, b=session["staff_id"], c=hno)
+        res = cur.execute("insert into guest (Guest_Id, details, staff_id, house_no) values ('', :a, :b, :c)", a=dtl, b=session["staff_id"], c=hno)
         conn.commit()
         cur.close()
         return redirect('/staff/lguest')
@@ -481,7 +481,7 @@ def add_guest():
 def list_guest():
     conn = pool.acquire()
     cur = conn.cursor()
-    guests = cur.execute("select house_no, details, staff_id from guest order by guest_id desc").fetchall()
+    guests = cur.execute("select house_no, details, staff_id, g_timestamp from guest order by guest_id desc").fetchall()
     return render_template("listGuest.html", guests=guests)
 
 @app.route('/profile', methods=["GET"])
@@ -614,7 +614,7 @@ def maintenance_fee():
 def guest_log():
     conn = pool.acquire()
     cur = conn.cursor()
-    guests = cur.execute("select details from guest where house_no =: hno", hno=session["house_no"]).fetchall()
+    guests = cur.execute("select details, g_timestamp from guest where house_no =: hno", hno=session["house_no"]).fetchall()
     cur.close()
     return render_template("guestLog.html", guests=guests)
 

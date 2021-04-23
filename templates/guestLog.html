@@ -16,12 +16,14 @@ Guest Log
       <thead class="thead-dark">
       <tr>
         <th scope="col">Guest Details</th>
+        <th>Time of Visit</th>
       </tr>
       </thead>
       <tbody>
       <tr>
         {% for guest in guests %}
-        <th scope="row">{{ guest[0] }}</th>        
+        <th scope="row">{{ guest[0] }}</th>    
+        <th scope="row">{{ guest[1]|datetimeformat }}</th>        
         {% endfor %}
       </tr>
       </tbody>
