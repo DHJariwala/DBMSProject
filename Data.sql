@@ -1,27 +1,49 @@
 insert into Admin values('Mukesh','pbkdf2:sha256:150000$nG7ZKMgo$aacb97e2d76b07335c2c55ab4b037c39fd825eb3db0635a754b803789aa795b4'); -- adminabcd
 insert into Admin values('Ratan','pbkdf2:sha256:150000$7a4hqmD6$2dfb0d7c228ea6ea6ef44b3749aafb407c4b42911c033d7c8436931962bf45dd'); -- admindef
 
-insert into Person values('1','Mahesh Bhatt','40','Male','1231231231');
-insert into Person values('2','Suresh Bhatt','20','Male','1231231232');
-insert into Person values('3','Ramesh Bhatt','15','Male','1231231233');
-insert into Person values('4','Heli Bhatt','41','Male','1231231234');
-insert into Person values('5','Ram Yadav','35','Male','7897897891');
-insert into Person values('6','Shyam Shah','45','Male','4564564561');
-insert into Person values('7','Harshita Shah','46','Female','4564564562');
-insert into Person values('8','Hetal Shah','21','Female','4564564653');
-insert into Person values('9','Rajul Shah','19','Female','4564564564');
-insert into Person values('10','Rahul Maheshwari','34','Male','1471471471');
-insert into Person values('11','Mimansa Maheshwari','35','Female','1471471472');
-insert into Person values('12','Dhairya Chabra','29','Male','2582582581');
-insert into Person values('13','Disha Chabra','30','Female','2582582582');
-insert into Person values('14','Alay Jain','28','Male','3693693691');
-insert into Person values('15','Purva Jain','28','Female','3693693692');
-insert into Person values('16','Vatsal Gupta','28','Male','1591591591');
-insert into Person values('17','Vanshika Gupta','29','Female','1591591592');
-insert into Person values('18','Sandesh Agarwal','35','Male','3573573571');
-insert into Person values('19','Vikash Rumalwala','32','Male','8688688681');
-insert into Person values('20','Sneha Agarwal','43','Female','2929299921');
-insert into Person values('21','Shital Sharma','34','Female','1199119923');
+insert into Person values('1','Mahesh Bhatt',to_date('1980-12-11','yyyy-mm-dd'),'Male','1231231231');
+insert into Person values('2','Suresh Bhatt',to_date('2000-06-16','yyyy-mm-dd'),'Male','1231231232');
+insert into Person values('3','Ramesh Bhatt',to_date('2005-04-07','yyyy-mm-dd'),'Male','1231231233');
+insert into Person values('4','Heli Bhatt',to_date('1979-05-04','yyyy-mm-dd'),'Male','1231231234');
+insert into Person values('5','Ram Yadav',to_date('1985-12-03','yyyy-mm-dd'),'Male','7897897891');
+insert into Person values('6','Shyam Shah',to_date('1975-11-23','yyyy-mm-dd'),'Male','4564564561');
+insert into Person values('7','Harshita Shah',to_date('1974-10-29','yyyy-mm-dd'),'Female','4564564562');
+insert into Person values('8','Hetal Shah',to_date('1999-09-30','yyyy-mm-dd'),'Female','4564564653');
+insert into Person values('9','Rajul Shah',to_date('2001-06-01','yyyy-mm-dd'),'Female','4564564564');
+insert into Person values('10','Rahul Maheshwari',to_date('1986-06-01','yyyy-mm-dd'),'Male','1471471471');
+insert into Person values('11','Mimansa Maheshwari',to_date('1985-08-21','yyyy-mm-dd'),'Female','1471471472');
+insert into Person values('12','Dhairya Chabra',to_date('1991-05-26','yyyy-mm-dd'),'Male','2582582581');
+insert into Person values('13','Disha Chabra',to_date('1990-04-11','yyyy-mm-dd'),'Female','2582582582');
+insert into Person values('14','Alay Jain',to_date('1992-02-18','yyyy-mm-dd'),'Male','3693693691');
+insert into Person values('15','Purva Jain',to_date('1992-01-27','yyyy-mm-dd'),'Female','3693693692');
+insert into Person values('16','Vatsal Gupta',to_date('1992-01-29','yyyy-mm-dd'),'Male','1591591591');
+insert into Person values('17','Vanshika Gupta',to_date('1991-03-21','yyyy-mm-dd'),'Female','1591591592');
+insert into Person values('18','Sandesh Agarwal',to_date('1985-08-11','yyyy-mm-dd'),'Male','3573573571');
+insert into Person values('19','Vikash Rumalwala',to_date('1987-07-23','yyyy-mm-dd'),'Male','8688688681');
+insert into Person values('20','Sneha Agarwal',to_date('1977-11-12','yyyy-mm-dd'),'Female','2929299921');
+insert into Person values('21','Shital Sharma',to_date('1984-12-31','yyyy-mm-dd'),'Female','1199119923');
+
+-- insert into Person values('1','Mahesh Bhatt','40','Male','1231231231');
+-- insert into Person values('2','Suresh Bhatt','20','Male','1231231232');
+-- insert into Person values('3','Ramesh Bhatt','15','Male','1231231233');
+-- insert into Person values('4','Heli Bhatt','41','Male','1231231234');
+-- insert into Person values('5','Ram Yadav','35','Male','7897897891');
+-- insert into Person values('6','Shyam Shah','45','Male','4564564561');
+-- insert into Person values('7','Harshita Shah','46','Female','4564564562');
+-- insert into Person values('8','Hetal Shah','21','Female','4564564653');
+-- insert into Person values('9','Rajul Shah','19','Female','4564564564');
+-- insert into Person values('10','Rahul Maheshwari','34','Male','1471471471');
+-- insert into Person values('11','Mimansa Maheshwari','35','Female','1471471472');
+-- insert into Person values('12','Dhairya Chabra','29','Male','2582582581');
+-- insert into Person values('13','Disha Chabra','30','Female','2582582582');
+-- insert into Person values('14','Alay Jain','28','Male','3693693691');
+-- insert into Person values('15','Purva Jain','28','Female','3693693692');
+-- insert into Person values('16','Vatsal Gupta','28','Male','1591591591');
+-- insert into Person values('17','Vanshika Gupta','29','Female','1591591592');
+-- insert into Person values('18','Sandesh Agarwal','35','Male','3573573571');
+-- insert into Person values('19','Vikash Rumalwala','32','Male','8688688681');
+-- insert into Person values('20','Sneha Agarwal','43','Female','2929299921');
+-- insert into Person values('21','Shital Sharma','34','Female','1199119923');
 
 insert into House values('101','pbkdf2:sha256:150000$WaPJ6r88$fb5b174160e71b6976b4a70769b81c1776dfa621a9a616b4320e7b92705a6324','1'); -- mypassword
 insert into House values('102','pbkdf2:sha256:150000$YMSMt0I1$b414cd2c443db48e94e6038133c36dd64e25ddb4bced1b7ec5056ef1f9be2a33','6'); -- password

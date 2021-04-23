@@ -6,7 +6,8 @@ create table Admin(
 create table Person(
     Person_ID varchar2(20) Primary Key,
     Name varchar2(50) not null,
-    Age number(3) not null,
+    -- Age number(3) not null,
+    DOB date not null,
     Gender varchar2(6) check( Gender in ('Male','Female')),
     Phone_No numeric(10) check(Phone_No >=1000000000 and Phone_No <= 9999999999)
 );
@@ -30,7 +31,6 @@ CREATE TABLE Resident(
 ); 
 CREATE TABLE Guest(
     Guest_ID varchar2(20) PRIMARY KEY,
-    G_TimeStamp timestamp default current_timestamp not null,
     Details varchar2(1000) NOT NULL,
     Staff_ID varchar2(10) NOT NULL,
     House_No varchar2(10) NOT NULL,
@@ -38,7 +38,7 @@ CREATE TABLE Guest(
     FOREIGN KEY (Staff_ID) REFERENCES Staff (Staff_ID)
 );
 CREATE TABLE Notice(
-    N_TimeStamp timestamp default current_timestamp not null ,
+    N_TimeStamp timestamp default localtimestamp not null ,
     Admin_ID varchar2(20) not null,
     Subject varchar2(200) NOT NULL,
     Description varchar2(2000) NOT NULL,
@@ -47,7 +47,7 @@ CREATE TABLE Notice(
 );
 CREATE TABLE Complaint(
     Complaint_ID varchar2(10) PRIMARY KEY,
-    C_TimeStamp timestamp default current_timestamp not null,
+    C_TimeStamp timestamp default localtimestamp not null,
     Subject varchar2(200) NOT NULL,
     Description varchar2(2000) NOT NULL,
     Status varchar2(30) DEFAULT 'Unassigned' check(Status in ('Unassigned','Pending','Resolved')),
@@ -58,7 +58,7 @@ CREATE TABLE Complaint(
 );
 CREATE TABLE Maintenance_Fee(
     House_No varchar2(20),
-    M_Date Date default current_timestamp not null,
+    M_Date Date default localtimestamp not null,
     Fees int NOT NULL,
     Fine int DEFAULT 0,
     Status varchar2(10) DEFAULT 'Due' check(Status in ('Paid','Due')),
