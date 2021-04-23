@@ -7,6 +7,7 @@ import cx_Oracle
 import cfg
 from flask_wtf.csrf import CSRFProtect
 from decorators import login_required, admin_required, staff_required, owner_required, apology
+import datetime
 
 
 def init_session(conn, requestedTag_ignored):
@@ -57,6 +58,9 @@ app.config.update(
 csrf = CSRFProtect()
 csrf.init_app(app)
 
+@app.template_filter()
+def datetimeformat(value, format="%d %b, %Y %H:%M:%S"):
+    return value.strftime(format)
 # conn = cx_Oracle.connect(cfg.username, cfg.password, cfg.connect_string, encoding=cfg.encoding)
 # @app.route('/test', methods=["GET"])
 # def test():

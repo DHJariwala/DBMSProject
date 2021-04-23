@@ -19,7 +19,7 @@ List Notice
             <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
         </div>
         <div class="card-footer text-muted">
-            {{ notice[2] }}
+            {{ notice[2]|datetimeformat }}
         </div>
     </div>
     {% endfor %}
