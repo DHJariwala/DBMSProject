@@ -59,7 +59,7 @@ csrf = CSRFProtect()
 csrf.init_app(app)
 
 @app.template_filter()
-def datetimeformat(value, format="%d %b, %Y %H:%M:%S"):
+def datetimeformat(value, format="%d %b, %Y %I:%M %p"):
     return value.strftime(format)
 # conn = cx_Oracle.connect(cfg.username, cfg.password, cfg.connect_string, encoding=cfg.encoding)
 # @app.route('/test', methods=["GET"])
