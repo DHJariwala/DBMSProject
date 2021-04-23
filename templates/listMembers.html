@@ -1,0 +1,50 @@
+{% extends "HouseNavbar.html" %}
+{% set active_page = "Members" %}
+
+{% block title %} 
+House Members
+{% endblock %}
+
+{% block body %}
+
+<!--  body/content-->
+  <h3 class="marginall">
+    List of your House Members
+  </h3>
+  <div style="margin: 0em 10% 5em 10%">
+    <table class="table">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">Members's Name</th>
+        <th scope="col">Members's Age</th>
+        <th scope="col">Members's Gender</th>
+        <th scope="col">Members's Phone_No</th>
+        <th scope="col"></th>
+      </tr>
+      </thead>
+      <tbody>
+        {% for member in members %}
+        <tr>
+          <td>{{ member[0]}}</td>
+          <td>{{ member[1]}}</td>
+          <td>{{ member[2]}}</td>
+          <td>{{ member[3]}}</td>
+          <td>
+            <form action="{{ url_for('update_resident') }}" method="GET">
+              <input type="hidden" value="{{ member[4] }}" name="mid">
+              <input
+                      type="submit"
+                      class="btn btn-secondary"
+                      style="background-color: #343a40"
+                      value="Update"
+              >
+          </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+  </div>
+
+{% endblock %}

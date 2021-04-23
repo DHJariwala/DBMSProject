@@ -58,13 +58,13 @@ csrf = CSRFProtect()
 csrf.init_app(app)
 
 # conn = cx_Oracle.connect(cfg.username, cfg.password, cfg.connect_string, encoding=cfg.encoding)
-@app.route('/test', methods=["GET"])
-def test():
-    conn = pool.acquire()
-    cur = conn.cursor()
-    # cur.execute("Insert into test values (3)")
-    res = cur.execute("Select * from test").fetchall()
-    return render_template("listHouse.html", owners=[{"House_No": 1, "name": "mark", "age": 30, "phone_no":999999999, "gender": 'M'}, ])
+# @app.route('/test', methods=["GET"])
+# def test():
+#     conn = pool.acquire()
+#     cur = conn.cursor()
+#     # cur.execute("Insert into test values (3)")
+#     res = cur.execute("Select * from test").fetchall()
+#     return render_template("listHouse.html", owners=[{"House_No": 1, "name": "mark", "age": 30, "phone_no":999999999, "gender": 'M'}, ])
 
 @app.route('/', methods=["GET", "POST"])
 def login_owner():
@@ -85,7 +85,7 @@ def login_owner():
             return apology("invalid username and/or password", 403)
         session["house_no"] = res[0]
         session["logged"] = True
-        return "owner logged" # redirect('/nlist')
+        return redirect('/nlist/notice')
 
 @app.route('/staff/login', methods=["GET", "POST"])
 def login_staff():
@@ -281,15 +281,17 @@ def remove_staff():
     cur.close()
     return redirect('/admin/slist')
 
-@app.route('/<role>/nlist', methods=["GET"])
+@app.route('/nlist/<role>', methods=["GET"])
 @login_required
 def list_notice(role):
-    if role == 'admin':
+    if role == 'admin' and "admin_id" in session:
         nav = 'AdminNavbar.html'
-    elif role == 'staff':
+    elif role == 'staff' and "staff_id" in session:
         nav = 'StaffNavbar.html'
-    else:
+    elif role == 'notice':
         nav = 'HouseNavbar.html'
+    else:
+        return apology("this route does not exist", 404)
     conn = pool.acquire()
     cur = conn.cursor()
     res = cur.execute("select subject, description, N_TimeStamp, admin_id from notice")
@@ -470,13 +472,147 @@ def add_guest():
         cur.close()
         return redirect('/staff/lguest')
         
-    
 @app.route('/staff/lguest')
+@staff_required
 def list_guest():
     conn = pool.acquire()
     cur = conn.cursor()
     guests = cur.execute("select house_no, details, staff_id from guest order by guest_id desc").fetchall()
     return render_template("listGuest.html", guests=guests)
+
+@app.route('/profile', methods=["GET"])
+@owner_required
+def profile():
+    conn = pool.acquire()
+    cur = conn.cursor()
+    res = cur.execute("select * from person where person_id = (select owner_id from house where house_no = :hno)", hno=session["house_no"]).fetchone()
+    cur.close()
+    return render_template("ownerProfile.html", details=res)
+
+@app.route('/list-members', methods=["GET"])
+@owner_required
+def list_members():
+    conn = pool.acquire()
+    cur = conn.cursor()
+    members = cur.execute("select name, age, gender, phone_no, person_id from person where person_id in (select resident_id from resident where house_no = :hno)", hno=session["house_no"]).fetchall()
+    cur.close()
+    return render_template("listMembers.html", members=members)
+
+@app.route('/update-member', methods=["GET", "POST"])
+@owner_required
+def update_resident():
+    if request.method == "GET":
+        mid = request.args.get('mid')
+        if not mid:
+            return apology("no member selected to update", 403)
+        conn = pool.acquire()
+        cur = conn.cursor()
+        details = cur.execute("select Resident_ID,Name,Age,Gender,Phone_No from resident natural join Person where Resident_ID = Person_ID and Resident_ID = :a and House_No = :b", a=mid, b=session["house_no"]).fetchone()
+        print(details)
+        cur.close()
+        if details == None:
+            return apology("no such member in you house", 403)
+        return render_template("updateMember.html", details=details)
+    else:
+        mid = request.form.get('id')
+        name = request.form.get('MemberName')
+        age = request.form.get('MemberAge')
+        gender = request.form.get('MemberGender')
+        phone_no = request.form.get('MemberPhone')
+        if not mid or not name or not age or not gender or not phone_no:
+            return apology("incomplete details", 403)
+        conn = pool.acquire()
+        cur = conn.cursor()
+        res = cur.execute("update person set name=:a, age=:b, gender=:c, phone_no=:d where person_id=:e", a=name, b=age, c=gender, d=phone_no, e=mid)
+        conn.commit()
+        cur.close()
+        return redirect('/list-members')
+
+@app.route('/add-member', methods=["GET", "POST"])
+@owner_required
+def add_resident():
+    if request.method == "GET":
+        conn = pool.acquire()
+        cur = conn.cursor()
+        members = cur.execute("select person_id, name from person where person_id in (select resident_id from resident where house_no=:h)", h=session["house_no"]).fetchall()
+        cur.close()
+        return render_template("addMember.html", members=members)
+    else:
+        name = request.form.get('MemberName')
+        age = request.form.get('MemberAge')
+        gender = request.form.get('MemberGender')
+        phone_no = request.form.get('MemberPhone')
+        if not name or not age or not gender or not phone_no:
+            return apology("incomplete details", 403)
+        conn = pool.acquire()
+        cur = conn.cursor()
+        res = cur.execute("insert into person values ('', :a, :b, :c, :d)", a=name, b=age, c=gender, d=phone_no)
+        res = cur.execute("select count(*) from person").fetchone()
+        res = cur.execute("insert into resident values (:a, :b)", a=str(res[0]), b=session["house_no"])
+        conn.commit()
+        cur.close()
+        return redirect('/list-members')
+
+@app.route('/remove-member' ,methods=["POST"])
+def remove_resident():
+    mid = request.form.get('MemberNameSelected')
+    if not mid or mid == -1:
+        return apology("provide member id", 403)
+    conn = pool.acquire()
+    cur = conn.cursor()
+    res = cur.execute("delete from person where person_id=:p", p=mid)
+    res = cur.execute("delete from resident where resident_id=:p", p=mid)
+    conn.commit()
+    cur.close()
+    return redirect('/list-members')
+
+@app.route('/complaints', methods=["GET"])
+@owner_required
+def list_complaints():
+    conn = pool.acquire()
+    cur = conn.cursor()
+    complaints = cur.execute("""select Complaint.Complaint_ID,Complaint.C_TimeStamp,Complaint.Subject,Complaint.Description,Complaint.Status, Complaint.Staff_ID, Person.Name as Staff_name
+                            from Complaint
+                            left outer join Person
+                            on Complaint.Staff_ID = Person.Person_ID
+                            order by complaint.complaint_id
+                        """).fetchall()
+    cur.close()
+    return render_template("listComplaints.html", complaints=complaints)
+
+@app.route('/add-complaint', methods=["GET", "POST"])
+def add_complaint():
+    if request.method == "GET":
+        return render_template("addComplaint.html")
+    else:
+        sub = request.form.get('ComplaintSubject')
+        des = request.form.get('ComplaintDescription')
+        if not sub or not des:
+            return apology("missing details", 403)
+        conn = pool.acquire()
+        cur = conn.cursor()
+        res = cur.execute("insert into complaint (Complaint_ID, Subject, Description, Status, House_No) values ('', :a, :b, 'Unassigned', :c)", a=sub, b=des, c=session["house_no"])
+        conn.commit()
+        cur.close()
+        return redirect('/complaints')
+    
+@app.route('/maintenance-fee', methods=["GET"])
+@owner_required
+def maintenance_fee():
+    conn = pool.acquire()
+    cur = conn.cursor()
+    fees = cur.execute("select M_date, fees, fine, status from maintenance_fee where house_no =: hno", hno=session["house_no"]).fetchall()
+    cur.close()
+    return render_template("payMaintenance.html", fees=fees)
+
+@app.route('/guests')
+@owner_required
+def guest_log():
+    conn = pool.acquire()
+    cur = conn.cursor()
+    guests = cur.execute("select details from guest where house_no =: hno", hno=session["house_no"]).fetchall()
+    cur.close()
+    return render_template("guestLog.html", guests=guests)
 
 if __name__ == '__main__':
     pool = start_pool()

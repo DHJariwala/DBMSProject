@@ -1,0 +1,48 @@
+{% extends "HouseNavbar.html" %}
+{% set active_page = "Maintenance Fee" %}
+
+{% block title %} 
+Pay Maintenance Fee
+{% endblock %}
+
+{% block body %}
+
+  <div>
+    <h3 class="marginall">
+      List of Pending Maintenance Fee
+    </h3>
+    <div style="margin: 0em 10% 5em 10%;">
+      <table class="table" style="">
+        <thead class="thead-dark">
+        <tr>
+          <th scope="col">Issue Date</th>
+          <th scope="col">Fee</th>
+          <th scope="col">Fine</th>
+          <th scope="col">Total</th>
+          <th scope="col">Status</th>
+        </tr>
+        </thead>
+        <tbody>
+          {% for fee in fees %}
+          <tr>
+            <th scope="row">{{ fee[0] }}</th>
+            <td>{{ fee[1] }}</td>
+            <td>{{ fee[2] }}</td>
+            <td>{{ fee[1]|int + fee[2]|int }}</td>
+            <td>
+            {% if fee[3] == 'Paid' %}
+            Paid
+            {% else %}
+            <a href="#">
+              <button type="button" class="btn btn-secondary" style="background-color:#343a40;margin-left: -0.4em;">Pay</button>
+            </a>
+            {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+{% endblock %}

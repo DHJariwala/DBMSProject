@@ -1,56 +1,67 @@
 {% extends "AdminNavbar.html" %}
 {% set active_page = "Manage House" %}
 
-{% block title %} 
+{% block title %}
 Update House Owner
 {% endblock %}
 
 {% block body %}
 <body>
-  <form action="{{ url_for('update_house_owner') }}" class="marginall form" method="POST">
+<form action="{{ url_for('update_house_owner') }}" class="marginall form" method="POST">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <h3>
-      Update House Owner 
+        Update House Owner
     </h3>
     <div class="form-group">
-      <label for="InputHouseNo">House Number</label>
-      <input readonly="readonly" value="{{ owner[0] }}" type="text" class="form-control" name="HouseNo" id="InputHouseNo" aria-describedby="emailHelp" placeholder="Enter House Number"
-        oninvalid="setCustomValidity('Enter House Number between length 2 to 10')" onchange="try{setCustomValidity('')}catch(e){}" minlength="2" maxlength="10" required>
+        <label for="InputHouseNo">House Number</label>
+        <input readonly="readonly" value="{{ owner[0] }}" type="text" class="form-control" name="HouseNo"
+               id="InputHouseNo" aria-describedby="emailHelp" placeholder="Enter House Number"
+               oninvalid="setCustomValidity('Enter House Number between length 2 to 10')"
+               onchange="try{setCustomValidity('')}catch(e){}" minlength="2" maxlength="10" required>
     </div>
     <div class="form-group">
-      <label for="InputName">Owner's Name</label>
-      <input value="{{ owner[1] }}" type="text" class="form-control" name="OwnerName" id="InputName" aria-describedby="emailHelp" placeholder="Enter Name"
-        oninvalid="setCustomValidity('Enter Name between length 2 to 50')" onchange="try{setCustomValidity('')}catch(e){}" minlength="2" maxlength="50" required>
+        <label for="InputName">Owner's Name</label>
+        <input value="{{ owner[1] }}" type="text" class="form-control" name="OwnerName" id="InputName"
+               aria-describedby="emailHelp" placeholder="Enter Name"
+               oninvalid="setCustomValidity('Enter Name between length 2 to 50')"
+               onchange="try{setCustomValidity('')}catch(e){}" minlength="2" maxlength="50" required>
     </div>
     <div class="form-group">
-      <label for="InputAge">Owner's Age</label>
-      <input value="{{ owner[2] }}" type="number" class="form-control" name="OwnerAge" id="InputAge" aria-describedby="emailHelp" placeholder="Enter Age"
-        oninvalid="setCustomValidity('Enter Age between 18 to 150')" onchange="try{setCustomValidity('')}catch(e){}" min="18" maxlength="150" required>
+        <label for="InputAge">Owner's Age</label>
+        <input value="{{ owner[2] }}" type="number" class="form-control" name="OwnerAge" id="InputAge"
+               aria-describedby="emailHelp" placeholder="Enter Age"
+               oninvalid="setCustomValidity('Enter Age between 18 to 150')"
+               onchange="try{setCustomValidity('')}catch(e){}" min="18" maxlength="150" required>
     </div>
     <div class="form-group">
-      <label>Owner's Gender</label>
-      <br>
-      <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" name="OwnerGender" id="inlineRadio1" value="Male" {% if owner[3] == 'Male' %}checked{% endif %}>
-        <label class="form-check-label" for="inlineRadio1">Male</label>
-      </div>
-      <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" name="OwnerGender" id="inlineRadio2" value="Female" {% if owner[3] == 'Female' %}checked{% endif %}>
-        <label class="form-check-label" for="inlineRadio2">Female</label>
-      </div>
+        <label>Owner's Gender</label>
+        <br>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="OwnerGender" id="inlineRadio1" value="Male" {% if
+                   owner[3]== 'Male' %}checked{% endif %}>
+            <label class="form-check-label" for="inlineRadio1">Male</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="OwnerGender" id="inlineRadio2" value="Female" {% if
+                   owner[3]== 'Female' %}checked{% endif %}>
+            <label class="form-check-label" for="inlineRadio2">Female</label>
+        </div>
     </div>
     <div class="form-group">
-      <label for="InputPhone">Owner's Phone Number</label>
-      <input value="{{ owner[4] }}" type="number" class="form-control" name="OwnerPhone" id="InputPhone" aria-describedby="emailHelp" placeholder="Enter Phone Number"
-        oninvalid="setCustomValidity('Enter Phone Number of length 10')" onchange="try{setCustomValidity('')}catch(e){}"  min="1000000000" max="9999999999" required>
+        <label for="InputPhone">Owner's Phone Number</label>
+        <input value="{{ owner[4] }}" type="number" class="form-control" name="OwnerPhone" id="InputPhone"
+               aria-describedby="emailHelp" placeholder="Enter Phone Number"
+               oninvalid="setCustomValidity('Enter Phone Number of length 10')"
+               onchange="try{setCustomValidity('')}catch(e){}" min="1000000000" max="9999999999" required>
     </div>
     <div class="form-group">
-      <label for="InputPassword">Owner's Password</label>
-      <input type="password" class="form-control" name="OwnerPassword" id="InputPassword" placeholder="Password"
-        oninvalid="setCustomValidity('Enter Password between length 8 to 128')" onchange="try{setCustomValidity('')}catch(e){}" minlength="8" maxlength="128" required>
+        <label for="InputPassword">Owner's Password</label>
+        <input type="password" class="form-control" name="OwnerPassword" id="InputPassword" placeholder="Password"
+               oninvalid="setCustomValidity('Enter Password between length 8 to 128')"
+               onchange="try{setCustomValidity('')}catch(e){}" minlength="8" maxlength="128" required>
     </div>
     <button type="submit" class="btn btn-primary" name="HouseUpadte">Update</button>
-  </form>
+</form>
 
 </body>
 {% endblock %}
