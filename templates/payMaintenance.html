@@ -25,7 +25,7 @@ Pay Maintenance Fee
         <tbody>
           {% for fee in fees %}
           <tr>
-            <th scope="row">{{ fee[0] }}</th>
+            <th scope="row">{{ fee[0]|datetimeformat(format="%d %b, %Y") }}</th>
             <td>{{ fee[1] }}</td>
             <td>{{ fee[2] }}</td>
             <td>{{ fee[1]|int + fee[2]|int }}</td>
