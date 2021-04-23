@@ -20,12 +20,12 @@ Guest Log
       </tr>
       </thead>
       <tbody>
+      {% for guest in guests %}
       <tr>
-        {% for guest in guests %}
         <th scope="row">{{ guest[0] }}</th>    
-        <th scope="row">{{ guest[1]|datetimeformat }}</th>        
-        {% endfor %}
-      </tr>
+        <th scope="row">{{ guest[1]|datetimeformat }}</th>    
+      </tr>    
+      {% endfor %}
       </tbody>
     </table>
 

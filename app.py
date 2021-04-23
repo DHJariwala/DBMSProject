@@ -551,7 +551,7 @@ def add_resident():
         conn = pool.acquire()
         cur = conn.cursor()
         res = cur.execute("insert into person values ('', :a, :b, :c, :d)", a=name, b=age, c=gender, d=phone_no)
-        res = cur.execute("select count(*) from person").fetchone()
+        res = cur.execute("select max(person_id) from person").fetchone()
         res = cur.execute("insert into resident values (:a, :b)", a=str(res[0]), b=session["house_no"])
         conn.commit()
         cur.close()
