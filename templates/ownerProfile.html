@@ -6,29 +6,36 @@ Profile
 {% endblock %}
 
 {% block body %}
-<div style="margin: 0em 5% 5em 5%">
-    <table class="table table-borderless" cellpadding=25>
-        <thead>
-        <h3 class="marginall" style="margin-left: -2em;">Profile</h3>
-        </thead>
-        <tbody>
-        <tr>
-            <td colspan="2">Name</td>
-            <td>{{ details[1] }}</td>
-        </tr>
-        <tr>
-            <td colspan="2">Age</td>
-            <td>{{ details[2] }}</td>
-        </tr>
-        <tr>
-            <td colspan="2">Gender</td>
-            <td>{{ details[3] }}</td>
-        </tr>
-        <tr>
-            <td colspan="2">Phone Number &nbsp;&nbsp;&nbsp;&nbsp;</td>
-            <td>{{ details[4] }}</td>
-        </tr>
-        </tbody>
-    </table>
+<div style="margin: 0em 65% 5em 5%;">
+    <h3 style="margin-left: -2em;margin-top: 1em;margin-bottom: 1em;">Profile</h3>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend" style="width: 35%;">
+          <button class="btn btn-primary" style="width: 100%;" type="button" disabled>Name</button>
+        </div>
+        <input type="text" class="form-control"  value="{{ details[1] }}" disabled>
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend" style="width: 35%;">
+          <button class="btn btn-primary" style="width: 100%;" type="button" disabled>DOB</button>
+        </div>
+        <input type="date" class="form-control" value="2001-05-07" disabled>
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend" style="width: 35%;">
+          <button class="btn btn-dark" style="width: 100%;" type="button" disabled>Age</button>
+        </div>
+        <input type="text" class="form-control" value="{{ details[2] }}" disabled>
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend" style="width: 35%;">
+          <button class="btn btn-dark" style="width: 100%;" type="button" disabled>Gender</button>
+        </div>
+        <input type="text" class="form-control" value="{{ details[3] }}" disabled>
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend" style="width: 35%;">
+          <button class="btn btn-dark" style="width: 100%;" type="button" disabled>Phone Number</button>
+        </div>
+        <input type="text" class="form-control" value="{{ details[4] }}" disabled>
 </div>
 {% endblock %}
