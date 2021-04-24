@@ -1,13 +1,13 @@
 import requests
 import urllib.parse
-from flask import redirect, render_template, request, session
+from flask import redirect, render_template, request, session, url_for
 from functools import wraps
 
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if not session.get("logged"):
-            return redirect("/")
+            return redirect(url_for('login_owner', next=request.path))
         return f(*args, **kwargs)
     return decorated_function
 
@@ -15,7 +15,7 @@ def admin_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if session.get("admin_id") is None:
-            return redirect("/admin/login")
+            return redirect(url_for('login_admin', next=request.path))
         return f(*args, **kwargs)
     return decorated_function
 
@@ -23,7 +23,7 @@ def staff_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if session.get("staff_id") is None:
-            return redirect("/staff/login")
+            return redirect(url_for('login_staff', next=request.path))
         return f(*args, **kwargs)
     return decorated_function
 
@@ -31,7 +31,7 @@ def owner_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if session.get("house_no") is None:
-            return redirect("/")
+            return redirect(url_for('login_owner', next=request.path))
         return f(*args, **kwargs)
     return decorated_function
 

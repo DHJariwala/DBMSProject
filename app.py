@@ -9,7 +9,6 @@ from flask_wtf.csrf import CSRFProtect
 from decorators import login_required, admin_required, staff_required, owner_required, apology
 import datetime
 
-
 def init_session(conn, requestedTag_ignored):
     cursor = conn.cursor()
     cursor.execute("ALTER SESSION SET TIME_ZONE = 'UTC' NLS_DATE_FORMAT = 'YYYY-MM-DD HH24:MI'")
@@ -61,6 +60,12 @@ csrf.init_app(app)
 @app.template_filter()
 def datetimeformat(value, format="%d %b, %Y %I:%M %p"):
     return value.strftime(format)
+
+@app.template_filter()
+def calculateAge(birthDate):
+    today = datetime.date.today()
+    age = today.year - birthDate.year - ((today.month, today.day) < (birthDate.month, birthDate.day))
+    return str(age) + " years"
 # conn = cx_Oracle.connect(cfg.username, cfg.password, cfg.connect_string, encoding=cfg.encoding)
 # @app.route('/test', methods=["GET"])
 # def test():
@@ -74,7 +79,10 @@ def datetimeformat(value, format="%d %b, %Y %I:%M %p"):
 def login_owner():
     session.clear()
     if request.method == "GET":
-        return render_template('loginHouse.html')
+        next = request.args.get('next')
+        if not next:
+            next = '/nlist/notice'
+        return render_template('loginHouse.html', next=next)
     else:
         id = request.form.get("HouseNo")
         if not id:
@@ -82,6 +90,7 @@ def login_owner():
         password = request.form.get("LoginPassword")
         if not id:
             return apology("provide password", 403)
+        next = request.form.get('next')
         conn = pool.acquire()
         cur = conn.cursor()
         res = cur.execute("select * from house where house_no = :a", a=id).fetchone()
@@ -89,13 +98,16 @@ def login_owner():
             return apology("invalid username and/or password", 403)
         session["house_no"] = res[0]
         session["logged"] = True
-        return redirect('/nlist/notice')
+        return redirect(next)
 
 @app.route('/staff/login', methods=["GET", "POST"])
 def login_staff():
     session.clear()
     if request.method == "GET":
-        return render_template('loginStaff.html')
+        next = request.args.get('next')
+        if not next:
+            next = '/staff/search'
+        return render_template('loginStaff.html', next=next)
     else:
         id = request.form.get("StaffID")
         if not id:
@@ -103,6 +115,7 @@ def login_staff():
         password = request.form.get("LoginPassword")
         if not id:
             return apology("provide password", 403)
+        next = request.form.get('next')
         conn = pool.acquire()
         cur = conn.cursor()
         res = cur.execute("select * from staff where staff_id = :a", a=id).fetchone()
@@ -110,13 +123,16 @@ def login_staff():
             return apology("invalid username and/or password", 403)
         session["staff_id"] = res[0]
         session["logged"] = True
-        return redirect('/staff/search')
+        return redirect(next)
 
 @app.route('/admin/login', methods=["GET", "POST"])
 def login_admin():
     session.clear()
     if request.method == "GET":
-        return render_template('loginAdmin.html')
+        next = request.args.get('next')
+        if not next:
+            next = '/admin/listho'
+        return render_template('loginAdmin.html', next=next)
     else:
         id = request.form.get("AdminID")
         if not id:
@@ -124,6 +140,7 @@ def login_admin():
         password = request.form.get("LoginPassword")
         if not id:
             return apology("provide password", 403)
+        next = request.form.get('next')
         conn = pool.acquire()
         cur = conn.cursor()
         res = cur.execute("select * from admin where admin_id = :a", a=id).fetchone()
@@ -131,7 +148,7 @@ def login_admin():
             return apology("invalid username and/or password", 403)
         session["admin_id"] = res[0]
         session["logged"] = True
-        return redirect('/admin/listho')
+        return redirect(next)
 
 @app.route('/logout', methods=["GET"])
 def logout():
@@ -143,7 +160,7 @@ def logout():
 def list_house_owners():
     conn = pool.acquire()
     cur = conn.cursor()
-    res = cur.execute("select House_No, Name, Age, Gender, Phone_No from House join Person on House.Owner_ID = Person.Person_ID order by House_No")
+    res = cur.execute("select House_No, Name, dob, Gender, Phone_No from House join Person on House.Owner_ID = Person.Person_ID order by House_No")
     owners = res.fetchall()
     cur.close()
     return render_template("listHouse.html", owners=owners)
@@ -157,7 +174,7 @@ def update_house_owner():
             return apology("House does not exist", 403)
         conn = pool.acquire()
         cur = conn.cursor()
-        res = cur.execute("select House_No, Name, Age, Gender, Phone_No from House join Person on House.Owner_ID = Person.Person_ID where House_No = :h", h=hno)
+        res = cur.execute("select House_No, Name, dob, Gender, Phone_No from House join Person on House.Owner_ID = Person.Person_ID where House_No = :h", h=hno)
         owner = res.fetchone()
         if owner == ():
             return apology("house not found", 403)
@@ -166,17 +183,17 @@ def update_house_owner():
     else:
         hno = request.form.get('HouseNo')
         name = request.form.get('OwnerName')
-        age = request.form.get('OwnerAge')
+        dob = request.form.get('OwnersDOB')
         gender = request.form.get('OwnerGender')
         phone = request.form.get('OwnerPhone')
         password = generate_password_hash(request.form.get('OwnerPassword'))
-        if not hno or not name or not age or not gender or not phone or not password:
+        if not hno or not name or not dob or not gender or not phone or not password:
             return apology("provide complete details", 403)
         conn = pool.acquire()
         cur = conn.cursor()
         res = cur.execute("update House set password = :p where House_No = :h", p=password, h=hno)
         oid = cur.execute("select Owner_id from House where House_No = :h", h=hno).fetchone()
-        res = cur.execute("update Person set Name = :a, Age = :b, Gender = :c, Phone_no = :d where Person_ID = :e", a=name, b=age, c=gender, d=phone, e=oid[0])
+        res = cur.execute("update Person set Name = :a, DOB = to_date(:b,'yyyy-mm-dd'), Gender = :c, Phone_no = :d where Person_ID = :e", a=name, b=dob, c=gender, d=phone, e=oid[0])
         conn.commit()
         cur.close()
         return redirect('/admin/listho')
@@ -189,16 +206,16 @@ def add_house_owner():
     else:
         hno = request.form.get('HouseNo')
         name = request.form.get('OwnerName')
-        age = request.form.get('OwnerAge')
+        dob = request.form.get('OwnersDOB')
         gender = request.form.get('OwnerGender')
         phone = request.form.get('OwnerPhone')
         password = generate_password_hash(request.form.get('OwnerPassword'))
-        if not hno or not name or not age or not gender or not phone or not password:
+        if not hno or not name or not dob or not gender or not phone or not password:
             return apology("provide complete details", 403)
         conn = pool.acquire()
         cur = conn.cursor()
         id = cur.var(cx_Oracle.DB_TYPE_VARCHAR)
-        res = cur.execute("insert into Person VALUES (20, :a, :b, :c, :d) returning Person_ID into :e", a=name, b=age, c=gender, d=phone, e=id)
+        res = cur.execute("insert into Person VALUES (20, :a, to_date(:b,'yyyy-mm-dd'), :c, :d) returning Person_ID into :e", a=name, b=dob, c=gender, d=phone, e=id)
         res = cur.execute("insert into House VALUES (:a, :b, :c)", a=hno, b=password, c=id.getvalue()[0])
         conn.commit()
         cur.close()
@@ -209,7 +226,7 @@ def add_house_owner():
 def list_staff():
     conn = pool.acquire()
     cur = conn.cursor()
-    res = cur.execute("select Staff_ID, Name, Age, Gender, Phone_No, Salary from Staff join Person on Staff_ID = Person_ID")
+    res = cur.execute("select Staff_ID, Name, dob, Gender, Phone_No, Salary from Staff join Person on Staff_ID = Person_ID")
     staffs = res.fetchall()
     cur.close()
     return render_template("listStaff.html", staffs=staffs)
@@ -223,7 +240,7 @@ def update_staff():
             return apology("provide staff id", 403)
         conn = pool.acquire()
         cur = conn.cursor()
-        res = cur.execute("select Staff_ID, Name, Age, Gender, Phone_No, Salary from Staff join Person on Staff_ID = Person_ID where Staff_Id = :s", s=sid)
+        res = cur.execute("select Staff_ID, Name, dob, Gender, Phone_No, Salary from Staff join Person on Staff_ID = Person_ID where Staff_Id = :s", s=sid)
         staff = res.fetchone()
         if staff == ():
             return apology("staff id not found", 403)
@@ -232,17 +249,17 @@ def update_staff():
     else:
         sid = request.form.get('StaffID')
         name = request.form.get('StaffName')
-        age = request.form.get('StaffAge')
+        dob = request.form.get('StaffDOB')
         gender = request.form.get('StaffGender')
         phone = request.form.get('StaffPhone')
         password = generate_password_hash(request.form.get('StaffPassword'))
         salary = request.form.get('StaffSalary')
-        if not sid or not name or not age or not gender or not phone or not password or not salary:
+        if not sid or not name or not dob or not gender or not phone or not password or not salary:
             return apology("provide complete details", 403)
         conn = pool.acquire()
         cur = conn.cursor()
         res = cur.execute("update Staff set password = :p, salary = :sa where Staff_ID = :s", p=password, sa=salary, s=sid)
-        res = cur.execute("update Person set Name = :a, Age = :b, Gender = :c, Phone_no = :d where Person_ID = :e", a=name, b=age, c=gender, d=phone, e=sid)
+        res = cur.execute("update Person set Name = :a, DOB = to_date(:b, 'yyyy-mm-dd'), Gender = :c, Phone_no = :d where Person_ID = :e", a=name, b=dob, c=gender, d=phone, e=sid)
         conn.commit()
         cur.close()
         return redirect('/admin/slist')
@@ -258,16 +275,16 @@ def add_staff():
     else:
         sid = request.form.get('StaffID')
         name = request.form.get('StaffName')
-        age = request.form.get('StaffAge')
+        dob = request.form.get('StaffDOB')
         gender = request.form.get('StaffGender')
         phone = request.form.get('StaffPhone')
         password = generate_password_hash(request.form.get('StaffPassword'))
         salary = request.form.get('StaffSalary')
-        if not sid or not name or not age or not gender or not phone or not password or not salary:
+        if not sid or not name or not dob or not gender or not phone or not password or not salary:
             return apology("provide complete details", 403)
         conn = pool.acquire()
         cur = conn.cursor()
-        res = cur.execute("insert into Person values (:e, :a, :b, :c, :d)", a=name, b=age, c=gender, d=phone, e=sid)
+        res = cur.execute("insert into Person values (:e, :a, to_date(:b, 'yyyy-mm-dd'), :c, :d)", a=name, b=dob, c=gender, d=phone, e=sid)
         res = cur.execute("insert into Staff values (:s, :p, :sa)", p=password, sa=salary, s=sid)
         conn.commit()
         cur.close()
@@ -498,7 +515,7 @@ def profile():
 def list_members():
     conn = pool.acquire()
     cur = conn.cursor()
-    members = cur.execute("select name, age, gender, phone_no, person_id from person where person_id in (select resident_id from resident where house_no = :hno)", hno=session["house_no"]).fetchall()
+    members = cur.execute("select name, dob, gender, phone_no, person_id from person where person_id in (select resident_id from resident where house_no = :hno)", hno=session["house_no"]).fetchall()
     cur.close()
     return render_template("listMembers.html", members=members)
 
@@ -511,7 +528,7 @@ def update_resident():
             return apology("no member selected to update", 403)
         conn = pool.acquire()
         cur = conn.cursor()
-        details = cur.execute("select Resident_ID,Name,Age,Gender,Phone_No from resident natural join Person where Resident_ID = Person_ID and Resident_ID = :a and House_No = :b", a=mid, b=session["house_no"]).fetchone()
+        details = cur.execute("select Resident_ID,Name,DOB,Gender,Phone_No from resident natural join Person where Resident_ID = Person_ID and Resident_ID = :a and House_No = :b", a=mid, b=session["house_no"]).fetchone()
         print(details)
         cur.close()
         if details == None:
@@ -520,14 +537,14 @@ def update_resident():
     else:
         mid = request.form.get('id')
         name = request.form.get('MemberName')
-        age = request.form.get('MemberAge')
+        dob = request.form.get('MemberDOB')
         gender = request.form.get('MemberGender')
         phone_no = request.form.get('MemberPhone')
-        if not mid or not name or not age or not gender or not phone_no:
+        if not mid or not name or not dob or not gender or not phone_no:
             return apology("incomplete details", 403)
         conn = pool.acquire()
         cur = conn.cursor()
-        res = cur.execute("update person set name=:a, age=:b, gender=:c, phone_no=:d where person_id=:e", a=name, b=age, c=gender, d=phone_no, e=mid)
+        res = cur.execute("update person set name=:a, dob=to_date(:b,'yyyy-mm-dd'), gender=:c, phone_no=:d where person_id=:e", a=name, b=dob, c=gender, d=phone_no, e=mid)
         conn.commit()
         cur.close()
         return redirect('/list-members')
@@ -543,19 +560,20 @@ def add_resident():
         return render_template("addMember.html", members=members)
     else:
         name = request.form.get('MemberName')
-        age = request.form.get('MemberAge')
+        dob = request.form.get('MemberDOB')
         gender = request.form.get('MemberGender')
         phone_no = request.form.get('MemberPhone')
-        if not name or not age or not gender or not phone_no:
+        if not name or not dob or not gender or not phone_no:
             return apology("incomplete details", 403)
         conn = pool.acquire()
         cur = conn.cursor()
-        res = cur.execute("insert into person values ('', :a, :b, :c, :d)", a=name, b=age, c=gender, d=phone_no)
-        res = cur.execute("select max(person_id) from person").fetchone()
+        res = cur.execute("insert into person values ('', :a, to_date(:b,'yyyy-mm-dd'), :c, :d)", a=name, b=dob, c=gender, d=phone_no)
+        res = cur.execute("select max(to_number(person_id)) from person").fetchone()
         res = cur.execute("insert into resident values (:a, :b)", a=str(res[0]), b=session["house_no"])
         conn.commit()
         cur.close()
         return redirect('/list-members')
+        # return str(dob)
 
 @app.route('/remove-member' ,methods=["POST"])
 def remove_resident():

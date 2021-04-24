@@ -21,5 +21,5 @@ function todayDate(){
   }
 
 document.addEventListener("DOMContentLoaded", function() {
-    document.getElementById("InputDOB").setAttribute("value", todayDate());
+    document.getElementById("InputDOB").setAttribute("max", todayDate());
 });

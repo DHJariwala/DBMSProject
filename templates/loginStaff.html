@@ -9,6 +9,7 @@ Staff Login
 
 <form action="{{ url_for('login_staff') }}" method="POST" class="marginall form">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <input type="hidden" name="next" value="{{ next }}">
     <div class="form-group">
         <label for="InputID">ID</label>
         <input type="text" class="form-control" name="StaffID" id="InputID" aria-describedby="emailHelp"

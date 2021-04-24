@@ -10,6 +10,7 @@ House Owner Login
 <!-- body/content -->
 <form action="{{ url_for('login_owner') }}" method="POST" class="marginall form">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <input type="hidden" name="next" value="{{ next }}">
     <div class="form-group">
         <label for="InputID">House Number</label>
         <input type="text" class="form-control" name="HouseNo" id="InputID" aria-describedby="emailHelp"

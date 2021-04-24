@@ -25,10 +25,10 @@ House Members
       <tbody>
         {% for member in members %}
         <tr>
-          <td>{{ member[0]}}</td>
-          <td>{{ member[1]}}</td>
-          <td>{{ member[2]}}</td>
-          <td>{{ member[3]}}</td>
+          <td>{{ member[0] }}</td>
+          <td>{{ member[1]|calculateAge }}</td>
+          <td>{{ member[2] }}</td>
+          <td>{{ member[3] }}</td>
           <td>
             <form action="{{ url_for('update_resident') }}" method="GET">
               <input type="hidden" value="{{ member[4] }}" name="mid">
