@@ -23,3 +23,16 @@ function todayDate(){
 document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("InputDOB").setAttribute("max", todayDate());
 });
+
+function validatePassword(){
+    var form = document.forms["myForm"];
+    var password1=form["InputNewPassword"];
+    var password2=form["InputConfirmPassword"];
+    
+    
+    if (password1.value!=password2.value) {
+      document.getElementById("invalid-feedback").style.display="block";
+      // password1.focus;
+      return false;
+    }
+  }
