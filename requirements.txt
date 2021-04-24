@@ -1,0 +1,6 @@
+flask
+flask_session
+cx_Oracle
+flask_wtf
+werkzeug
+tempfile
