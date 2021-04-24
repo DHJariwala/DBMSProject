@@ -11,7 +11,7 @@ import datetime
 
 def init_session(conn, requestedTag_ignored):
     cursor = conn.cursor()
-    cursor.execute("ALTER SESSION SET TIME_ZONE = 'UTC' NLS_DATE_FORMAT = 'YYYY-MM-DD HH24:MI'")
+    cursor.execute("ALTER SESSION SET TIME_ZONE = 'Asia/Calcutta' NLS_DATE_FORMAT = 'YYYY-MM-DD HH24:MI'")
 
 def start_pool():
     pool_min = 4
@@ -336,7 +336,7 @@ def add_notice():
         res = cur.execute("insert into notice (Subject, Description, Admin_ID) values (:a, :b, :c)", a=sub, b=des, c=admin)
         conn.commit()
         cur.close()
-        return redirect('/admin/nlist')
+        return redirect('/nlist/admin')
 
 @app.route('/admin/cmanage', methods=["GET", "POST"])
 @admin_required
