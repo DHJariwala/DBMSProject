@@ -12,6 +12,7 @@ Guest Log
     List of Guests visited your house
   </h3>
   <div style="margin: 0em 10% 5em 10%;">
+    {% if guests %}
     <table class="table">
       <thead class="thead-dark">
       <tr>
@@ -24,11 +25,15 @@ Guest Log
       <tr>
         <th scope="row">{{ guest[0] }}</th>    
         <th scope="row">{{ guest[1]|datetimeformat }}</th>    
-      </tr>    
+      </tr>  
       {% endfor %}
       </tbody>
     </table>
-
+    {% else %}
+    <h4>
+      You have no guest visits
+    </h4>
+    {% endif %}
   </div>
 </div>
 

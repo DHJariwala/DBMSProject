@@ -18,13 +18,13 @@ Profile
         <div class="input-group-prepend" style="width: 35%;">
           <button class="btn btn-primary" style="width: 100%;" type="button" disabled>DOB</button>
         </div>
-        <input type="date" class="form-control" value="2001-05-07" disabled>
+        <input value="{{ details[2]|datetimeformat("%d-%m-%Y") }}" type="text" class="form-control" value="2001-05-07" disabled>
     </div>
     <div class="input-group mb-3">
         <div class="input-group-prepend" style="width: 35%;">
           <button class="btn btn-dark" style="width: 100%;" type="button" disabled>Age</button>
         </div>
-        <input type="text" class="form-control" value="{{ details[2] }}" disabled>
+        <input type="text" class="form-control" value="{{ details[2]|calculateAge }}" disabled>
     </div>
     <div class="input-group mb-3">
         <div class="input-group-prepend" style="width: 35%;">
