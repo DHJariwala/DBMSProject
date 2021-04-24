@@ -510,6 +510,26 @@ def profile():
     cur.close()
     return render_template("ownerProfile.html", details=res)
 
+@app.route('/change-password', methods=["GET", "POST"])
+@owner_required
+def change_password():
+    if request.method == "GET":
+        return render_template("changePassword.html")
+    else:
+        cpass = request.form.get("OwnersCurrentPassword")
+        npass = request.form.get("InputNewPassword")
+        if not cpass or not npass:
+            return apology("provide valid passwords", 403)
+        conn = pool.acquire()
+        cur = conn.cursor()
+        res = cur.execute("select * from house where house_no = :a", a=session["house_no"]).fetchone()
+        if not res or not check_password_hash(res[1], cpass):
+            return apology("invalid username and/or password", 403)
+        res = cur.execute("update house set password = :a where house_no = :b", a=generate_password_hash(npass), b=session["house_no"])
+        conn.commit()
+        cur.close()
+        return redirect('/logout')
+
 @app.route('/list-members', methods=["GET"])
 @owner_required
 def list_members():
