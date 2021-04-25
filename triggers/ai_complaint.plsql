@@ -1,9 +1,14 @@
-create or replace trigger ai_complaint
-before insert on Complaint
-for each row
-declare
-x number;
-begin
-select max(to_number(Complaint_ID)) into x from Complaint;
-:new.Complaint_ID := x + 1;
-end;
+CREATE OR REPLACE TRIGGER ai_complaint BEFORE
+    INSERT ON complaint
+    FOR EACH ROW
+DECLARE
+    x NUMBER;
+BEGIN
+    SELECT
+        MAX(to_number(complaint_id))
+    INTO x
+    FROM
+        complaint;
+
+    :new.complaint_id := x + 1;
+END;

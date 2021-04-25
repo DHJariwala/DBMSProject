@@ -1,10 +1,37 @@
-create or replace procedure insert_staff
-(nam in varchar2,ag in date, 
-gen in varchar2,phno in numeric,pass in varchar2,sal in int)
-is
-    ids number;
-begin
-    insert into Person (Person_ID,Name,DOB,Gender,Phone_No) values('1',nam,ag,gen,phno);
-    select max(to_number(Person_ID)) into ids from Person;
-    insert into Staff values(ids,pass,sal);
-end insert_staff;
+CREATE OR REPLACE PROCEDURE insert_staff (
+    nam   IN  VARCHAR2,
+    ag    IN  DATE,
+    gen   IN  VARCHAR2,
+    phno  IN  NUMERIC,
+    pass  IN  VARCHAR2,
+    sal   IN  INT
+) IS
+    ids NUMBER;
+BEGIN
+    INSERT INTO person (
+        person_id,
+        name,
+        dob,
+        gender,
+        phone_no
+    ) VALUES (
+        '1',
+        nam,
+        ag,
+        gen,
+        phno
+    );
+
+    SELECT
+        MAX(to_number(person_id))
+    INTO ids
+    FROM
+        person;
+
+    INSERT INTO staff VALUES (
+        ids,
+        pass,
+        sal
+    );
+
+END insert_staff;

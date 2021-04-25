@@ -1,11 +1,16 @@
 -- To autoincrement primary key
 
-create or replace trigger ai_person
-before insert on Person
-for each row
-declare 
-x number;
-begin
-select max(to_number(Person_ID)) into x from Person;
-:new.Person_ID := x + 1;
-end;
+CREATE OR REPLACE TRIGGER ai_person BEFORE
+    INSERT ON person
+    FOR EACH ROW
+DECLARE
+    x NUMBER;
+BEGIN
+    SELECT
+        MAX(to_number(person_id))
+    INTO x
+    FROM
+        person;
+
+    :new.person_id := x + 1;
+END;
