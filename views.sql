@@ -35,7 +35,7 @@ from (
 -- Route: /staff/search
 -- Residents info with house no
 -- Reason: Can be used for search without Joining resident with person always
-create view Resident_search_view as
+create or replace view Resident_search_view as
 select house_no,
     person_id,
     phone_no
@@ -55,7 +55,7 @@ from (
     
 -- Route: 
 -- Residnets info from Person, discarding Staff
-create view Preson_without_Staff as
+create or replace view Preson_without_Staff as
 select *
 from Person
 where Person_ID not in (
