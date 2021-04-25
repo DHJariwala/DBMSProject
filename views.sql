@@ -2,63 +2,80 @@
 -- Complaint table + Owner name + Staff name
 -- Reason: To give owner name and staff name along with complaint details
 -- Delete the current view by 'drop materialized view complaint_view;'
-create or replace view complaint_view as
-select t1.Complaint_ID Complaint_ID,
-    C_TimeStamp,
-    Subject,
-    Description,
-    Status,
-    House_No,
-    Owner_name,
-    Staff_ID,
-    Staff_name
-from (
-        select Complaint_ID,
-            Status,
-            C_TimeStamp,
-            Subject,
-            Description,
-            Complaint.House_No,
-            Person.Name as Owner_name
-        from Complaint
-            join House on Complaint.House_No = House.House_No
-            join Person on House.Owner_ID = Person.Person_Id
-    ) t1
-    left outer join (
-        select Complaint_ID,
-            Complaint.Staff_ID,
-            Person.Name as Staff_name
-        from Complaint
-            join Person on Complaint.Staff_ID = Person.Person_ID
-    ) t2 on t1.Complaint_ID = t2.Complaint_ID;
+CREATE OR REPLACE VIEW complaint_view AS
+    SELECT
+        t1.complaint_id complaint_id,
+        c_timestamp,
+        subject,
+        description,
+        status,
+        house_no,
+        owner_name,
+        staff_id,
+        staff_name
+    FROM
+        (
+            SELECT
+                complaint_id,
+                status,
+                c_timestamp,
+                subject,
+                description,
+                complaint.house_no,
+                person.name AS owner_name
+            FROM
+                complaint
+                JOIN house ON complaint.house_no = house.house_no
+                JOIN person ON house.owner_id = person.person_id
+        )  t1
+        LEFT OUTER JOIN (
+            SELECT
+                complaint_id,
+                complaint.staff_id,
+                person.name AS staff_name
+            FROM
+                complaint
+                JOIN person ON complaint.staff_id = person.person_id
+        )  t2 ON t1.complaint_id = t2.complaint_id;
 
 -- Route: /staff/search
 -- Residents info with house no
 -- Reason: Can be used for search without Joining resident with person always
-create or replace view Resident_search_view as
-select house_no,
-    name,
-    phone_no
-from (
+CREATE OR REPLACE VIEW resident_search_view AS
+    SELECT
+        house_no,
+        name,
+        phone_no
+    FROM
         (
-            select person_id,
-                name,
-                phone_no
-            from person
-        )
-        join (
-            select house_no,
-                resident_id
-            from resident
-        ) on person_id = resident_id
-    );
+            (
+                SELECT
+                    person_id,
+                    name,
+                    phone_no
+                FROM
+                    person
+            )
+            JOIN (
+                SELECT
+                    house_no,
+                    resident_id
+                FROM
+                    resident
+            ) ON person_id = resident_id
+        );
     
 -- Route: 
 -- Residnets info from Person, discarding Staff
-create or replace view Preson_without_Staff as
-select *
-from Person
-where Person_ID not in (
-        select Staff_ID
-        from Staff
-    );
+CREATE OR REPLACE VIEW preson_without_staff AS
+    SELECT
+        *
+    FROM
+        person
+    WHERE
+        person_id NOT IN (
+            SELECT
+                staff_id
+            FROM
+                staff
+        );
