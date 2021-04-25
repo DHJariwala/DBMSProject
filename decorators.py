@@ -37,11 +37,11 @@ def owner_required(f):
 
 def apology(message, code=400):
     """Render message as an apology to user."""
-    def escape(s):
-        for old, new in [("-", "--"), (" ", "-"), ("_", "__"), ("?", "~q"),
-                         ("%", "~p"), ("#", "~h"), ("/", "~s"), ("\"", "''")]:
-            s = s.replace(old, new)
-        return s
+    # def escape(s):
+    #     for old, new in [("-", "--"), (" ", "-"), ("_", "__"), ("?", "~q"),
+    #                      ("%", "~p"), ("#", "~h"), ("/", "~s"), ("\"", "''")]:
+    #         s = s.replace(old, new)
+    #     return s
     if session.get("admin_id"):
         nav = "AdminNavbar.html"
     elif session.get("staff_id"):
@@ -50,4 +50,4 @@ def apology(message, code=400):
         nav = "HouseNavbar.html"
     else:
         nav = "LoginPageNavbar.html"
-    return render_template("apology.html", nav=nav, top=code, bottom=escape(message)), code
+    return render_template("apology.html", nav=nav, top=code, bottom=(message)), code

@@ -8,27 +8,25 @@ Notifications
 {% block body %}
 
 <div>
-  <h3 class="marginall">
-    Notifications
-  </h3>
+  
+  <div class="marginall">
+    <h3  style="float: left;margin-left: 5%;">
+      Notifications
+    </h3>
+    <a href="" style="float: right;margin-right: 10%;">
+      <button type="button" class="btn btn-dark btn-sm">Clear Notifications</button>
+    </a>
+  </div>
+  
+  <br><br><br>
   <div style="margin: 0em 10% 5em 10%;">
     {% if notifs %}
-    <table class="table">
-      <thead class="thead-dark">
-      <tr>
-        <th scope="col">Time</th>
-        <th>Text Message</th>
-      </tr>
-      </thead>
-      <tbody>
       {% for notif in notifs %}
-      <tr>
-        <th scope="row">{{ notif[1]|timeDiff }}</th>    
-        <th scope="row">{{ notif[0] }}</th>    
-      </tr>  
+      <div class="card-notification card-shadow">
+        <div style="font-weight: 400;font-size: medium;">{{ notif[0] }}</div>
+        <p class="card-bottom">{{ notif[1]|timeDiff }}</p>
+      </div> 
       {% endfor %}
-      </tbody>
-    </table>
     {% else %}
     <h4>
       You have no Notifications.
