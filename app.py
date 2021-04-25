@@ -106,7 +106,7 @@ def login_owner():
         next = request.args.get('next')
         if not next:
             next = '/notifications'
-        return render_template('loginHouse.html', next=next)
+        return render_template('/owner/loginHouse.html', next=next)
     else:
         id = request.form.get("HouseNo")
         if not id:
@@ -132,7 +132,7 @@ def login_staff():
         next = request.args.get('next')
         if not next:
             next = '/staff/search'
-        return render_template('loginStaff.html', next=next)
+        return render_template('/staff/loginStaff.html', next=next)
     else:
         id = request.form.get("StaffID")
         if not id:
@@ -158,7 +158,7 @@ def login_admin():
         next = request.args.get('next')
         if not next:
             next = '/admin/listho'
-        return render_template('loginAdmin.html', next=next)
+        return render_template('/admin/loginAdmin.html', next=next)
     else:
         id = request.form.get("AdminID")
         if not id:
@@ -190,7 +190,7 @@ def list_house_owners():
     res = cur.execute("select House_No, Name, DOB, Gender, Phone_No from House join Person on House.Owner_ID = Person.Person_ID order by House_No")
     owners = res.fetchall()
     cur.close()
-    return render_template("listHouse.html", owners=owners)
+    return render_template("/admin/listHouse.html", owners=owners)
 
 @app.route('/admin/uhouse', methods=["GET", "POST"])
 @admin_required
@@ -206,7 +206,7 @@ def update_house_owner():
         if not owner:
             return apology("house not found", 403)
         cur.close()
-        return render_template("updateOwner.html", owner=owner)
+        return render_template("/admin/updateOwner.html", owner=owner)
     else:
         hno = request.form.get('HouseNo')
         name = request.form.get('OwnerName')
@@ -233,7 +233,7 @@ def update_house_owner():
 @admin_required
 def add_house_owner():
     if request.method == "GET":
-        return render_template("addOwner.html")
+        return render_template("/admin/addOwner.html")
     else:
         hno = request.form.get('HouseNo')
         name = request.form.get('OwnerName')
@@ -261,7 +261,7 @@ def list_staff():
     res = cur.execute("select Staff_ID, Name, DOB, Gender, Phone_No, Salary from Staff join Person on Staff_ID = Person_ID")
     staffs = res.fetchall()
     cur.close()
-    return render_template("listStaff.html", staffs=staffs)
+    return render_template("/admin/listStaff.html", staffs=staffs)
 
 @app.route('/admin/ustaff', methods=["GET", "POST"])
 @admin_required
@@ -277,7 +277,7 @@ def update_staff():
         if staff == ():
             return apology("staff id not found", 403)
         cur.close()
-        return render_template("updateStaff.html", staff=staff)
+        return render_template("/admin/updateStaff.html", staff=staff)
     else:
         sid = request.form.get('StaffID')
         name = request.form.get('StaffName')
@@ -307,7 +307,7 @@ def add_staff():
         conn = pool.acquire()
         cur = conn.cursor()
         res = cur.execute("select Staff_id, name from Staff join Person on Staff_ID = Person_ID").fetchall()
-        return render_template("addrStaff.html", staffs=res)
+        return render_template("/admin/addrStaff.html", staffs=res)
     else:
         name = request.form.get('StaffName')
         dob = request.form.get('StaffDOB')
@@ -366,7 +366,7 @@ def list_notice(role):
 @admin_required
 def add_notice():
     if request.method == "GET":
-        return render_template("addNotice.html")
+        return render_template("/admin/addNotice.html")
     else:
         sub = request.form.get('NoticeSubject')
         des = request.form.get('NoticeDescription')
@@ -395,7 +395,7 @@ def manage_complaint():
         dropdown = '''<select class="form-select" style="height:2.1em;width:15em; border-style: solid;border-width: 2px;border-radius:5px" name="StaffNameSelected" id="StaffNameSelected" aria-label="Default select">
                         <option value="" selected>Select Staff</option>'''
         dropdown += option + "</select>"
-        return render_template("manageComplaint.html", complaints=complaints, dropdown=dropdown)
+        return render_template("/admin/manageComplaint.html", complaints=complaints, dropdown=dropdown)
     else:
         cid = request.form.get("cid")
         if not cid:
@@ -414,7 +414,7 @@ def manage_complaint():
 @admin_required
 def manage_maintenance():
     if request.method == "GET":
-        return render_template("maintenanceFee.html")
+        return render_template("/admin/maintenanceFee.html")
     else:
         amt = request.form.get("MaintenanceFee")
         if not amt:
@@ -431,7 +431,7 @@ def manage_maintenance():
 @staff_required
 def search():
     if request.method == "GET":
-        return render_template("searchResident.html", results=None)
+        return render_template("/staff/searchResident.html", results=None)
     else:
         conn = pool.acquire()
         cur = conn.cursor()
@@ -441,7 +441,7 @@ def search():
         name = "%" + name + "%"
         res = cur.execute("select * from Resident_search_view where UPPER(name) like UPPER(:name)", name=name).fetchall()
         cur.close()
-        return render_template("searchResident.html", results=res)
+        return render_template("/staff/searchResident.html", results=res)
 
 @app.route('/staff/complaints', methods=["GET", "POST"])
 @staff_required
@@ -452,7 +452,7 @@ def staff_complaint():
         yourcomplaints = cur.execute("select Complaint_ID, Status, C_TimeStamp, Subject, Description, House_No, Owner_name from complaint_view where Staff_Id = :sid", sid=session["staff_id"]).fetchall()
         unassignedc = cur.execute("select Complaint_ID, Status, C_TimeStamp, Subject, Description, House_No, Owner_name from complaint_view where Status = 'Unassigned'").fetchall()
         cur.close()
-        return render_template("Complaints.html", yc=yourcomplaints, unc=unassignedc)
+        return render_template("/staff/Complaints.html", yc=yourcomplaints, unc=unassignedc)
     else:
         if 'resolve' in request.form:
             cid = request.form.get('cid')
@@ -483,7 +483,7 @@ def add_guest():
         cur = conn.cursor()
         houses = cur.execute("select house_no from house order by house_no").fetchall()
         cur.close()
-        return render_template("addGuest.html", houses=houses)
+        return render_template("/staff/addGuest.html", houses=houses)
     else:
         hno = request.form.get('hno')
         dtl = request.form.get('InputDetail')
@@ -503,7 +503,7 @@ def list_guest():
     cur = conn.cursor()
     guests = cur.execute("select house_no, details, staff_id, g_timestamp from guest order by guest_id desc").fetchall()
     cur.close()
-    return render_template("listGuest.html", guests=guests)
+    return render_template("/staff/listGuest.html", guests=guests)
 
 @app.route('/profile', methods=["GET"])
 @owner_required
@@ -512,13 +512,13 @@ def profile():
     cur = conn.cursor()
     res = cur.execute("select * from person where person_id = (select owner_id from house where house_no = :hno)", hno=session["house_no"]).fetchone()
     cur.close()
-    return render_template("ownerProfile.html", details=res)
+    return render_template("/owner/ownerProfile.html", details=res)
 
 @app.route('/change-password', methods=["GET", "POST"])
 @owner_required
 def change_password():
     if request.method == "GET":
-        return render_template("changePassword.html")
+        return render_template("/owner/changePassword.html")
     else:
         cpass = request.form.get("OwnersCurrentPassword")
         npass = request.form.get("InputNewPassword")
@@ -542,7 +542,7 @@ def list_members():
     cur = conn.cursor()
     members = cur.execute("select name, dob, gender, phone_no, person_id from person where person_id in (select resident_id from resident where house_no = :hno)", hno=session["house_no"]).fetchall()
     cur.close()
-    return render_template("listMembers.html", members=members)
+    return render_template("/owner/listMembers.html", members=members)
 
 @app.route('/update-member', methods=["GET", "POST"])
 @owner_required
@@ -558,7 +558,7 @@ def update_resident():
         cur.close()
         if not details:
             return apology("no such member in you house", 403)
-        return render_template("updateMember.html", details=details)
+        return render_template("/owner/updateMember.html", details=details)
     else:
         mid = request.form.get('id')
         name = request.form.get('MemberName')
@@ -582,7 +582,7 @@ def add_resident():
         cur = conn.cursor()
         members = cur.execute("select person_id, name from person where person_id in (select resident_id from resident where house_no=:h)", h=session["house_no"]).fetchall()
         cur.close()
-        return render_template("addMember.html", members=members)
+        return render_template("/owner/addMember.html", members=members)
     else:
         name = request.form.get('MemberName')
         dob = request.form.get('MemberDOB')
@@ -602,7 +602,7 @@ def add_resident():
         return redirect('/list-members')
         # return str(dob)
 
-@app.route('/remove-member' ,methods=["POST"])
+@app.route('/remove-member', methods=["POST"])
 def remove_resident():
     mid = request.form.get('MemberNameSelected')
     if not mid or mid == -1:
@@ -625,12 +625,12 @@ def list_complaints():
     cur = conn.cursor()
     complaints = cur.execute("select Complaint_ID, C_TimeStamp, Subject, Description, Status, Staff_ID, Staff_name from complaint_view").fetchall()
     cur.close()
-    return render_template("listComplaints.html", complaints=complaints)
+    return render_template("/owner/listComplaints.html", complaints=complaints)
 
 @app.route('/add-complaint', methods=["GET", "POST"])
 def add_complaint():
     if request.method == "GET":
-        return render_template("addComplaint.html")
+        return render_template("/owner/addComplaint.html")
     else:
         sub = request.form.get('ComplaintSubject')
         des = request.form.get('ComplaintDescription')
@@ -652,7 +652,7 @@ def maintenance_fee():
     fees = cur.callfunc('add_fine', cx_Oracle.CURSOR, [session["house_no"]])
     fees = fees.fetchall()
     cur.close()
-    return render_template("payMaintenance.html", fees=fees)
+    return render_template("/owner/payMaintenance.html", fees=fees)
 
 @app.route('/guests', methods=["GET"])
 @owner_required
@@ -661,7 +661,7 @@ def guest_log():
     cur = conn.cursor()
     guests = cur.execute("select details, g_timestamp from guest where house_no =: hno", hno=session["house_no"]).fetchall()
     cur.close()
-    return render_template("guestLog.html", guests=guests)
+    return render_template("/owner/guestLog.html", guests=guests)
 
 @app.route('/notifications', methods=["GET"])
 @owner_required
@@ -670,7 +670,7 @@ def notifications():
     cur = conn.cursor()
     notifs = cur.execute("select message, not_timestamp from notification where house_no = :hno", hno=session["house_no"]).fetchall()
     cur.close()
-    return render_template("notifications.html", notifs=notifs)
+    return render_template("/owner/notifications.html", notifs=notifs)
 
 @app.route('/clear-notifications', methods=["GET"])
 @owner_required
