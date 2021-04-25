@@ -7,7 +7,7 @@ import cx_Oracle
 import cfg
 from flask_wtf.csrf import CSRFProtect
 from decorators import login_required, admin_required, staff_required, owner_required, apology
-import datetime
+from datetime import datetime, date
 
 def init_session(conn, requestedTag_ignored):
     cursor = conn.cursor()
@@ -63,9 +63,34 @@ def datetimeformat(value, format="%d %b, %Y %I:%M %p"):
 
 @app.template_filter()
 def calculateAge(birthDate):
-    today = datetime.date.today()
+    today = date.today()
     age = today.year - birthDate.year - ((today.month, today.day) < (birthDate.month, birthDate.day))
     return str(age) + " years"
+
+@app.template_filter()
+def timeDiff(timestamp):
+    s_Min = 60;                               # seconds in Minute
+    s_Hour = s_Min * 60;                      # seconds in Hour
+    s_Day = s_Hour * 24;                      # seconds in day
+    s_Mon = s_Day * 30;                       # seconds in Month
+    s_Yr = s_Day * 365;                       # seconds in Year
+    diff = datetime.now() - timestamp         # difference between dates.
+    print(diff)
+    # If the diff is less then seconds in a minute
+    if diff.days == 0:
+        if diff.seconds < s_Min:
+            return diff.seconds + ' seconds ago';
+        # If the diff is less then seconds in a Hour
+        elif diff.seconds < s_Hour:
+            return str(int(diff.seconds / s_Min)) + ' minutes ago'
+        # If the diff is less then seconds in a day
+        elif diff.seconds < s_Day:
+            return str(int(diff.seconds / s_Hour)) + ' hours ago'
+    # If the diff is less then seconds in a Month
+    elif diff.days == 1:
+        return 'Yesterday ' + timestamp.strftime("%I:%M %p")
+    else:
+        return timestamp.strftime("%d %b, %Y %I:%M %p")
 # conn = cx_Oracle.connect(cfg.username, cfg.password, cfg.connect_string, encoding=cfg.encoding)
 # @app.route('/test', methods=["GET"])
 # def test():
@@ -635,6 +660,15 @@ def guest_log():
     guests = cur.execute("select details, g_timestamp from guest where house_no =: hno", hno=session["house_no"]).fetchall()
     cur.close()
     return render_template("guestLog.html", guests=guests)
+
+@app.route('/notifications')
+@owner_required
+def notifications():
+    conn = pool.acquire()
+    cur = conn.cursor()
+    notifs = cur.execute("select message, not_timestamp from notification where house_no = :hno", hno=session["house_no"]).fetchall()
+    cur.close()
+    return render_template("notifications.html", notifs=notifs)
 
 if __name__ == '__main__':
     pool = start_pool()

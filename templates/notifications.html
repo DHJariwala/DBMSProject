@@ -12,7 +12,7 @@ Notifications
     Notifications
   </h3>
   <div style="margin: 0em 10% 5em 10%;">
-    {% if notifications %}
+    {% if notifs %}
     <table class="table">
       <thead class="thead-dark">
       <tr>
@@ -21,10 +21,10 @@ Notifications
       </tr>
       </thead>
       <tbody>
-      {% for notification in notifications %}
+      {% for notif in notifs %}
       <tr>
-        <th scope="row">{{ notification[0] }}</th>    
-        <th scope="row">{{ notification[1] }}</th>    
+        <th scope="row">{{ notif[1]|timeDiff }}</th>    
+        <th scope="row">{{ notif[0] }}</th>    
       </tr>  
       {% endfor %}
       </tbody>
