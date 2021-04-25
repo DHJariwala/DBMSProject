@@ -96,6 +96,7 @@ def login_owner():
         res = cur.execute("select * from house where house_no = :a", a=id).fetchone()
         if not res or not check_password_hash(res[1], password):
             return apology("invalid username and/or password", 403)
+        cur.close()
         session["house_no"] = res[0]
         session["logged"] = True
         return redirect(next)
@@ -121,6 +122,7 @@ def login_staff():
         res = cur.execute("select * from staff where staff_id = :a", a=id).fetchone()
         if not res or not check_password_hash(res[1], password):
             return apology("invalid username and/or password", 403)
+        cur.close()
         session["staff_id"] = res[0]
         session["logged"] = True
         return redirect(next)
@@ -146,6 +148,7 @@ def login_admin():
         res = cur.execute("select * from admin where admin_id = :a", a=id).fetchone()
         if not res or not check_password_hash(res[1], password):
             return apology("invalid username and/or password", 403)
+        cur.close()
         session["admin_id"] = res[0]
         session["logged"] = True
         return redirect(next)
@@ -155,12 +158,12 @@ def logout():
     session.clear()
     return redirect('/')
 
-@app.route('/admin/listho', methods=["GET",])
+@app.route('/admin/listho', methods=["GET"])
 @admin_required
 def list_house_owners():
     conn = pool.acquire()
     cur = conn.cursor()
-    res = cur.execute("select House_No, Name, dob, Gender, Phone_No from House join Person on House.Owner_ID = Person.Person_ID order by House_No")
+    res = cur.execute("select House_No, Name, DOB, Gender, Phone_No from House join Person on House.Owner_ID = Person.Person_ID order by House_No")
     owners = res.fetchall()
     cur.close()
     return render_template("listHouse.html", owners=owners)
@@ -176,7 +179,7 @@ def update_house_owner():
         cur = conn.cursor()
         res = cur.execute("select House_No, Name, dob, Gender, Phone_No from House join Person on House.Owner_ID = Person.Person_ID where House_No = :h", h=hno)
         owner = res.fetchone()
-        if owner == ():
+        if not owner:
             return apology("house not found", 403)
         cur.close()
         return render_template("updateOwner.html", owner=owner)
@@ -191,6 +194,10 @@ def update_house_owner():
             return apology("provide complete details", 403)
         conn = pool.acquire()
         cur = conn.cursor()
+        res = cur.execute("select house_no from house where house_no = :h", h=hno).fetchone()
+        if not res:
+            return apology("house no does not exist", 403)
+        conn.begin()
         res = cur.execute("update House set password = :p where House_No = :h", p=password, h=hno)
         oid = cur.execute("select Owner_id from House where House_No = :h", h=hno).fetchone()
         res = cur.execute("update Person set Name = :a, DOB = to_date(:b,'yyyy-mm-dd'), Gender = :c, Phone_no = :d where Person_ID = :e", a=name, b=dob, c=gender, d=phone, e=oid[0])
@@ -215,7 +222,8 @@ def add_house_owner():
         conn = pool.acquire()
         cur = conn.cursor()
         id = cur.var(cx_Oracle.DB_TYPE_VARCHAR)
-        res = cur.execute("insert into Person VALUES (20, :a, to_date(:b,'yyyy-mm-dd'), :c, :d) returning Person_ID into :e", a=name, b=dob, c=gender, d=phone, e=id)
+        conn.begin()
+        res = cur.execute("insert into Person VALUES ('', :a, to_date(:b,'yyyy-mm-dd'), :c, :d) returning Person_ID into :e", a=name, b=dob, c=gender, d=phone, e=id)
         res = cur.execute("insert into House VALUES (:a, :b, :c)", a=hno, b=password, c=id.getvalue()[0])
         conn.commit()
         cur.close()
@@ -226,7 +234,7 @@ def add_house_owner():
 def list_staff():
     conn = pool.acquire()
     cur = conn.cursor()
-    res = cur.execute("select Staff_ID, Name, dob, Gender, Phone_No, Salary from Staff join Person on Staff_ID = Person_ID")
+    res = cur.execute("select Staff_ID, Name, DOB, Gender, Phone_No, Salary from Staff join Person on Staff_ID = Person_ID")
     staffs = res.fetchall()
     cur.close()
     return render_template("listStaff.html", staffs=staffs)
@@ -258,6 +266,10 @@ def update_staff():
             return apology("provide complete details", 403)
         conn = pool.acquire()
         cur = conn.cursor()
+        res = cur.execute("select staff_id from staff where staff_id = :s", s=sid).fetchone()
+        if not res:
+            return apology("staff id does not exist", 403)
+        conn.begin()
         res = cur.execute("update Staff set password = :p, salary = :sa where Staff_ID = :s", p=password, sa=salary, s=sid)
         res = cur.execute("update Person set Name = :a, DOB = to_date(:b, 'yyyy-mm-dd'), Gender = :c, Phone_no = :d where Person_ID = :e", a=name, b=dob, c=gender, d=phone, e=sid)
         conn.commit()
@@ -284,6 +296,7 @@ def add_staff():
             return apology("provide complete details", 403)
         conn = pool.acquire()
         cur = conn.cursor()
+        conn.begin()
         res = cur.execute("insert into Person values (:e, :a, to_date(:b, 'yyyy-mm-dd'), :c, :d)", a=name, b=dob, c=gender, d=phone, e=sid)
         res = cur.execute("insert into Staff values (:s, :p, :sa)", p=password, sa=salary, s=sid)
         conn.commit()
@@ -294,8 +307,14 @@ def add_staff():
 @admin_required
 def remove_staff():
     sid = request.form.get('selectedID')
+    if sid == -1:
+        return apology("no staff selected", 403)
     conn = pool.acquire()
     cur = conn.cursor()
+    res = cur.execute("select staff_id from staff where staff_id = :sid", sid=sid).fetchone()
+    if not res:
+        return apology("staff id does not exist", 403)
+    conn.begin()
     res = cur.execute("delete from person where Person_ID = :p", p=sid)
     res = cur.execute("delete from Staff where Staff_ID = :p", p=sid)
     conn.commit()
@@ -344,31 +363,7 @@ def manage_complaint():
     if request.method == "GET":
         conn = pool.acquire()
         cur = conn.cursor()
-        c = cur.execute("""select Complaint.Complaint_ID,Complaint.C_TimeStamp,Complaint.Subject,Complaint.Description,Complaint.Status,Complaint.House_No,Person.Name as Owner_name
-                                from Complaint
-                                join House
-                                on Complaint.House_No = House.House_No
-                                join Person 
-                                on House.Owner_ID = Person.Person_Id
-                                order by complaint.complaint_id
-                                """).fetchall()
-        staffs = cur.execute("""select Complaint.Complaint_ID, Complaint.Staff_ID, Person.Name as Staff_name
-                                from Complaint
-                                join Person
-                                on Complaint.Staff_ID = Person.Person_ID
-                                order by complaint.complaint_id
-                                """).fetchall()
-        complaints = []
-        i = 0
-        for complaint in c:
-            cc = []
-            cc.append(complaint)
-            if complaint[4] != 'Unassigned':
-                cc.append(staffs[i])
-                i += 1
-            else:
-                cc.append(())
-            complaints.append(cc)
+        complaints = cur.execute("select * from complaint_view").fetchall()
         staffs = cur.execute("select Staff_id, name from Staff join Person on Staff_ID = Person_ID").fetchall()
         cur.close()
         option = ""
@@ -377,7 +372,7 @@ def manage_complaint():
         dropdown = '''<select class="form-select" style="height:2.1em;width:15em; border-style: solid;border-width: 2px;border-radius:5px" name="StaffNameSelected" id="StaffNameSelected" aria-label="Default select">
                         <option value=-1 selected>Select Staff</option>'''
         dropdown += option + "</select>"
-        return render_template("manageComplaint.html", complaints=complaints, staffs=staffs, dropdown=dropdown)
+        return render_template("manageComplaint.html", complaints=complaints, dropdown=dropdown)
     else:
         cid = request.form.get("cid")
         if not cid:
@@ -403,9 +398,8 @@ def manage_maintenance():
             return apology("enter valid amount", 403)
         conn = pool.acquire()
         cur = conn.cursor()
-        res = cur.execute("select House_No from house").fetchall()
-        for house in res:
-            cur.execute("insert into maintenance_fee (house_no, fees, fine) values (:a, :b, 0)", a=house[0], b=amt)
+        houses = cur.execute("select House_No from house").fetchall()
+        cur.executemany("insert into maintenance_fee (house_no, fees, fine) values (:1, :2, 0)", [(i[0], amt) for i in houses])
         conn.commit()
         cur.close()
         return redirect('/admin/listho')
@@ -518,7 +512,8 @@ def change_password():
     else:
         cpass = request.form.get("OwnersCurrentPassword")
         npass = request.form.get("InputNewPassword")
-        if not cpass or not npass:
+        npass2 = request.form.get("InputConfirmPassword")
+        if not cpass or not npass or not npass2 or (npass != npass2):
             return apology("provide valid passwords", 403)
         conn = pool.acquire()
         cur = conn.cursor()
