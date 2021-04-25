@@ -75,9 +75,8 @@ def timeDiff(timestamp):
     s_Mon = s_Day * 30;                       # seconds in Month
     s_Yr = s_Day * 365;                       # seconds in Year
     diff = datetime.now() - timestamp         # difference between dates.
-    print(diff)
-    # If the diff is less then seconds in a minute
     if diff.days == 0:
+        # If the diff is less then seconds in a minute
         if diff.seconds < s_Min:
             return diff.seconds + ' seconds ago';
         # If the diff is less then seconds in a Hour
@@ -310,20 +309,20 @@ def add_staff():
         res = cur.execute("select Staff_id, name from Staff join Person on Staff_ID = Person_ID").fetchall()
         return render_template("addrStaff.html", staffs=res)
     else:
-        sid = request.form.get('StaffID')
         name = request.form.get('StaffName')
         dob = request.form.get('StaffDOB')
         gender = request.form.get('StaffGender')
         phone = request.form.get('StaffPhone')
         password = generate_password_hash(request.form.get('StaffPassword'))
         salary = request.form.get('StaffSalary')
-        if not sid or not name or not dob or not gender or not phone or not password or not salary:
+        if not name or not dob or not gender or not phone or not password or not salary:
             return apology("provide complete details", 403)
         conn = pool.acquire()
         cur = conn.cursor()
-        conn.begin()
-        res = cur.execute("insert into Person values (:e, :a, to_date(:b, 'yyyy-mm-dd'), :c, :d)", a=name, b=dob, c=gender, d=phone, e=sid)
-        res = cur.execute("insert into Staff values (:s, :p, :sa)", p=password, sa=salary, s=sid)
+        # conn.begin()
+        # res = cur.execute("insert into Person values (:e, :a, to_date(:b, 'yyyy-mm-dd'), :c, :d)", a=name, b=dob, c=gender, d=phone, e=sid)
+        # res = cur.execute("insert into Staff values (:s, :p, :sa)", p=password, sa=salary, s=sid)
+        cur.callproc('insert_staff', [name, dob, gender, phone, password, salary])
         conn.commit()
         cur.close()
         return redirect('/admin/slist')
@@ -593,10 +592,11 @@ def add_resident():
             return apology("incomplete details", 403)
         conn = pool.acquire()
         cur = conn.cursor()
-        conn.begin()
-        res = cur.execute("insert into person values ('', :a, to_date(:b,'yyyy-mm-dd'), :c, :d)", a=name, b=dob, c=gender, d=phone_no)
-        res = cur.execute("select max(to_number(person_id)) from person").fetchone()
-        res = cur.execute("insert into resident values (:a, :b)", a=str(res[0]), b=session["house_no"])
+        # conn.begin()
+        # res = cur.execute("insert into person values ('', :a, to_date(:b,'yyyy-mm-dd'), :c, :d)", a=name, b=dob, c=gender, d=phone_no)
+        # res = cur.execute("select max(to_number(person_id)) from person").fetchone()
+        # res = cur.execute("insert into resident values (:a, :b)", a=str(res[0]), b=session["house_no"])
+        cur.callproc('insert_resident', [name, dob, gender, phone_no, session["house_no"]])
         conn.commit()
         cur.close()
         return redirect('/list-members')
