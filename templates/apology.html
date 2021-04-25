@@ -5,18 +5,13 @@ Apology
 {% endblock %}
 
 {% block body %}
-<div style="margin:1em 33% 0 33%;max-width: 34%;">     
-     <div style="z-index: -1;">
-          <img alt="{{ top }}" class="border"
-          src="/static/404error.jpeg"
-          title="{{ top }}">
-     </div>
-     <div style="z-index: 1;font-size:3em;text-transform: uppercase;text-decoration: solid;color: white;text-align: center;font-weight: 700;
-               text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;">
-          <div style="position: absolute;top: 10%;right: 33%;left: 33%;max-width: 34%;">{{ top }}</div>
-          <div style="position: absolute;bottom: 5%;right: 33%;left: 33%;max-width: 34%;">{{ bottom }}</div>
-     </div>
-</div>
+<div class="container">     
+     <img alt="{{ top }}" class="center"
+     src="/static/404error.jpeg"
+     title="{{ top }}">
 
+     <div style="position: absolute;top: 1%;right: 27%;left: 27%;">{{ top }}</div>
+     <div style="position: absolute;bottom: 1%;right: 27%;left: 27%;">{{ bottom }}</div>
+</div>
 
 {% endblock %}
