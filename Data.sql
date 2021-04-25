@@ -50,7 +50,7 @@ insert into House values('102','pbkdf2:sha256:150000$YMSMt0I1$b414cd2c443db48e94
 insert into House values('201','pbkdf2:sha256:150000$4cMJuAkU$d6d91d8daa19f916cff581b28eb5c444ed12eac7644f8f7bef5571349747c985','10'); -- NextGenGame
 insert into House values('202','pbkdf2:sha256:150000$p6o0d0RG$b2092ffe6a4906a63c132b6b83784201bb094b8f01b62c6ba8f68c6c78ea2a62','12'); -- hithereman
 insert into House values('301','pbkdf2:sha256:150000$LFsUKbsR$1fa44008f89c1fc33352b194ce6c7130507778485f8b35ea1706957cea1ca7ad','14'); -- KittyCat123
-insert into House values('302','pbkdf2:sha256:150000$ZTqCArFD$c40f8ba528aae2eb0969e8b53049d228b80ca33205cc9acbb6fae634511d52fe','16'); -- Incorrect102
+insert into House values('302','pbkdf2:sha256:150000$ZTqCArFD$c40f8ba528aae2eb0969e8b53049d228b80ca33205cc9acbb6fae634511d52fe','16'); -- Incorrect101
 insert into House values('401','pbkdf2:sha256:150000$WLjcbY47$339b2615a1f6cf2c490808623b39a06a738ce02e61824c2417549b941644ff43','20'); -- greatgambit
 
 insert into Staff values('5','pbkdf2:sha256:150000$JAt6OCNI$86aea87d1fd5a2fb2638407fa256b86937d03fe69fd5c01fb351f8e08c586717','15000'); -- ramukakaop

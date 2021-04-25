@@ -3,7 +3,7 @@
 -- Reason: To give owner name and staff name along with complaint details
 -- Delete the current view by 'drop materialized view complaint_view;'
 create or replace view complaint_view as
-select t1.Complaint_ID,
+select t1.Complaint_ID Complaint_ID,
     C_TimeStamp,
     Subject,
     Description,
@@ -37,7 +37,7 @@ from (
 -- Reason: Can be used for search without Joining resident with person always
 create or replace view Resident_search_view as
 select house_no,
-    person_id,
+    name,
     phone_no
 from (
         (

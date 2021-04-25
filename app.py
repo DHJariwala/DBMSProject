@@ -311,12 +311,11 @@ def remove_staff():
         return apology("no staff selected", 403)
     conn = pool.acquire()
     cur = conn.cursor()
+    # checking whether the given id is a staff
     res = cur.execute("select staff_id from staff where staff_id = :sid", sid=sid).fetchone()
     if not res:
         return apology("staff id does not exist", 403)
-    conn.begin()
-    res = cur.execute("delete from person where Person_ID = :p", p=sid)
-    res = cur.execute("delete from Staff where Staff_ID = :p", p=sid)
+    res = cur.execute("delete from person where Person_ID = :p", p=sid) # On cascade delete removes staff too
     conn.commit()
     cur.close()
     return redirect('/admin/slist')
@@ -416,7 +415,7 @@ def search():
         if not name:
             return apology("no name to be searched", 403)
         name = "%" + name + "%"
-        res = cur.execute("select house_no, name, phone_no from ((select person_id, name, phone_no from person where UPPER(name) like UPPER(:name)) join (select house_no, resident_id from resident) on person_id = resident_id)", name=name).fetchall()
+        res = cur.execute("select * from Resident_search_view where UPPER(name) like UPPER(:name)", name=name).fetchall()
         cur.close()
         return render_template("searchResident.html", results=res)
 
@@ -426,22 +425,8 @@ def staff_complaint():
     if request.method == "GET":
         conn = pool.acquire()
         cur = conn.cursor()
-        yourcomplaints = cur.execute('''
-                            select Complaint_ID,Status,C_TimeStamp,Subject,Description,Complaint.House_No,Person.Name as Owner_name 
-                            from Complaint
-                            join House
-                            on Complaint.House_No = House.House_No and Complaint.Status = 'Pending' and Complaint.Staff_ID = :sid
-                            join Person 
-                            on House.Owner_ID = Person.Person_Id
-                        ''', sid=session["staff_id"]).fetchall()
-        unassignedc = cur.execute('''
-                            select Complaint_ID,Status,C_TimeStamp,Subject,Description,Complaint.House_No,Person.Name as Owner_name 
-                            from Complaint
-                            join House
-                            on Complaint.House_No = House.House_No and Complaint.Status = 'Unassigned'
-                            join Person 
-                            on House.Owner_ID = Person.Person_Id
-                        ''').fetchall()
+        yourcomplaints = cur.execute("select Complaint_ID, Status, C_TimeStamp, Subject, Description, House_No, Owner_name from complaint_view where Staff_Id = :sid", sid=session["staff_id"]).fetchall()
+        unassignedc = cur.execute("select Complaint_ID, Status, C_TimeStamp, Subject, Description, House_No, Owner_name from complaint_view where Status = 'Unassigned'").fetchall()
         cur.close()
         return render_template("Complaints.html", yc=yourcomplaints, unc=unassignedc)
     else:
@@ -493,6 +478,7 @@ def list_guest():
     conn = pool.acquire()
     cur = conn.cursor()
     guests = cur.execute("select house_no, details, staff_id, g_timestamp from guest order by guest_id desc").fetchall()
+    cur.close()
     return render_template("listGuest.html", guests=guests)
 
 @app.route('/profile', methods=["GET"])
@@ -546,7 +532,7 @@ def update_resident():
         details = cur.execute("select Resident_ID,Name,DOB,Gender,Phone_No from resident natural join Person where Resident_ID = Person_ID and Resident_ID = :a and House_No = :b", a=mid, b=session["house_no"]).fetchone()
         print(details)
         cur.close()
-        if details == None:
+        if not details:
             return apology("no such member in you house", 403)
         return render_template("updateMember.html", details=details)
     else:
@@ -582,6 +568,7 @@ def add_resident():
             return apology("incomplete details", 403)
         conn = pool.acquire()
         cur = conn.cursor()
+        conn.begin()
         res = cur.execute("insert into person values ('', :a, to_date(:b,'yyyy-mm-dd'), :c, :d)", a=name, b=dob, c=gender, d=phone_no)
         res = cur.execute("select max(to_number(person_id)) from person").fetchone()
         res = cur.execute("insert into resident values (:a, :b)", a=str(res[0]), b=session["house_no"])
@@ -597,8 +584,11 @@ def remove_resident():
         return apology("provide member id", 403)
     conn = pool.acquire()
     cur = conn.cursor()
-    res = cur.execute("delete from person where person_id=:p", p=mid)
-    res = cur.execute("delete from resident where resident_id=:p", p=mid)
+    # checking whether given id is of a resident
+    res = cur.execute("select resident_id from resident where resident_id = :p", p=mid).fetchone()
+    if not res:
+        return apology("resident with given id does not exist", 403)
+    res = cur.execute("delete from person where person_id=:p", p=mid)   # cascade delete will remove 
     conn.commit()
     cur.close()
     return redirect('/list-members')
@@ -608,12 +598,7 @@ def remove_resident():
 def list_complaints():
     conn = pool.acquire()
     cur = conn.cursor()
-    complaints = cur.execute("""select Complaint.Complaint_ID,Complaint.C_TimeStamp,Complaint.Subject,Complaint.Description,Complaint.Status, Complaint.Staff_ID, Person.Name as Staff_name
-                            from Complaint
-                            left outer join Person
-                            on Complaint.Staff_ID = Person.Person_ID
-                            order by complaint.complaint_id
-                        """).fetchall()
+    complaints = cur.execute("select Complaint_ID, C_TimeStamp, Subject, Description, Status, Staff_ID, Staff_name from complaint_view").fetchall()
     cur.close()
     return render_template("listComplaints.html", complaints=complaints)
 
