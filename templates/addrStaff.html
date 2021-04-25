@@ -2,7 +2,7 @@
 {% set active_page = "Manage Staff" %}
 
 {% block title %}
-Add Staff
+Change Staff
 {% endblock %}
 
 {% block body %}
@@ -66,8 +66,8 @@ Add Staff
     <div class="form-group">
         <select class="form-select"
                 style="height:2.1em;width:100%; border-style: solid;border-width: 1px;border-radius:5px"
-                name="selectedID" id="StaffNameSelected" aria-label="Default select">
-            <option value=-1 selected>Select Staff</option>
+                name="selectedID" id="StaffNameSelected" aria-label="Default select" required>
+            <option value="" selected>Select Staff</option>
             {% for id, name in staffs %}
             <option value="{{ id }}">{{ name }}</option>
             {% endfor %}

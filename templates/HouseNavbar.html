@@ -34,45 +34,48 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav mr-auto">
+            <li class="nav-item {% if active_page == "Notifications" %}active{% endif %}">
+                <a class="nav-link" href="{{url_for('notifications')}}">Notifications</a>
+            </li>
             <li class="nav-item {% if active_page == "Manage Notice" %}active{% endif %}">
-            <a class="nav-link" href="{{ url_for('list_notice', role='notice') }}">View Notice</a>
+                <a class="nav-link" href="{{ url_for('list_notice', role='notice') }}">Notices</a>
             </li>
             <li class="nav-item dropdown {% if active_page == "Members" %}active{% endif %}">
-            <a class="nav-link dropdown-toggle" href="#" id="HouseDropdown" role="button" data-toggle="dropdown"
-               aria-haspopup="true" aria-expanded="false">
-                Manage House Members
-            </a>
-            <div class="dropdown-menu" aria-labelledby="HouseDropdown">
-                <a class="dropdown-item" href="{{ url_for('list_members')}}">List House Members</a>
-                <a class="dropdown-item" href="{{ url_for('add_resident')}}">Change House Members</a>
-            </div>
+                <a class="nav-link dropdown-toggle" href="#" id="HouseDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                    Manage House Members
+                </a>
+                <div class="dropdown-menu" aria-labelledby="HouseDropdown">
+                    <a class="dropdown-item" href="{{ url_for('list_members')}}">List House Members</a>
+                    <a class="dropdown-item" href="{{ url_for('add_resident')}}">Change House Members</a>
+                </div>
             </li>
             <li class="nav-item dropdown {% if active_page == "Complaint" %}active{% endif %}">
-            <a class="nav-link dropdown-toggle" href="#" id="ComplaintDropdown" role="button" data-toggle="dropdown"
-               aria-haspopup="true" aria-expanded="false">
-                Manage Complaint
-            </a>
-            <div class="dropdown-menu" aria-labelledby="ComplaintDropdown">
-                <a class="dropdown-item" href="{{ url_for('list_complaints')}}">List Complaints</a>
-                <a class="dropdown-item" href="{{ url_for('add_complaint')}}">Add Complain</a>
-            </div>
+                <a class="nav-link dropdown-toggle" href="#" id="ComplaintDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                    Manage Complaint
+                </a>
+                <div class="dropdown-menu" aria-labelledby="ComplaintDropdown">
+                    <a class="dropdown-item" href="{{ url_for('list_complaints')}}">List Complaints</a>
+                    <a class="dropdown-item" href="{{ url_for('add_complaint')}}">Add Complain</a>
+                </div>
             </li>
             <li class="nav-item {% if active_page == "Maintenance Fee" %}active{% endif %}">
-            <a class="nav-link" href="{{url_for('maintenance_fee')}}">Maintenance fee</a>
+                <a class="nav-link" href="{{url_for('maintenance_fee')}}">Maintenance fee</a>
             </li>
             <li class="nav-item {% if active_page == "Guest" %}active{% endif %}">
-            <a class="nav-link" href="{{ url_for('guest_log') }}">Guest Log</a>
+                <a class="nav-link" href="{{ url_for('guest_log') }}">Guest Log</a>
             </li>
             <li class="nav-item dropdown right-stick {% if active_page == "Profile" %}active{% endif %}">
-            <a class="nav-link dropdown-toggle" href="#" id="MoreDropdown" role="button" data-toggle="dropdown"
-               aria-haspopup="true" aria-expanded="false">
-                Other options
-            </a>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="MoreDropdown">
-                <a class="dropdown-item" href="{{ url_for('profile') }}">Profile</a>
-                <a class="dropdown-item" href="{{ url_for('change_password') }}">Change Password</a>
-                <a class="dropdown-item" href="{{ url_for('logout') }}">Log Out</a>
-            </div>
+                <a class="nav-link dropdown-toggle" href="#" id="MoreDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                    Other options
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="MoreDropdown">
+                    <a class="dropdown-item" href="{{ url_for('profile') }}">Profile</a>
+                    <a class="dropdown-item" href="{{ url_for('change_password') }}">Change Password</a>
+                    <a class="dropdown-item" href="{{ url_for('logout') }}">Log Out</a>
+                </div>
             </li>
         </ul>
 

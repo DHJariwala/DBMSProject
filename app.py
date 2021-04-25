@@ -105,7 +105,7 @@ def login_owner():
     if request.method == "GET":
         next = request.args.get('next')
         if not next:
-            next = '/nlist/notice'
+            next = '/notifications'
         return render_template('loginHouse.html', next=next)
     else:
         id = request.form.get("HouseNo")

@@ -2,7 +2,7 @@
 {% set active_page = "Members" %}
 
 {% block title %} 
-Add Member
+Change Members
 {% endblock %}
 
 {% block body %}
@@ -48,8 +48,8 @@ Add Member
     </h3>
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <div class="form-group">
-      <select class="form-select" style="height:2.1em;width:100%; border-style: solid;border-width: 1px;border-radius:5px" name="MemberNameSelected" id="MemberNameSelected" aria-label="Default select">
-        <option value=-1 selected>Member Name</option>
+      <select class="form-select" style="height:2.1em;width:100%; border-style: solid;border-width: 1px;border-radius:5px" name="MemberNameSelected" id="MemberNameSelected" aria-label="Default select" required>
+        <option value="" selected>Member Name</option>
         {% for member in members %}
           <option value="{{ member[0] }}">{{ member[1] }}</option>
         {% endfor %}
