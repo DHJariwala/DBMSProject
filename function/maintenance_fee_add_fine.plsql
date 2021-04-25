@@ -1,16 +1,30 @@
-create or replace function add_fine
-(hno in varchar2)
-return sys_refcursor
-is 
-rf_cr sys_refcursor;
-begin
-update Maintenance_Fee
-set Fine = Fine + 500
-where House_No = hno
-and Status = 'Due'
-and Fine = 0
-and (current_date - M_Date) >= 1;
-open rf_cr for
-select M_Date,Fees,Fine,Status from Maintenance_Fee where House_No = hno;
-return rf_cr;
-end add_fine;
+CREATE OR REPLACE FUNCTION add_fine (
+    hno IN VARCHAR2
+) RETURN SYS_REFCURSOR IS
+    rf_cr SYS_REFCURSOR;
+BEGIN
+    UPDATE maintenance_fee
+    SET
+        fine = 500
+    WHERE
+        house_no = hno
+        AND status = 'Due'
+        AND fine = 0
+        AND months_between(
+            current_date, m_date
+        ) >= 1;
+
+    OPEN rf_cr FOR SELECT
+                      m_date,
+                      fees,
+                      fine,
+                      status
+                  FROM
+                      maintenance_fee
+                  WHERE
+                      house_no = hno
+                  ORDER BY
+                      status;
+
+    RETURN rf_cr;
+END add_fine;

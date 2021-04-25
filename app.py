@@ -648,11 +648,13 @@ def add_complaint():
 def maintenance_fee():
     conn = pool.acquire()
     cur = conn.cursor()
-    fees = cur.execute("select M_date, fees, fine, status from maintenance_fee where house_no =: hno", hno=session["house_no"]).fetchall()
+    # fees = cur.execute("select M_date, fees, fine, status from maintenance_fee where house_no =: hno", hno=session["house_no"]).fetchall()
+    fees = cur.callfunc('add_fine', cx_Oracle.CURSOR, [session["house_no"]])
+    fees = fees.fetchall()
     cur.close()
     return render_template("payMaintenance.html", fees=fees)
 
-@app.route('/guests')
+@app.route('/guests', methods=["GET"])
 @owner_required
 def guest_log():
     conn = pool.acquire()
@@ -661,7 +663,7 @@ def guest_log():
     cur.close()
     return render_template("guestLog.html", guests=guests)
 
-@app.route('/notifications')
+@app.route('/notifications', methods=["GET"])
 @owner_required
 def notifications():
     conn = pool.acquire()
@@ -669,6 +671,16 @@ def notifications():
     notifs = cur.execute("select message, not_timestamp from notification where house_no = :hno", hno=session["house_no"]).fetchall()
     cur.close()
     return render_template("notifications.html", notifs=notifs)
+
+@app.route('/clear-notifications', methods=["GET"])
+@owner_required
+def clear_notifs():
+    conn = pool.acquire()
+    cur = conn.cursor()
+    notifs = cur.execute("delete from notification where house_no = :hno", hno=session["house_no"])
+    conn.commit()
+    cur.close()
+    return redirect('/notifications')
 
 if __name__ == '__main__':
     pool = start_pool()
