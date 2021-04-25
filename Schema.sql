@@ -6,8 +6,8 @@ create table Admin(
 create table Person(
     Person_ID varchar2(20) Primary Key,
     Name varchar2(50) not null,
-    -- Age number(3) not null,
     DOB date not null,
+    Age decimal,
     Gender varchar2(6) check( Gender in ('Male','Female')),
     Phone_No numeric(10) check(Phone_No >=1000000000 and Phone_No <= 9999999999)
 );
@@ -65,4 +65,11 @@ CREATE TABLE Maintenance_Fee(
     Status varchar2(10) DEFAULT 'Due' check(Status in ('Paid','Due')),
     PRIMARY KEY(House_No, M_Date),
     FOREIGN KEY (House_No) REFERENCES House (House_No)
-);  
+);
+CREATE TABLE Notification(
+    House_No varchar2(50),
+    Message varchar2(500),
+    Not_Timestamp timestamp default localtimestamp,
+    primary key(House_No,Not_Timestamp),
+    foreign key (House_No) References House (House_No)
+);
