@@ -65,17 +65,3 @@ CREATE OR REPLACE VIEW resident_search_view AS
             ) ON person_id = resident_id
         );
     
--- Route: 
--- Residnets info from Person, discarding Staff
-CREATE OR REPLACE VIEW preson_without_staff AS
-    SELECT
-        *
-    FROM
-        person
-    WHERE
-        person_id NOT IN (
-            SELECT
-                staff_id
-            FROM
-                staff
-        );
