@@ -175,7 +175,7 @@ insert into Maintenance_Fee values('302',to_date('2020-01-01','yyyy-mm-dd'),'110
 
 insert into Notification values('101','You have a guest Dev Jariwala',to_date('2019-06-01','yyyy-mm-dd'));
 insert into Notification values('201','You have a guest Sia Shah',to_date('2019-06-01','yyyy-mm-dd'));
-insert into Notification values('302','test minutes',TO_TIMESTAMP('2021-04-25 14:30','yyyy-mm-dd HH24:MI'));
+insert into Notification values('302','test minutes',TO_TIMESTAMP('2021-04-25 14:30:30','yyyy-mm-dd HH24:MI:SS'));
 insert into Notification values('302','test hours',TO_TIMESTAMP('2021-04-25 12:30','yyyy-mm-dd HH24:MI'));
 insert into Notification values('302','test yesterday',TO_TIMESTAMP('2021-04-24','yyyy-mm-dd'));
 insert into Notification values('302','test normal',TO_TIMESTAMP('2019-06-01','yyyy-mm-dd'));
