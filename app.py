@@ -392,7 +392,7 @@ def manage_complaint():
         option = ""
         for id, name in staffs:
             option += "<option value=" +  id + ">" + name + "</option>\n"
-        dropdown = '''<select class="form-select" style="height:2.1em;width:15em; border-style: solid;border-width: 2px;border-radius:5px" name="StaffNameSelected" id="StaffNameSelected" aria-label="Default select">
+        dropdown = '''<select class="form-select" style="height:2.1em;width:15em; border-style: solid;border-width: 2px;border-radius:5px" name="StaffNameSelected" id="StaffNameSelected" aria-label="Default select" required>
                         <option value="" selected>Select Staff</option>'''
         dropdown += option + "</select>"
         return render_template("/admin/manageComplaint.html", complaints=complaints, dropdown=dropdown)
@@ -569,6 +569,9 @@ def update_resident():
             return apology("incomplete details", 403)
         conn = pool.acquire()
         cur = conn.cursor()
+        res = cur.execute("select resident_id from resident where house_no = :hno and resident_id = :mid", hno = session["house_no"], mid=mid).fetchone()
+        if not res:
+            return apology("Invalid Resident ID",403)
         res = cur.execute("update person set name=:a, dob=to_date(:b,'yyyy-mm-dd'), gender=:c, phone_no=:d where person_id=:e", a=name, b=dob, c=gender, d=phone_no, e=mid)
         conn.commit()
         cur.close()
@@ -610,9 +613,9 @@ def remove_resident():
     conn = pool.acquire()
     cur = conn.cursor()
     # checking whether given id is of a resident
-    res = cur.execute("select resident_id from resident where resident_id = :p", p=mid).fetchone()
-    if not res:
-        return apology("resident with given id does not exist", 403)
+    # res = cur.execute("select resident_id from resident where resident_id = :p and house_no = :hno", p=mid, hno = session["house_no"]).fetchone()
+    # if not res:
+    #     return apology("You don't have any resident with ID", 403)
     res = cur.execute("delete from person where person_id=:p", p=mid)   # cascade delete will remove 
     conn.commit()
     cur.close()
