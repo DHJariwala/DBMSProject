@@ -1,10 +1,20 @@
-create or replace trigger add_notification_trigger
-after insert or update on Notice
-for each row
-declare
-begin
-for x in (select House_No from House)
-loop
-insert into Notification (House_No,Message) values(x.House_No,'New notice: ' || :new.Subject);
-end loop;
-end add_notification_trigger;
+CREATE OR REPLACE TRIGGER add_notification_trigger AFTER
+    INSERT OR UPDATE ON notice
+    FOR EACH ROW
+DECLARE BEGIN
+    FOR x IN (
+        SELECT
+            house_no
+        FROM
+            house
+    ) LOOP
+        INSERT INTO notification (
+            house_no,
+            message
+        ) VALUES (
+            x.house_no,
+            'New notice: ' || :new.subject
+        );
+
+    END LOOP;
+END add_notification_trigger;
