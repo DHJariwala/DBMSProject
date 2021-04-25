@@ -393,7 +393,7 @@ def manage_complaint():
         for id, name in staffs:
             option += "<option value=" +  id + ">" + name + "</option>\n"
         dropdown = '''<select class="form-select" style="height:2.1em;width:15em; border-style: solid;border-width: 2px;border-radius:5px" name="StaffNameSelected" id="StaffNameSelected" aria-label="Default select">
-                        <option value=-1 selected>Select Staff</option>'''
+                        <option value="" selected>Select Staff</option>'''
         dropdown += option + "</select>"
         return render_template("manageComplaint.html", complaints=complaints, dropdown=dropdown)
     else:
