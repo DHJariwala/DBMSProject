@@ -2,7 +2,7 @@ CREATE OR REPLACE TRIGGER add_notification_guest BEFORE
     INSERT ON guest
     FOR EACH ROW
 DECLARE
-    pragma autonomous_transaction;
+    PRAGMA autonomous_transaction;
 BEGIN
     INSERT INTO notification (
         house_no,
@@ -11,5 +11,6 @@ BEGIN
         :new.house_no,
         'You have a guest'
     );
-commit;
+
+    COMMIT;
 END add_notification_guest;

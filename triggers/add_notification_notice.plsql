@@ -1,8 +1,8 @@
 CREATE OR REPLACE TRIGGER add_notification_trigger AFTER
     INSERT OR UPDATE ON notice
     FOR EACH ROW
-DECLARE 
-    pragma autonomous_transaction;
+DECLARE
+    PRAGMA autonomous_transaction;
 BEGIN
     FOR x IN (
         SELECT
@@ -19,5 +19,6 @@ BEGIN
         );
 
     END LOOP;
-    commit;
+
+    COMMIT;
 END add_notification_trigger;

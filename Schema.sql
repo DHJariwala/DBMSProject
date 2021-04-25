@@ -33,10 +33,10 @@ CREATE TABLE Guest(
     Guest_ID varchar2(20) PRIMARY KEY,
     G_TimeStamp timestamp default current_timestamp not null,
     Details varchar2(1000) NOT NULL,
-    Staff_ID varchar2(10) NOT NULL,
+    Staff_ID varchar2(10),
     House_No varchar2(10) NOT NULL,
     FOREIGN KEY (House_No) REFERENCES House (House_No) on delete cascade,
-    FOREIGN KEY (Staff_ID) REFERENCES Staff (Staff_ID)
+    FOREIGN KEY (Staff_ID) REFERENCES Staff (Staff_ID) on delete set null
 );
 CREATE TABLE Notice(
     N_TimeStamp timestamp default localtimestamp not null ,
@@ -55,7 +55,7 @@ CREATE TABLE Complaint(
     House_No varchar2(20) NOT NULL,
     Staff_ID varchar2(20),
     FOREIGN KEY (House_No) REFERENCES House (House_No) on delete cascade,
-    FOREIGN KEY (Staff_ID) REFERENCES Staff (Staff_ID)
+    FOREIGN KEY (Staff_ID) REFERENCES Staff (Staff_ID) on delete set null
 );
 CREATE TABLE Maintenance_Fee(
     House_No varchar2(20),

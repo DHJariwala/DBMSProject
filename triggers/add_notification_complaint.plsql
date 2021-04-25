@@ -3,7 +3,7 @@ CREATE OR REPLACE TRIGGER add_notification_complaint AFTER
     FOR EACH ROW
 DECLARE
     nam VARCHAR2(50);
-    pragma autonomous_transaction;
+    PRAGMA autonomous_transaction;
 BEGIN
     SELECT
         person.name
@@ -31,9 +31,10 @@ BEGIN
             || :new.subject
             || '" has been resolved.'
         );
-    END IF;
-    commit;
 
+    END IF;
+
+    COMMIT;
 EXCEPTION
     WHEN too_many_rows THEN
         dbms_output.put_line('too many rows');

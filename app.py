@@ -583,7 +583,8 @@ def add_resident():
     if request.method == "GET":
         conn = pool.acquire()
         cur = conn.cursor()
-        members = cur.execute("select person_id, name from person where person_id in (select resident_id from resident where house_no=:h)", h=session["house_no"]).fetchall()
+        res = cur.execute("select owner_id from house where house_no = :hno", hno=session["house_no"]).fetchone()
+        members = cur.execute("select person_id, name from person where person_id in (select resident_id from resident where house_no=:h) and person_id <> :oid", h=session["house_no"], oid=res[0]).fetchall()
         cur.close()
         return render_template("/owner/addMember.html", members=members)
     else:
@@ -613,9 +614,9 @@ def remove_resident():
     conn = pool.acquire()
     cur = conn.cursor()
     # checking whether given id is of a resident
-    # res = cur.execute("select resident_id from resident where resident_id = :p and house_no = :hno", p=mid, hno = session["house_no"]).fetchone()
-    # if not res:
-    #     return apology("You don't have any resident with ID", 403)
+    res = cur.execute("select resident_id from resident where resident_id = :p and house_no = :hno", p=mid, hno=session["house_no"]).fetchone()
+    if not res:
+        return apology("You don't have any resident with recieved ID", 403)
     res = cur.execute("delete from person where person_id=:p", p=mid)   # cascade delete will remove 
     conn.commit()
     cur.close()
