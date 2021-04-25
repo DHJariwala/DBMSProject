@@ -3,6 +3,7 @@ CREATE OR REPLACE TRIGGER ai_guest BEFORE
     FOR EACH ROW
 DECLARE
     x NUMBER;
+    pragma autonomous_transaction;
 BEGIN
     SELECT
         MAX(to_number(guest_id))
@@ -11,4 +12,5 @@ BEGIN
         guest;
 
     :new.guest_id := x + 1;
+commit;
 END;
