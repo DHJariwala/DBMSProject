@@ -3,5 +3,5 @@ before insert on Guest
 for each row
 declare
 begin
-    insert into Notification values(:new.House_No,'You have a guest ' || :new.Details,:new.G_TimeStamp);
+    insert into Notification (House_No,Message) values(:new.House_No,'You have a guest');
 end add_notification_guest;
