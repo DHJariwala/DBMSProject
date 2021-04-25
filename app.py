@@ -69,16 +69,16 @@ def calculateAge(birthDate):
 
 @app.template_filter()
 def timeDiff(timestamp):
-    s_Min = 60;                               # seconds in Minute
-    s_Hour = s_Min * 60;                      # seconds in Hour
-    s_Day = s_Hour * 24;                      # seconds in day
-    s_Mon = s_Day * 30;                       # seconds in Month
-    s_Yr = s_Day * 365;                       # seconds in Year
-    diff = datetime.now() - timestamp         # difference between dates.
+    s_Min = 60                               # seconds in Minute
+    s_Hour = s_Min * 60                      # seconds in Hour
+    s_Day = s_Hour * 24                      # seconds in day
+    s_Mon = s_Day * 30                       # seconds in Month
+    s_Yr = s_Day * 365                       # seconds in Year
+    diff = datetime.now() - timestamp        # difference between dates.
     if diff.days == 0:
         # If the diff is less then seconds in a minute
         if diff.seconds < s_Min:
-            return diff.seconds + ' seconds ago';
+            return diff.seconds + ' seconds ago'
         # If the diff is less then seconds in a Hour
         elif diff.seconds < s_Hour:
             return str(int(diff.seconds / s_Min)) + ' minutes ago'
@@ -336,7 +336,7 @@ def remove_staff():
     conn = pool.acquire()
     cur = conn.cursor()
     # checking whether the given id is a staff
-    res = cur.execute("select staff_id from staff where staff_id = :sid", sid=sid).fetchone()
+    res = cur.callfunc('is_staff', bool, [sid])
     if not res:
         return apology("staff id does not exist", 403)
     res = cur.execute("delete from person where Person_ID = :p", p=sid) # On cascade delete removes staff too
