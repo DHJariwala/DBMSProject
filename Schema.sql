@@ -20,7 +20,7 @@ CREATE TABLE house (
     password  VARCHAR2(128) NOT NULL,
     owner_id  VARCHAR2(10) NOT NULL,
     Constraint house_no_pk Primary key (house_no),
-    Constraint house_owner_id_fk
+    Constraint owned_by
     FOREIGN KEY ( owner_id )
         REFERENCES person ( person_id )
             ON DELETE CASCADE
@@ -31,7 +31,7 @@ CREATE TABLE staff (
     password  VARCHAR2(128) NOT NULL,
     salary    INT NOT NULL,
     Constraint staf_id_pk Primary key (staff_id),
-    Constraint staff_id_fk
+    Constraint staff_isa_person
     FOREIGN KEY ( staff_id )
         REFERENCES person ( person_id )
             ON DELETE CASCADE
@@ -41,10 +41,10 @@ CREATE TABLE resident (
     resident_id  VARCHAR2(20),
     house_no     VARCHAR2(10) NOT NULL,
     Constraint resident_id_pk primary key (resident_id),
-    Constraint house_no_fk
+    Constraint resident_lives_in
     FOREIGN KEY ( house_no )
         REFERENCES house ( house_no ),
-    Constraint resident_id_fk
+    Constraint resident_isa_person
     FOREIGN KEY ( resident_id )
         REFERENCES person ( person_id )
             ON DELETE CASCADE
@@ -59,8 +59,8 @@ CREATE TABLE Complaint(
     Staff_ID varchar2(20),
     Constraint complaint_id_pk primary key (Complaint_ID),
     Constraint complaint_status_enum check(Status in ('Unassigned','Pending','Resolved')),
-    Constraint complaint_house_no_fk FOREIGN KEY (House_No) REFERENCES House (House_No) on delete cascade,
-    Constraint complaint_staff_id_fk FOREIGN KEY (Staff_ID) REFERENCES Staff (Staff_ID) on delete set null
+    Constraint complaint_lodged_by FOREIGN KEY (House_No) REFERENCES House (House_No) on delete cascade,
+    Constraint complaint_assigned_to FOREIGN KEY (Staff_ID) REFERENCES Staff (Staff_ID) on delete set null
 );
 
 CREATE TABLE Maintenance_Fee(
@@ -71,7 +71,7 @@ CREATE TABLE Maintenance_Fee(
     Status varchar2(10) DEFAULT 'Due',569
     Constraint Maintenance_status_enum check(Status in ('Paid','Due')),
     Constraint maintenance_hno_date_pk PRIMARY KEY(House_No, M_Date),
-    Constraint maintenance_house_no_fk FOREIGN KEY (House_No) REFERENCES House (House_No)
+    Constraint maintenance_to_be_payed_by FOREIGN KEY (House_No) REFERENCES House (House_No)
 
 CREATE TABLE guest (
     guest_id     VARCHAR2(20),
@@ -80,11 +80,11 @@ CREATE TABLE guest (
     staff_id     VARCHAR2(10),
     house_no     VARCHAR2(10) NOT NULL,
     Constraint guest_id_pk Primary key (Guest_ID),
-    Constraint guest_house_no_fk 
+    Constraint guest_visits 
     FOREIGN KEY ( house_no )
         REFERENCES house ( house_no )
             ON DELETE CASCADE,
-    Constraint guest_staff_id_fk
+    Constraint guest_added_by_staff
     FOREIGN KEY ( staff_id )
         REFERENCES staff ( staff_id )
             ON DELETE SET NULL
@@ -97,7 +97,7 @@ CREATE TABLE notice (
     description  VARCHAR2(2000) NOT NULL,
     Constraint notice_admin_timestamp_pk PRIMARY KEY ( n_timestamp,
                   admin_id ),
-    Constraint notice_admin_id_fk
+    Constraint notice_posted_by
     FOREIGN KEY ( admin_id )
         REFERENCES admin ( admin_id )
 );
@@ -108,7 +108,7 @@ CREATE TABLE notification (
     not_timestamp  TIMESTAMP DEFAULT localtimestamp,
     Constraint notification_house_no_timestamp_pk PRIMARY KEY ( house_no,
                   not_timestamp ),
-    Constraint notification_house_no_fk
+    Constraint notification_given_to
     FOREIGN KEY ( house_no )
         REFERENCES house ( house_no )
 );
