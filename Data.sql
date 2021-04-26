@@ -28,6 +28,7 @@ insert into Person (Person_ID,Name,DOB,Gender,Phone_No) values('24','Vaishnavi R
 insert into Person (Person_ID,Name,DOB,Gender,Phone_No) values('25','Jugal Randhawa',to_date('1990-10-31','yyyy-mm-dd'),'Male','1199119888');
 insert into Person (Person_ID,Name,DOB,Gender,Phone_No) values('26','Naruto Uzumaki',to_date('1990-10-10','yyyy-mm-dd'),'Male','1199100888');
 insert into Person (Person_ID,Name,DOB,Gender,Phone_No) values('27','Hinata Uzumaki',to_date('1990-12-27','yyyy-mm-dd'),'Female','1190119888');
+insert into Person (Person_ID,Name,DOB,Gender,Phone_No) values('28','Vaishali Gupta',to_date('1991-07-27','yyyy-mm-dd'),'Female','9992219888');
 
 insert into House values('101','pbkdf2:sha256:150000$WaPJ6r88$fb5b174160e71b6976b4a70769b81c1776dfa621a9a616b4320e7b92705a6324','1'); -- mypassword
 insert into House values('102','pbkdf2:sha256:150000$YMSMt0I1$b414cd2c443db48e94e6038133c36dd64e25ddb4bced1b7ec5056ef1f9be2a33','6'); -- password
@@ -61,6 +62,7 @@ insert into Resident values('14','301');
 insert into Resident values('15','301');
 insert into Resident values('16','302');
 insert into Resident values('17','302');
+insert into Resident values('28','302');
 insert into Resident values('20','401');
 insert into Resident values('22','402');
 insert into Resident values('23','402');
