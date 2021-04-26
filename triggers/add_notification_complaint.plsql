@@ -15,9 +15,9 @@ BEGIN
             person_id = :new.staff_id;
         add_notification(
                         :new.house_no,
-                        'Your complaint '
+                        'Your complaint "'
                         || :new.subject
-                        || ' has been assigned to '
+                        || '" has been assigned to '
                         || nam
         );
 
