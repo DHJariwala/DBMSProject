@@ -33,10 +33,10 @@
     <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item {% if active_page == "Search" %}active{% endif %}">
-            <a class="nav-link" href="{{url_for('search')}}">Search Resident</a>
+            <a class="nav-link" href="{{url_for('search')}}">Search Residents</a>
             </li>
             <li class="nav-item {% if active_page == "Manage Notice" %}active{% endif %}"">
-            <a class="nav-link" href="{{ url_for('list_notice', role='staff') }}">View Notice</a>
+            <a class="nav-link" href="{{ url_for('list_notice', role='staff') }}">Notices</a>
             </li>
             <li class="nav-item {% if active_page == "Complaints" %}active{% endif %}">
             <a class="nav-link" href="{{url_for('staff_complaint')}}">Complaints</a>

@@ -78,7 +78,7 @@ def timeDiff(timestamp):
     if diff.days == 0:
         # If the diff is less then seconds in a minute
         if diff.seconds < s_Min:
-            return diff.seconds + ' seconds ago'
+            return str(diff.seconds) + ' seconds ago'
         # If the diff is less then seconds in a Hour
         elif diff.seconds < s_Hour:
             return str(int(diff.seconds / s_Min)) + ' minutes ago'
@@ -357,7 +357,7 @@ def list_notice(role):
         return apology("this route does not exist", 404)
     conn = pool.acquire()
     cur = conn.cursor()
-    res = cur.execute("select subject, description, N_TimeStamp, admin_id from notice")
+    res = cur.execute("select subject, description, N_TimeStamp, admin_id from notice order by N_Timestamp desc")
     notices = res.fetchall()
     cur.close()
     return render_template("listNotice.html", notices=notices, nav=nav)
@@ -386,7 +386,7 @@ def manage_complaint():
     if request.method == "GET":
         conn = pool.acquire()
         cur = conn.cursor()
-        complaints = cur.execute("select * from complaint_view").fetchall()
+        complaints = cur.execute("select * from complaint_view order by C_timestamp").fetchall()
         staffs = cur.execute("select Staff_id, name from Staff join Person on Staff_ID = Person_ID").fetchall()
         cur.close()
         option = ""
@@ -449,8 +449,8 @@ def staff_complaint():
     if request.method == "GET":
         conn = pool.acquire()
         cur = conn.cursor()
-        yourcomplaints = cur.execute("select Complaint_ID, Status, C_TimeStamp, Subject, Description, House_No, Owner_name from complaint_view where Staff_Id = :sid", sid=session["staff_id"]).fetchall()
-        unassignedc = cur.execute("select Complaint_ID, Status, C_TimeStamp, Subject, Description, House_No, Owner_name from complaint_view where Status = 'Unassigned'").fetchall()
+        yourcomplaints = cur.execute("select Complaint_ID, Status, C_TimeStamp, Subject, Description, House_No, Owner_name from complaint_view where Staff_Id = :sid order by C_Timestamp", sid=session["staff_id"]).fetchall()
+        unassignedc = cur.execute("select Complaint_ID, Status, C_TimeStamp, Subject, Description, House_No, Owner_name from complaint_view where Status = 'Unassigned'order by C_Timestamp").fetchall()
         cur.close()
         return render_template("/staff/Complaints.html", yc=yourcomplaints, unc=unassignedc)
     else:
@@ -501,7 +501,7 @@ def add_guest():
 def list_guest():
     conn = pool.acquire()
     cur = conn.cursor()
-    guests = cur.execute("select house_no, details, staff_id, g_timestamp from guest order by guest_id desc").fetchall()
+    guests = cur.execute("select house_no, details, staff_id, g_timestamp from guest order by g_timestamp desc").fetchall()
     cur.close()
     return render_template("/staff/listGuest.html", guests=guests)
 
@@ -627,7 +627,7 @@ def remove_resident():
 def list_complaints():
     conn = pool.acquire()
     cur = conn.cursor()
-    complaints = cur.execute("select Complaint_ID, C_TimeStamp, Subject, Description, Status, Staff_ID, Staff_name from complaint_view").fetchall()
+    complaints = cur.execute("select Complaint_ID, C_TimeStamp, Subject, Description, Status, Staff_ID, Staff_name from complaint_view order by c_timestamp desc").fetchall()
     cur.close()
     return render_template("/owner/listComplaints.html", complaints=complaints)
 
@@ -663,7 +663,7 @@ def maintenance_fee():
 def guest_log():
     conn = pool.acquire()
     cur = conn.cursor()
-    guests = cur.execute("select details, g_timestamp from guest where house_no =: hno", hno=session["house_no"]).fetchall()
+    guests = cur.execute("select details, g_timestamp from guest where house_no =: hno order by g_timestamp desc", hno=session["house_no"]).fetchall()
     cur.close()
     return render_template("/owner/guestLog.html", guests=guests)
 
@@ -672,7 +672,7 @@ def guest_log():
 def notifications():
     conn = pool.acquire()
     cur = conn.cursor()
-    notifs = cur.execute("select message, not_timestamp from notification where house_no = :hno", hno=session["house_no"]).fetchall()
+    notifs = cur.execute("select message, not_timestamp from notification where house_no = :hno order by not_timestamp desc", hno=session["house_no"]).fetchall()
     cur.close()
     return render_template("/owner/notifications.html", notifs=notifs)
 
