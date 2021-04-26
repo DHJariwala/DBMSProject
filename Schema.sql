@@ -7,7 +7,6 @@ create table Person(
     Person_ID varchar2(20) Primary Key,
     Name varchar2(50) not null,
     DOB date not null,
-    Age decimal not null,
     Gender varchar2(6) not null,
     Phone_No numeric(10),
     Constraint gender_enum check(Gender in ('Male','Female')),
