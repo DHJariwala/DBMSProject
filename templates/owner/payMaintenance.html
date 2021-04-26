@@ -33,9 +33,16 @@ Pay Maintenance Fee
             {% if fee[3] == 'Paid' %}
             Paid
             {% else %}
-            <a href="#">
-              <button type="button" class="btn btn-secondary" style="background-color:#343a40;margin-left: -0.4em;">Pay</button>
-            </a>
+            <form action="{{ url_for('maintenance_fee') }}" method="POST">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <input type="hidden" value="{{ fee[0]|datetimeformat("%Y-%m-%d") }}" name="mdate">
+              <input
+                      type="submit"
+                      class="btn btn-secondary"
+                      style="background-color:#343a40;margin-left: -0.4em;"
+                      value="Pay"
+              >
+            </form>
             {% endif %}
             </td>
           </tr>
