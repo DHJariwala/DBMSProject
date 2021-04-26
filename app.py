@@ -647,16 +647,30 @@ def add_complaint():
         cur.close()
         return redirect('/complaints')
     
-@app.route('/maintenance-fee', methods=["GET"])
+@app.route('/maintenance-fee', methods=["GET", "POST"])
 @owner_required
 def maintenance_fee():
-    conn = pool.acquire()
-    cur = conn.cursor()
-    # fees = cur.execute("select M_date, fees, fine, status from maintenance_fee where house_no =: hno", hno=session["house_no"]).fetchall()
-    fees = cur.callfunc('add_fine', cx_Oracle.CURSOR, [session["house_no"]])
-    fees = fees.fetchall()
-    cur.close()
-    return render_template("/owner/payMaintenance.html", fees=fees)
+    if request.method == "GET":
+        conn = pool.acquire()
+        cur = conn.cursor()
+        # fees = cur.execute("select M_date, fees, fine, status from maintenance_fee where house_no =: hno", hno=session["house_no"]).fetchall()
+        fees = cur.callfunc('add_fine', cx_Oracle.CURSOR, [session["house_no"]])
+        fees = fees.fetchall()
+        cur.close()
+        return render_template("/owner/payMaintenance.html", fees=fees)
+    else:
+        mdate = request.form.get("mdate")
+        if not mdate:
+            return apology("date of maintenance fee not provided", 403)
+        conn = pool.acquire()
+        cur = conn.cursor()
+        res = cur.execute("select status from maintenance_fee where m_date = to_date(:mdate,'yyyy-mm-dd') and house_no = :hno", mdate=mdate, hno=session["house_no"]).fetchone()
+        if not res or res[0] != 'Due':
+            return apology("maintenance fee paid already or not found", 403)
+        cur.execute("update maintenance_fee set status = 'Paid' where m_date = to_date(:mdate,'yyyy-mm-dd') and house_no = :hno", mdate=mdate, hno=session["house_no"])
+        conn.commit()
+        cur.close()
+        return redirect('/maintenance-fee')
 
 @app.route('/guests', methods=["GET"])
 @owner_required
@@ -685,6 +699,10 @@ def clear_notifs():
     conn.commit()
     cur.close()
     return redirect('/notifications')
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return apology('page not found', 404)
 
 if __name__ == '__main__':
     pool = start_pool()

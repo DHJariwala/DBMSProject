@@ -7,7 +7,6 @@ CREATE TABLE Person(
     Person_ID varchar2(20),
     Name varchar2(50) not null,
     DOB date not null,
-    Age decimal not null,
     Gender varchar2(6) not null,
     Phone_No numeric(10),
     Constraint person_id_pk Primary key (Person_ID),
@@ -68,7 +67,7 @@ CREATE TABLE Maintenance_Fee(
     M_Date Date default localtimestamp not null,
     Fees int NOT NULL,
     Fine int DEFAULT 0,
-    Status varchar2(10) DEFAULT 'Due',569
+    Status varchar2(10) DEFAULT 'Due',
     Constraint Maintenance_status_enum check(Status in ('Paid','Due')),
     Constraint maintenance_hno_date_pk PRIMARY KEY(House_No, M_Date),
     Constraint maintenance_to_be_payed_by FOREIGN KEY (House_No) REFERENCES House (House_No)
