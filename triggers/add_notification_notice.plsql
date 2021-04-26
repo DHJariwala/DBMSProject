@@ -10,8 +10,10 @@ BEGIN
         FROM
             house
     ) LOOP
-        add_notification(x.house_no, 'New notice: ' || :new.subject);
-
+        add_notification(
+                        x.house_no,
+                        'New notice: ' || :new.subject
+        );
     END LOOP;
 
     COMMIT;

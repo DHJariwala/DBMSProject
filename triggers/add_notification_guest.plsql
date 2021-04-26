@@ -4,6 +4,9 @@ CREATE OR REPLACE TRIGGER add_notification_guest BEFORE
 DECLARE
     PRAGMA autonomous_transaction;
 BEGIN
-    add_notification(:new.house_no,'You have a guest');
+    add_notification(
+                    :new.house_no,
+                    'You have a guest'
+    );
     COMMIT;
 END add_notification_guest;

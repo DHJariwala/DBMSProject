@@ -16,7 +16,7 @@ BEGIN
     RETURN bool;
 EXCEPTION
     WHEN too_many_rows THEN
-        RETURN FALSE;
+        RETURN false;
     WHEN no_data_found THEN
-        RETURN FALSE;
+        RETURN false;
 END is_staff;

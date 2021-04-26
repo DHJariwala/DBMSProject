@@ -10,5 +10,6 @@ BEGIN
         hno,
         msg
     );
+
     COMMIT;
 END add_notification;
