@@ -18,21 +18,22 @@ function todayDate(){
       console.log(today);
       return today;
       
-  }
-
+}
 document.addEventListener("DOMContentLoaded", function() {
-    document.getElementById("InputDOB").setAttribute("max", todayDate());
+  var dob = document.getElementById("InputDOB");
+  if (dob != null)
+    dob.setAttribute("max", todayDate());
 });
 
 function validatePassword(){
-    var form = document.forms["myForm"];
+  
+    var form = document.forms["changePass"];
     var password1=form["InputNewPassword"];
     var password2=form["InputConfirmPassword"];
-    
     
     if (password1.value!=password2.value) {
       document.getElementById("invalid-feedback").style.display="block";
       // password1.focus;
       return false;
     }
-  }
+}

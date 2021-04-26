@@ -3,7 +3,7 @@ CREATE TABLE admin (
     password  VARCHAR2(128) NOT NULL,
     CONSTRAINT admin_pk PRIMARY KEY ( admin_id )
 );
-create table Person(
+CREATE TABLE Person(
     Person_ID varchar2(20),
     Name varchar2(50) not null,
     DOB date not null,
