@@ -35,7 +35,7 @@
             <li class="nav-item dropdown {% if active_page == "Manage House" %}active{% endif %}">
             <a class="nav-link dropdown-toggle" href="#" id="HouseDropdown" role="button" data-toggle="dropdown"
                aria-haspopup="true" aria-expanded="false">
-                Manage House
+                House
             </a>
             <div class="dropdown-menu" aria-labelledby="HouseDropdown">
                 <a class="dropdown-item" href="{{ url_for('list_house_owners') }}">List House Owner</a>
@@ -45,7 +45,7 @@
             <li class="nav-item dropdown {% if active_page == "Manage Staff" %}active{% endif %}">
             <a class="nav-link dropdown-toggle" href="#" id="StaffDropdown" role="button" data-toggle="dropdown"
                aria-haspopup="true" aria-expanded="false">
-                Manage Staff
+                Staffs
             </a>
             <div class="dropdown-menu" aria-labelledby="StaffDropdown">
                 <a class="dropdown-item" href="{{ url_for('list_staff') }}">List Staff</a>
@@ -55,7 +55,7 @@
             <li class="nav-item dropdown {% if active_page == "Manage Notice" %}active{% endif %}">
             <a class="nav-link dropdown-toggle" href="#" id="NoticeDropdown" role="button" data-toggle="dropdown"
                aria-haspopup="true" aria-expanded="false">
-                Manage Notice
+                Notices
             </a>
             <div class="dropdown-menu" aria-labelledby="NoticeDropdown">
                 <a class="dropdown-item" href="{{ url_for('list_notice', role='admin') }}">List Notice</a>
@@ -63,7 +63,7 @@
             </div>
             </li>
             <li class="nav-item {% if active_page == "Manage Complaint" %}active{% endif %}">
-            <a class="nav-link" href="{{ url_for('manage_complaint') }}">Manage Complaint</a>
+            <a class="nav-link" href="{{ url_for('manage_complaint') }}">Complaints</a>
             </li>
             <li class="nav-item {% if active_page == "Maintenance Fee" %}active{% endif %}">
             <a class="nav-link" href="{{ url_for('manage_maintenance') }}">Maintenance Fee</a>

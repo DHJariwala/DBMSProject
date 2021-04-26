@@ -43,7 +43,7 @@
             <li class="nav-item dropdown {% if active_page == "Members" %}active{% endif %}">
                 <a class="nav-link dropdown-toggle" href="#" id="HouseDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
-                    Manage House Members
+                    House Members
                 </a>
                 <div class="dropdown-menu" aria-labelledby="HouseDropdown">
                     <a class="dropdown-item" href="{{ url_for('list_members')}}">List House Members</a>
@@ -53,11 +53,11 @@
             <li class="nav-item dropdown {% if active_page == "Complaint" %}active{% endif %}">
                 <a class="nav-link dropdown-toggle" href="#" id="ComplaintDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
-                    Manage Complaint
+                    Complaints
                 </a>
                 <div class="dropdown-menu" aria-labelledby="ComplaintDropdown">
-                    <a class="dropdown-item" href="{{ url_for('list_complaints')}}">List Complaints</a>
-                    <a class="dropdown-item" href="{{ url_for('add_complaint')}}">Add Complain</a>
+                    <a class="dropdown-item" href="{{ url_for('list_complaints')}}">Your Complaints</a>
+                    <a class="dropdown-item" href="{{ url_for('add_complaint')}}">New Complain</a>
                 </div>
             </li>
             <li class="nav-item {% if active_page == "Maintenance Fee" %}active{% endif %}">
