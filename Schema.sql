@@ -41,7 +41,6 @@ CREATE TABLE resident (
         REFERENCES person ( person_id )
             ON DELETE CASCADE
 );
-<<<<<<< HEAD
 CREATE TABLE Complaint(
     Complaint_ID varchar2(10) PRIMARY KEY,
     C_TimeStamp timestamp default localtimestamp not null,
@@ -63,7 +62,6 @@ CREATE TABLE Maintenance_Fee(
     Constraint Maintenance_status_enum check(Status in ('Paid','Due')),
     PRIMARY KEY(House_No, M_Date),
     FOREIGN KEY (House_No) REFERENCES House (House_No)
-=======
 
 CREATE TABLE guest (
     guest_id     VARCHAR2(20) PRIMARY KEY,
@@ -88,35 +86,6 @@ CREATE TABLE notice (
                   admin_id ),
     FOREIGN KEY ( admin_id )
         REFERENCES admin ( admin_id )
->>>>>>> 924149f8226ca32c3a8407820459cd75b443850a
-);
-
-CREATE TABLE complaint (
-    complaint_id  VARCHAR2(10) PRIMARY KEY,
-    c_timestamp   TIMESTAMP DEFAULT localtimestamp NOT NULL,
-    subject       VARCHAR2(200) NOT NULL,
-    description   VARCHAR2(2000) NOT NULL,
-    status        VARCHAR2(30) DEFAULT 'Unassigned' CHECK ( status IN ( 'Unassigned', 'Pending', 'Resolved' ) ),
-    house_no      VARCHAR2(20) NOT NULL,
-    staff_id      VARCHAR2(20),
-    FOREIGN KEY ( house_no )
-        REFERENCES house ( house_no )
-            ON DELETE CASCADE,
-    FOREIGN KEY ( staff_id )
-        REFERENCES staff ( staff_id )
-            ON DELETE SET NULL
-);
-
-CREATE TABLE maintenance_fee (
-    house_no  VARCHAR2(20),
-    m_date    DATE DEFAULT localtimestamp NOT NULL,
-    fees      INT NOT NULL,
-    fine      INT DEFAULT 0,
-    status    VARCHAR2(10) DEFAULT 'Due' CHECK ( status IN ( 'Paid', 'Due' ) ),
-    PRIMARY KEY ( house_no,
-                  m_date ),
-    FOREIGN KEY ( house_no )
-        REFERENCES house ( house_no )
 );
 
 CREATE TABLE notification (
