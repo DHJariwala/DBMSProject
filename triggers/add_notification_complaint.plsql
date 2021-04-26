@@ -5,39 +5,31 @@ DECLARE
     nam VARCHAR2(50);
     PRAGMA autonomous_transaction;
 BEGIN
-    SELECT
-        person.name
-    INTO nam
-    FROM
-        staff
-        JOIN person ON person_id = :new.staff_id;
-
     IF :new.status = 'Pending' THEN
-        INSERT INTO notification (
-            house_no,
-            message
-        ) VALUES (
-            :new.house_no,
-            'Your complaint has been assigned to ' || nam
+        SELECT
+            person.name
+        INTO nam
+        FROM
+            person
+        WHERE
+            person_id = :new.staff_id;
+        add_notification(
+                        :new.house_no,
+                        'Your complaint '
+                        || :new.subject
+                        || ' has been assigned to '
+                        || nam
         );
 
+        COMMIT;
     ELSIF :new.status = 'Resolved' THEN
-        INSERT INTO notification (
-            house_no,
-            message
-        ) VALUES (
-            :new.house_no,
-            'Your complaint "'
-            || :new.subject
-            || '" has been resolved.'
+        add_notification(
+                        :new.house_no,
+                        'Your complaint "'
+                        || :new.subject
+                        || '" has been resolved.'
         );
 
+        COMMIT;
     END IF;
-
-    COMMIT;
-EXCEPTION
-    WHEN too_many_rows THEN
-        dbms_output.put_line('too many rows');
-    WHEN no_data_found THEN
-        dbms_output.put_line('no data found');
 END add_notification_complaint;

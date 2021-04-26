@@ -1,5 +1,14 @@
-create or replace procedure add_notification
-(hno in varchar2,msg in varchar2) is
-begin
-insert into Notification (House_No,Message) values(hno,msg);
-end add_notification;
+CREATE OR REPLACE PROCEDURE add_notification (
+    hno  IN  VARCHAR2,
+    msg  IN  VARCHAR2
+) IS
+BEGIN
+    INSERT INTO notification (
+        house_no,
+        message
+    ) VALUES (
+        hno,
+        msg
+    );
+    COMMIT;
+END add_notification;
