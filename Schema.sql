@@ -71,6 +71,7 @@ CREATE TABLE Maintenance_Fee(
     Constraint Maintenance_status_enum check(Status in ('Paid','Due')),
     Constraint maintenance_hno_date_pk PRIMARY KEY(House_No, M_Date),
     Constraint maintenance_to_be_payed_by FOREIGN KEY (House_No) REFERENCES House (House_No)
+);
 
 CREATE TABLE guest (
     guest_id     VARCHAR2(20),
