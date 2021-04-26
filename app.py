@@ -627,7 +627,7 @@ def remove_resident():
 def list_complaints():
     conn = pool.acquire()
     cur = conn.cursor()
-    complaints = cur.execute("select Complaint_ID, C_TimeStamp, Subject, Description, Status, Staff_ID, Staff_name from complaint_view order by c_timestamp desc").fetchall()
+    complaints = cur.execute("select Complaint_ID, C_TimeStamp, Subject, Description, Status, Staff_ID, Staff_name from complaint_view where House_no = :hno order by c_timestamp desc", hno=session["house_no"]).fetchall()
     cur.close()
     return render_template("/owner/listComplaints.html", complaints=complaints)
 
