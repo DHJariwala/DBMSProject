@@ -7,9 +7,11 @@ create table Person(
     Person_ID varchar2(20) Primary Key,
     Name varchar2(50) not null,
     DOB date not null,
-    Age decimal,
-    Gender varchar2(6) check( Gender in ('Male','Female')),
-    Phone_No numeric(10) check(Phone_No >=1000000000 and Phone_No <= 9999999999)
+    Age decimal not null,
+    Gender varchar2(6) not null,
+    Phone_No numeric(10),
+    Constraint gender_enum check(Gender in ('Male','Female')),
+    Constraint proper_ph_no check(Phone_No >=1000000000 and Phone_No <= 9999999999)
 );
 CREATE TABLE House(
     House_No varchar2(10) PRIMARY KEY,
@@ -51,9 +53,10 @@ CREATE TABLE Complaint(
     C_TimeStamp timestamp default localtimestamp not null,
     Subject varchar2(200) NOT NULL,
     Description varchar2(2000) NOT NULL,
-    Status varchar2(30) DEFAULT 'Unassigned' check(Status in ('Unassigned','Pending','Resolved')),
+    Status varchar2(30) DEFAULT 'Unassigned',
     House_No varchar2(20) NOT NULL,
     Staff_ID varchar2(20),
+    Constraint complaint_status_enum check(Status in ('Unassigned','Pending','Resolved')),
     FOREIGN KEY (House_No) REFERENCES House (House_No) on delete cascade,
     FOREIGN KEY (Staff_ID) REFERENCES Staff (Staff_ID) on delete set null
 );
@@ -62,7 +65,8 @@ CREATE TABLE Maintenance_Fee(
     M_Date Date default localtimestamp not null,
     Fees int NOT NULL,
     Fine int DEFAULT 0,
-    Status varchar2(10) DEFAULT 'Due' check(Status in ('Paid','Due')),
+    Status varchar2(10) DEFAULT 'Due',
+    Constraint Maintenance_status_enum check(Status in ('Paid','Due')),
     PRIMARY KEY(House_No, M_Date),
     FOREIGN KEY (House_No) REFERENCES House (House_No)
 );
