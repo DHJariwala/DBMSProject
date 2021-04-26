@@ -69,23 +69,23 @@ insert into Resident values('25','501');
 insert into Resident values('26','502');
 insert into Resident values('27','502');
 
-insert into Guest values('1',to_date('2019-06-01','yyyy-mm-dd'),'Dev Jariwala','5','101');
-insert into Guest values('2',to_date('2019-06-01','yyyy-mm-dd'),'Sia Shah','18','201');
-insert into Guest values('3',to_date('2019-06-01','yyyy-mm-dd'),'Labdhi Shah','5','202');
-insert into Guest values('4',to_date('2019-06-01','yyyy-mm-dd'),'Raj Jikadra','5','301');
-insert into Guest values('5',to_date('2019-06-01','yyyy-mm-dd'),'Muktesharyan Uppala','19','102');
-insert into Guest values('6',to_date('2020-01-01','yyyy-mm-dd'),'Sauske Uchiha','19','502');
+insert into Guest values('1',to_date('2019-06-01 12:00','yyyy-mm-dd HH24:mi'),'Dev Jariwala','5','101');
+insert into Guest values('2',to_date('2019-06-01 08:30','yyyy-mm-dd HH24:mi'),'Sia Shah','18','201');
+insert into Guest values('3',to_date('2019-06-01 15:35','yyyy-mm-dd HH24:mi'),'Labdhi Shah','5','202');
+insert into Guest values('4',to_date('2019-06-01 20:10','yyyy-mm-dd HH24:mi'),'Raj Jikadra','5','301');
+insert into Guest values('5',to_date('2019-06-01 19:50','yyyy-mm-dd HH24:mi'),'Muktesharyan Uppala','19','102');
+insert into Guest values('6',to_date('2020-01-01 20:12','yyyy-mm-dd HH24:mi'),'Sauske Uchiha','19','502');
 
 insert into Notice values(to_date('2019-03-10 12:00','yyyy-mm-dd HH24:mi'),'Admin1','Holi Party','On 20 March  we have oraganized Holi party and lunch so please come downstairs at 9:00 AM');
-insert into Notice values(to_date('2019-06-25 16:00','yyyy-mm-dd HH24:mi'),'Admin2','Building Meeting','On 30 June 10 PM we have oraganized a building meeting to discuss the increase in maintenance fees of our building');
-insert into Notice values(to_date('2019-10-20 18:00','yyyy-mm-dd HH24:mi'),'Admin1','Diwali Party','On 27 October we have organized Diwali party and dinner, so please attend the same at 8:00 PM');
-insert into Notice values(to_date('2020-01-04 10:00','yyyy-mm-dd HH24:mi'),'Admin1','Lunch on Uttarayan','On 14 January we have organized lunch on the occasion of Uttarayan, so please attend the same at 12:30 PM');
+insert into Notice values(to_date('2019-06-25 16:30','yyyy-mm-dd HH24:mi'),'Admin2','Building Meeting','On 30 June 10 PM we have oraganized a building meeting to discuss the increase in maintenance fees of our building');
+insert into Notice values(to_date('2019-10-20 18:01','yyyy-mm-dd HH24:mi'),'Admin1','Diwali Party','On 27 October we have organized Diwali party and dinner, so please attend the same at 8:00 PM');
+insert into Notice values(to_date('2020-01-04 10:39','yyyy-mm-dd HH24:mi'),'Admin1','Lunch on Uttarayan','On 14 January we have organized lunch on the occasion of Uttarayan, so please attend the same at 12:30 PM');
 insert into Notice values(to_date('2020-04-26 10:00','yyyy-mm-dd HH24:mi'),'Admin2','Covid-19 Lockdown','As per government orders, everyone must stay home due to the ongoing Covid-19 pandamic. Every resident must wear masks if they want to walk in the compound. Stay home stay safe.');
-insert into Notice values(to_date('2020-10-01 08:00','yyyy-mm-dd HH24:mi'),'Admin2','Covid-19 Guidelines','Due to the spread of Covid-19, sanitizers will be available at the main gate. All residents have to sanitize their hands before entering the building. Guest can only enter the building if their temperature is in normal range and are wearing a mask. Stay Safe');
+insert into Notice values(to_date('2020-10-01 08:09','yyyy-mm-dd HH24:mi'),'Admin2','Covid-19 Guidelines','Due to the spread of Covid-19, sanitizers will be available at the main gate. All residents have to sanitize their hands before entering the building. Guest can only enter the building if their temperature is in normal range and are wearing a mask. Stay Safe');
 
 insert into Complaint values('1',to_date('2019-03-11 12:00','yyyy-mm-dd HH24:mi'),'Broken tiles','In our parking space, near the main gate, the floor is uneven, so it needs fixing','Resolved','101','18');
-insert into Complaint values('2',to_date('2020-06-25 12:00','yyyy-mm-dd HH24:mi'),'Leaking tap','Buildings water tap is broken and needs fixing','Resolved','302','18');
-insert into Complaint values('3',to_date('2021-04-15 12:00','yyyy-mm-dd HH24:mi'),'Broken light','Lights on the third floor need fixing','Pending','302','19');
+insert into Complaint values('2',to_date('2020-06-25 10:00','yyyy-mm-dd HH24:mi'),'Leaking tap','Buildings water tap is broken and needs fixing','Resolved','302','18');
+insert into Complaint values('3',to_date('2021-04-15 11:00','yyyy-mm-dd HH24:mi'),'Broken light','Lights on the third floor need fixing','Pending','302','19');
 insert into Complaint values('4',to_date('2021-04-16 12:00','yyyy-mm-dd HH24:mi'),'Pipe leakage','There is a pipe leakage on the fifth floor','Unassigned','501',NULL);
 insert into Complaint values('5',to_date('2021-04-20 12:00','yyyy-mm-dd HH24:mi'),'Empty hand sanitizer','Hand sanitizer at the main gate is empty since last 3 days. It needs refiling.','Unassigned','501',NULL);
 insert into Complaint values('6',to_date('2021-04-16 12:00','yyyy-mm-dd HH24:mi'),'Pipe leakage','There is a pipe leakage on the fifth floor','Unassigned','501',NULL);
@@ -122,12 +122,12 @@ insert into Maintenance_Fee values('501',to_date('2021-01-01','yyyy-mm-dd'),'100
 insert into Maintenance_Fee values('502',to_date('2020-01-01','yyyy-mm-dd'),'11000','0','Due');
 
 -- insert for guest
-insert into Notification values('101','You have a guest',to_date('2019-06-01','yyyy-mm-dd'));
-insert into Notification values('201','You have a guest',to_date('2019-06-01','yyyy-mm-dd'));
-insert into Notification values('202','You have a guest',to_date('2019-06-01','yyyy-mm-dd'));
-insert into Notification values('301','You have a guest',to_date('2019-06-01','yyyy-mm-dd'));
-insert into Notification values('102','You have a guest',to_date('2019-06-01','yyyy-mm-dd'));
-insert into Notification values('102','You have a guest',to_date('2020-01-01','yyyy-mm-dd'));
+insert into Notification values('101','You have a guest',to_date('2019-06-01 12:00','yyyy-mm-dd HH24:mi'));
+insert into Notification values('201','You have a guest',to_date('2019-06-01 8:30','yyyy-mm-dd HH24:mi'));
+insert into Notification values('202','You have a guest',to_date('2019-06-01 15:35','yyyy-mm-dd HH24:mi'));
+insert into Notification values('301','You have a guest',to_date('2019-06-01 20:10','yyyy-mm-dd HH24:mi'));
+insert into Notification values('102','You have a guest',to_date('2019-06-01 19:50','yyyy-mm-dd HH24:mi'));
+insert into Notification values('102','You have a guest',to_date('2020-01-01 20:12','yyyy-mm-dd HH24:mi'));
 
 -- insert for notice
 insert into Notification values('101','New notice: Holi Party',to_timestamp('2019-03-10 12:00','yyyy-mm-dd HH24:mi');
@@ -141,38 +141,38 @@ insert into Notification values('402','New notice: Holi Party',to_timestamp('201
 insert into Notification values('501','New notice: Holi Party',to_timestamp('2019-03-10 12:00','yyyy-mm-dd HH24:mi');
 insert into Notification values('502','New notice: Holi Party',to_timestamp('2019-03-10 12:00','yyyy-mm-dd HH24:mi');
 
-insert into Notification values('101','New notice: Building Meeting',to_timestamp('2019-06-25 16:00','yyyy-mm-dd HH24:mi');
-insert into Notification values('102','New notice: Building Meeting',to_timestamp('2019-06-25 16:00','yyyy-mm-dd HH24:mi');
-insert into Notification values('201','New notice: Building Meeting',to_timestamp('2019-06-25 16:00','yyyy-mm-dd HH24:mi');
-insert into Notification values('202','New notice: Building Meeting',to_timestamp('2019-06-25 16:00','yyyy-mm-dd HH24:mi');
-insert into Notification values('301','New notice: Building Meeting',to_timestamp('2019-06-25 16:00','yyyy-mm-dd HH24:mi');
-insert into Notification values('302','New notice: Building Meeting',to_timestamp('2019-06-25 16:00','yyyy-mm-dd HH24:mi');
-insert into Notification values('401','New notice: Building Meeting',to_timestamp('2019-06-25 16:00','yyyy-mm-dd HH24:mi');
-insert into Notification values('402','New notice: Building Meeting',to_timestamp('2019-06-25 16:00','yyyy-mm-dd HH24:mi');
-insert into Notification values('501','New notice: Building Meeting',to_timestamp('2019-06-25 16:00','yyyy-mm-dd HH24:mi');
-insert into Notification values('502','New notice: Building Meeting',to_timestamp('2019-06-25 16:00','yyyy-mm-dd HH24:mi');
+insert into Notification values('101','New notice: Building Meeting',to_timestamp('2019-06-25 16:30','yyyy-mm-dd HH24:mi');
+insert into Notification values('102','New notice: Building Meeting',to_timestamp('2019-06-25 16:30','yyyy-mm-dd HH24:mi');
+insert into Notification values('201','New notice: Building Meeting',to_timestamp('2019-06-25 16:30','yyyy-mm-dd HH24:mi');
+insert into Notification values('202','New notice: Building Meeting',to_timestamp('2019-06-25 16:30','yyyy-mm-dd HH24:mi');
+insert into Notification values('301','New notice: Building Meeting',to_timestamp('2019-06-25 16:30','yyyy-mm-dd HH24:mi');
+insert into Notification values('302','New notice: Building Meeting',to_timestamp('2019-06-25 16:30','yyyy-mm-dd HH24:mi');
+insert into Notification values('401','New notice: Building Meeting',to_timestamp('2019-06-25 16:30','yyyy-mm-dd HH24:mi');
+insert into Notification values('402','New notice: Building Meeting',to_timestamp('2019-06-25 16:30','yyyy-mm-dd HH24:mi');
+insert into Notification values('501','New notice: Building Meeting',to_timestamp('2019-06-25 16:30','yyyy-mm-dd HH24:mi');
+insert into Notification values('502','New notice: Building Meeting',to_timestamp('2019-06-25 16:30','yyyy-mm-dd HH24:mi');
 
-insert into Notification values('101','New notice: Diwali Party',to_timestamp('2019-10-20 18:00','yyyy-mm-dd HH24:mi');
-insert into Notification values('102','New notice: Diwali Party',to_timestamp('2019-10-20 18:00','yyyy-mm-dd HH24:mi');
-insert into Notification values('201','New notice: Diwali Party',to_timestamp('2019-10-20 18:00','yyyy-mm-dd HH24:mi');
-insert into Notification values('202','New notice: Diwali Party',to_timestamp('2019-10-20 18:00','yyyy-mm-dd HH24:mi');
-insert into Notification values('301','New notice: Diwali Party',to_timestamp('2019-10-20 18:00','yyyy-mm-dd HH24:mi');
-insert into Notification values('302','New notice: Diwali Party',to_timestamp('2019-10-20 18:00','yyyy-mm-dd HH24:mi');
-insert into Notification values('401','New notice: Diwali Party',to_timestamp('2019-10-20 18:00','yyyy-mm-dd HH24:mi');
-insert into Notification values('402','New notice: Diwali Party',to_timestamp('2019-10-20 18:00','yyyy-mm-dd HH24:mi');
-insert into Notification values('501','New notice: Diwali Party',to_timestamp('2019-10-20 18:00','yyyy-mm-dd HH24:mi');
-insert into Notification values('502','New notice: Diwali Party',to_timestamp('2019-10-20 18:00','yyyy-mm-dd HH24:mi');
+insert into Notification values('101','New notice: Diwali Party',to_timestamp('2019-10-20 18:01','yyyy-mm-dd HH24:mi');
+insert into Notification values('102','New notice: Diwali Party',to_timestamp('2019-10-20 18:01','yyyy-mm-dd HH24:mi');
+insert into Notification values('201','New notice: Diwali Party',to_timestamp('2019-10-20 18:01','yyyy-mm-dd HH24:mi');
+insert into Notification values('202','New notice: Diwali Party',to_timestamp('2019-10-20 18:01','yyyy-mm-dd HH24:mi');
+insert into Notification values('301','New notice: Diwali Party',to_timestamp('2019-10-20 18:01','yyyy-mm-dd HH24:mi');
+insert into Notification values('302','New notice: Diwali Party',to_timestamp('2019-10-20 18:01','yyyy-mm-dd HH24:mi');
+insert into Notification values('401','New notice: Diwali Party',to_timestamp('2019-10-20 18:01','yyyy-mm-dd HH24:mi');
+insert into Notification values('402','New notice: Diwali Party',to_timestamp('2019-10-20 18:01','yyyy-mm-dd HH24:mi');
+insert into Notification values('501','New notice: Diwali Party',to_timestamp('2019-10-20 18:01','yyyy-mm-dd HH24:mi');
+insert into Notification values('502','New notice: Diwali Party',to_timestamp('2019-10-20 18:01','yyyy-mm-dd HH24:mi');
 
-insert into Notification values('101','New notice: Lunch on Uttrayan',to_timestamp('2020-01-04 10:00','yyyy-mm-dd HH24:mi');
-insert into Notification values('102','New notice: Lunch on Uttrayan',to_timestamp('2020-01-04 10:00','yyyy-mm-dd HH24:mi');
-insert into Notification values('201','New notice: Lunch on Uttrayan',to_timestamp('2020-01-04 10:00','yyyy-mm-dd HH24:mi');
-insert into Notification values('202','New notice: Lunch on Uttrayan',to_timestamp('2020-01-04 10:00','yyyy-mm-dd HH24:mi');
-insert into Notification values('301','New notice: Lunch on Uttrayan',to_timestamp('2020-01-04 10:00','yyyy-mm-dd HH24:mi');
-insert into Notification values('302','New notice: Lunch on Uttrayan',to_timestamp('2020-01-04 10:00','yyyy-mm-dd HH24:mi');
-insert into Notification values('401','New notice: Lunch on Uttrayan',to_timestamp('2020-01-04 10:00','yyyy-mm-dd HH24:mi');
-insert into Notification values('402','New notice: Lunch on Uttrayan',to_timestamp('2020-01-04 10:00','yyyy-mm-dd HH24:mi');
-insert into Notification values('501','New notice: Lunch on Uttrayan',to_timestamp('2020-01-04 10:00','yyyy-mm-dd HH24:mi');
-insert into Notification values('502','New notice: Lunch on Uttrayan',to_timestamp('2020-01-04 10:00','yyyy-mm-dd HH24:mi');
+insert into Notification values('101','New notice: Lunch on Uttrayan',to_timestamp('2020-01-04 10:39','yyyy-mm-dd HH24:mi');
+insert into Notification values('102','New notice: Lunch on Uttrayan',to_timestamp('2020-01-04 10:39','yyyy-mm-dd HH24:mi');
+insert into Notification values('201','New notice: Lunch on Uttrayan',to_timestamp('2020-01-04 10:39','yyyy-mm-dd HH24:mi');
+insert into Notification values('202','New notice: Lunch on Uttrayan',to_timestamp('2020-01-04 10:39','yyyy-mm-dd HH24:mi');
+insert into Notification values('301','New notice: Lunch on Uttrayan',to_timestamp('2020-01-04 10:39','yyyy-mm-dd HH24:mi');
+insert into Notification values('302','New notice: Lunch on Uttrayan',to_timestamp('2020-01-04 10:39','yyyy-mm-dd HH24:mi');
+insert into Notification values('401','New notice: Lunch on Uttrayan',to_timestamp('2020-01-04 10:39','yyyy-mm-dd HH24:mi');
+insert into Notification values('402','New notice: Lunch on Uttrayan',to_timestamp('2020-01-04 10:39','yyyy-mm-dd HH24:mi');
+insert into Notification values('501','New notice: Lunch on Uttrayan',to_timestamp('2020-01-04 10:39','yyyy-mm-dd HH24:mi');
+insert into Notification values('502','New notice: Lunch on Uttrayan',to_timestamp('2020-01-04 10:39','yyyy-mm-dd HH24:mi');
 
 insert into Notification values('101','New notice: Covid-19 Lockdown',to_timestamp('2020-04-26 10:00','yyyy-mm-dd HH24:mi');
 insert into Notification values('102','New notice: Covid-19 Lockdown',to_timestamp('2020-04-26 10:00','yyyy-mm-dd HH24:mi');
@@ -185,23 +185,23 @@ insert into Notification values('402','New notice: Covid-19 Lockdown',to_timesta
 insert into Notification values('501','New notice: Covid-19 Lockdown',to_timestamp('2020-04-26 10:00','yyyy-mm-dd HH24:mi');
 insert into Notification values('502','New notice: Covid-19 Lockdown',to_timestamp('2020-04-26 10:00','yyyy-mm-dd HH24:mi');
 
-insert into Notification values('101','New notice: Covid-19 Guidelines',to_timestamp('2020-10-01 08:00','yyyy-mm-dd HH24:mi');
-insert into Notification values('102','New notice: Covid-19 Guidelines',to_timestamp('2020-10-01 08:00','yyyy-mm-dd HH24:mi');
-insert into Notification values('201','New notice: Covid-19 Guidelines',to_timestamp('2020-10-01 08:00','yyyy-mm-dd HH24:mi');
-insert into Notification values('202','New notice: Covid-19 Guidelines',to_timestamp('2020-10-01 08:00','yyyy-mm-dd HH24:mi');
-insert into Notification values('301','New notice: Covid-19 Guidelines',to_timestamp('2020-10-01 08:00','yyyy-mm-dd HH24:mi');
-insert into Notification values('302','New notice: Covid-19 Guidelines',to_timestamp('2020-10-01 08:00','yyyy-mm-dd HH24:mi');
-insert into Notification values('401','New notice: Covid-19 Guidelines',to_timestamp('2020-10-01 08:00','yyyy-mm-dd HH24:mi');
-insert into Notification values('402','New notice: Covid-19 Guidelines',to_timestamp('2020-10-01 08:00','yyyy-mm-dd HH24:mi');
-insert into Notification values('501','New notice: Covid-19 Guidelines',to_timestamp('2020-10-01 08:00','yyyy-mm-dd HH24:mi');
-insert into Notification values('502','New notice: Covid-19 Guidelines',to_timestamp('2020-10-01 08:00','yyyy-mm-dd HH24:mi');
+insert into Notification values('101','New notice: Covid-19 Guidelines',to_timestamp('2020-10-01 08:09','yyyy-mm-dd HH24:mi');
+insert into Notification values('102','New notice: Covid-19 Guidelines',to_timestamp('2020-10-01 08:09','yyyy-mm-dd HH24:mi');
+insert into Notification values('201','New notice: Covid-19 Guidelines',to_timestamp('2020-10-01 08:09','yyyy-mm-dd HH24:mi');
+insert into Notification values('202','New notice: Covid-19 Guidelines',to_timestamp('2020-10-01 08:09','yyyy-mm-dd HH24:mi');
+insert into Notification values('301','New notice: Covid-19 Guidelines',to_timestamp('2020-10-01 08:09','yyyy-mm-dd HH24:mi');
+insert into Notification values('302','New notice: Covid-19 Guidelines',to_timestamp('2020-10-01 08:09','yyyy-mm-dd HH24:mi');
+insert into Notification values('401','New notice: Covid-19 Guidelines',to_timestamp('2020-10-01 08:09','yyyy-mm-dd HH24:mi');
+insert into Notification values('402','New notice: Covid-19 Guidelines',to_timestamp('2020-10-01 08:09','yyyy-mm-dd HH24:mi');
+insert into Notification values('501','New notice: Covid-19 Guidelines',to_timestamp('2020-10-01 08:09','yyyy-mm-dd HH24:mi');
+insert into Notification values('502','New notice: Covid-19 Guidelines',to_timestamp('2020-10-01 08:09','yyyy-mm-dd HH24:mi');
 
 -- insert for complaint
-insert into Notification values('101','Your complaint "Broken tiles" has been assigned to Sandesh Agarwal',to_timestamp('2019-03-11 12:00','yyyy-mm-dd HH24:mi'))
-insert into Notification values('302','Your complaint "Leaking tap" has been assigned to Sandesh Agarwal',to_timestamp('2020-06-25 12:00','yyyy-mm-dd HH24:mi'))
-insert into Notification values('101','Your complaint "Broken tiles" has been resolved.',to_timestamp('2019-03-22 15:00','yyyy-mm-dd HH24:mi'))
-insert into Notification values('302','Your complaint "Leaking tap" has been resolved.',to_timestamp('2020-07-08 10:00','yyyy-mm-dd HH24:mi'))
-insert into Notification values('302','Your complaint "Broken light" has been assigned to Vikash Rumalwala',to_timestamp('2021-04-15 12:00','yyyy-mm-dd HH24:mi'))
+insert into Notification values('101','Your complaint "Broken tiles" has been assigned to Sandesh Agarwal',to_timestamp('2019-03-11 12:00','yyyy-mm-dd HH24:mi'));
+insert into Notification values('302','Your complaint "Leaking tap" has been assigned to Sandesh Agarwal',to_timestamp('2020-06-25 10:00','yyyy-mm-dd HH24:mi'));
+insert into Notification values('101','Your complaint "Broken tiles" has been resolved.',to_timestamp('2019-03-22 15:00','yyyy-mm-dd HH24:mi'));
+insert into Notification values('302','Your complaint "Leaking tap" has been resolved.',to_timestamp('2020-07-08 10:00','yyyy-mm-dd HH24:mi'));
+insert into Notification values('302','Your complaint "Broken light" has been assigned to Vikash Rumalwala',to_timestamp('2021-04-15 11:00','yyyy-mm-dd HH24:mi'));
 
 -- insert into Notification values('501','Your complaint "Pipe leakage" has been assigned to ',to_timestamp('','yyyy-mm-dd HH24:mi'))
 -- insert into Notification values('302','test minutes',TO_TIMESTAMP('2021-04-25 14:30:30','yyyy-mm-dd HH24:MI:SS'));
