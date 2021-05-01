@@ -4,3 +4,4 @@ cx_Oracle
 flask_wtf
 werkzeug
 tempfile
+feedgen
