@@ -19,7 +19,7 @@ py app.py
 
 The web app will be hosted on the localhost port 5000. Use a browser for accessing it.
 
-## Features
+## Features V1.0
 
 - Three different types of users: Admin, Staff and House Owner.
 - Initial data for the database is available in .SQL files.
@@ -30,6 +30,10 @@ The web app will be hosted on the localhost port 5000. Use a browser for accessi
 - An owner also receives notification when the house has a guest, a complaint's status is updated, or a new notice is posted.
 - House owners can pay their maintenance fee from the website as well.
 - And many other features are available.
+
+## V1.1
+- RSS Feed to get notified whenever a new notice is posted
+- View notices without the need of logging in
 
 ## Contributing
 Pull requests are welcome. For significant changes, please open an issue first to discuss what you would like to change.

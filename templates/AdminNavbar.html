@@ -56,13 +56,13 @@
                 <a class="dropdown-item" href="{{ url_for('add_staff') }}">Change Staff</a>
             </div>
             </li>
-            <li class="nav-item dropdown {% if active_page == "Manage Notice" %}active{% endif %}">
+            <li class="nav-item dropdown {% if active_page == "Notice" %}active{% endif %}">
             <a class="nav-link dropdown-toggle" href="#" id="NoticeDropdown" role="button" data-toggle="dropdown"
                aria-haspopup="true" aria-expanded="false">
                 Notices
             </a>
             <div class="dropdown-menu" aria-labelledby="NoticeDropdown">
-                <a class="dropdown-item" href="{{ url_for('list_notice', role='admin') }}">List Notice</a>
+                <a class="dropdown-item" href="{{ url_for('list_notice') }}">List Notice</a>
                 <a class="dropdown-item" href="{{ url_for('add_notice') }}">Add Notice</a>
             </div>
             </li>

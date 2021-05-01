@@ -1,5 +1,5 @@
 {% extends nav %}
-{% set active_page = "Manage Notice" %}
+{% set active_page = "Notice" %}
 
 {% block title %}
 List Notice
@@ -9,7 +9,7 @@ List Notice
 <div id="card-holder">
 
     {% for notice in notices %}
-    <div class="card marginall border-dark mb-3">
+    <div id="rownum-{{ notice[4] }}" class="card marginall border-dark mb-3">
         <div class="card-header">
             {{ notice[3] }}
         </div>

@@ -1,4 +1,4 @@
-from flask import Flask, flash, jsonify, redirect, render_template, request, session
+from flask import Flask, flash, jsonify, redirect, render_template, request, session, make_response, url_for
 from flask_session import Session
 from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
@@ -8,6 +8,9 @@ import cfg
 from flask_wtf.csrf import CSRFProtect
 from decorators import login_required, admin_required, staff_required, owner_required, apology
 from datetime import datetime, date
+
+from feedgen.feed import FeedGenerator
+from pytz import timezone
 
 def init_session(conn, requestedTag_ignored):
     cursor = conn.cursor()
@@ -90,6 +93,36 @@ def timeDiff(timestamp):
         return 'Yesterday ' + timestamp.strftime("%I:%M %p")
     else:
         return timestamp.strftime("%d %b, %Y %I:%M %p")
+
+
+
+@app.route('/rss')
+def rss():
+    fg = FeedGenerator()
+    fg.title('Society Notices')
+    fg.description('Get Feed notifications of notices as they are posted')
+    fg.link(href=request.host_url + "notice")
+    conn = pool.acquire()
+    cur = conn.cursor()
+    res = cur.execute("select subject, description, N_TimeStamp, admin_id, row_number() over ( order by N_Timestamp ) from notice order by N_Timestamp desc")
+    notices = res.fetchall()
+    cur.close()
+    t = timezone("Asia/Kolkata")
+
+    for notice in notices: # get_news() returns a list of articles from somewhere
+        fe = fg.add_entry()
+        fe.title(notice[0])
+        fe.link(href=request.host_url + "notice#rownum-" + str(notice[4]))
+        fe.description(notice[1])
+        # fe.guid(notice.id, permalink=False) # Or: fe.guid(notice.url, permalink=True)
+        fe.author(name=notice[3])           # , email=notice.author.email
+        fe.pubDate(t.localize(notice[2]))
+
+    response = make_response(fg.rss_str())
+    response.headers.set('Content-Type', 'application/rss+xml')
+
+    return response
+
 # conn = cx_Oracle.connect(cfg.username, cfg.password, cfg.connect_string, encoding=cfg.encoding)
 # @app.route('/test', methods=["GET"])
 # def test():
@@ -99,7 +132,11 @@ def timeDiff(timestamp):
 #     res = cur.execute("Select * from test").fetchall()
 #     return render_template("listHouse.html", owners=[{"House_No": 1, "name": "mark", "age": 30, "phone_no":999999999, "gender": 'M'}, ])
 
-@app.route('/', methods=["GET", "POST"])
+@app.route('/')
+def home_page():
+    return redirect('/notice')
+
+@app.route('/login', methods=["GET", "POST"])
 def login_owner():
     session.clear()
     if request.method == "GET":
@@ -344,20 +381,19 @@ def remove_staff():
     cur.close()
     return redirect('/admin/slist')
 
-@app.route('/nlist/<role>', methods=["GET"])
-@login_required
-def list_notice(role):
-    if role == 'admin' and "admin_id" in session:
-        nav = 'AdminNavbar.html'
-    elif role == 'staff' and "staff_id" in session:
-        nav = 'StaffNavbar.html'
-    elif role == 'notice':
-        nav = 'HouseNavbar.html'
+@app.route('/notice', methods=["GET"])
+def list_notice():
+    if session.get("admin_id"):
+        nav = "AdminNavbar.html"
+    elif session.get("staff_id"):
+        nav = "StaffNavbar.html"
+    elif session.get("house_no"):
+        nav = "HouseNavbar.html"
     else:
-        return apology("this route does not exist", 404)
+        nav = "LoginPageNavbar.html"
     conn = pool.acquire()
     cur = conn.cursor()
-    res = cur.execute("select subject, description, N_TimeStamp, admin_id from notice order by N_Timestamp desc")
+    res = cur.execute("select subject, description, N_TimeStamp, admin_id, row_number() over ( order by N_Timestamp ) from notice order by N_Timestamp desc")
     notices = res.fetchall()
     cur.close()
     return render_template("listNotice.html", notices=notices, nav=nav)
@@ -378,7 +414,7 @@ def add_notice():
         res = cur.execute("insert into notice (Subject, Description, Admin_ID) values (:a, :b, :c)", a=sub, b=des, c=admin)
         conn.commit()
         cur.close()
-        return redirect('/nlist/admin')
+        return redirect('/notice')
 
 @app.route('/admin/cmanage', methods=["GET", "POST"])
 @admin_required
