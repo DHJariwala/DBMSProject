@@ -6,7 +6,17 @@ List Notice
 {% endblock %}
 
 {% block body %}
-<div id="card-holder">
+<div class="marginall">
+    <h3  style="float: left;margin-left: 0%;">
+      Notices
+    </h3>
+    <a href="{{url_for('rss')}}" style="float: right;margin-right: 0%;">
+      <button type="button" class="btn btn-dark btn-sm"><i class="fas fa-rss"></i></button>
+    </a>
+</div>
+<br><br>
+
+<div id="card-holder" style="margin:0 auto;max-width: 90em;" >
 
     {% for notice in notices %}
     <div id="rownum-{{ notice[4] }}" class="card marginall border-dark mb-3">
